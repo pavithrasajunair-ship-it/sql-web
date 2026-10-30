@@ -574,6 +574,8 @@ function importProgress(file) {
 const actions = {
   ...LAB_ACTIONS, ...EXAM_ACTIONS,
   mode:   d => setMode(d.mode),
+  gohome: () => showHome(),
+  enter:  d => { document.body.dataset.view = 'app'; try { history.replaceState(null, '', '#app'); } catch (e) {} setMode(d.mode); $('#content-area').focus({preventScroll: true}); },
   topic:  d => selectTopic(d.id),
   start:  d => startQuiz(d.mode),
   home:   () => leaveQuiz(),
@@ -628,6 +630,7 @@ document.addEventListener('input', e => {
 });
 
 document.addEventListener('keydown', e => {
+  if (document.body.dataset.view === 'home') return;
   if (currentMode === 'lab' && e.target.id === 'lab-sql') {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); labRun(); }
     else if (e.key === 'Tab' && !e.shiftKey) { e.preventDefault(); e.target.setRangeText('  ', e.target.selectionStart, e.target.selectionEnd, 'end'); e.target.dispatchEvent(new Event('input', {bubbles: true})); }
@@ -681,9 +684,22 @@ function fileNotice() {
   document.body.prepend(bar);
 }
 
+function showHome() {
+  document.body.dataset.view = 'home';
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  const n = ALL_CARDS.length, q = (typeof MCQ !== 'undefined' ? MCQ.length : 0) + (typeof TYPE_Q !== 'undefined' ? TYPE_Q.length : 0);
+  $('#home-stats').innerHTML = [[TOPICS.length, 'topics'], [n, 'revision cards'], [q, 'practice questions'], [QUESTS.length, 'lab quests']]
+    .map(([v, l]) => `<li><b>${v}</b><span>${l}</span></li>`).join('');
+  const resume = !!(exam || quizMode), c = $('#home-continue');
+  c.hidden = !resume;
+  if (resume) { c.textContent = 'Continue where you left off →'; c.dataset.mode = currentMode; }
+  $('#home').scrollTop = 0;
+}
+
 exam = examRestore(saved.exam);
 applyPrefs();
 restoreSession(saved.session);      // resume an in-progress quiz / flashcard drill: same questions, same answers
 setMode(currentMode);
+if (location.hash === '#app') document.body.dataset.view = 'app'; else showHome();
 checkStyles();
 fileNotice();

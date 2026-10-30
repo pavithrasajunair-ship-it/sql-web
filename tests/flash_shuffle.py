@@ -12,7 +12,7 @@ try:
     with sync_playwright() as p:
         b = p.chromium.launch(); ctx = b.new_context(); pg = ctx.new_page()
         pg.on("dialog", lambda d: d.accept())
-        pg.goto("http://localhost:8765/index.html")
+        pg.goto("http://localhost:8765/index.html#app")
         pg.click('[data-mode="practice"].mode-tab'); pg.click('[data-action="start"][data-mode="flashcard"]')
         word = lambda: pg.inner_text('.fc-front .fc-word')
         seen = []

@@ -18,19 +18,43 @@
 <a class="skip" href="#content-area">Skip to content</a>
 
 <header>
-  <div class="logo">
+  <button class="logo" data-action="gohome" aria-label="SQL Revision home">
     <div class="logo-icon" aria-hidden="true">🗄️</div>
     <div>
       <div class="logo-text">SQL Revision</div>
       <div class="logo-sub">Class 12 · All topics</div>
     </div>
-  </div>
+  </button>
   <div class="mode-tabs" role="group" aria-label="Mode">
     <button class="mode-tab active" data-action="mode" data-mode="learn" aria-pressed="true">📚 Learn</button>
     <button class="mode-tab" data-action="mode" data-mode="practice" aria-pressed="false">🎯 Practice</button>
     <button class="mode-tab" data-action="mode" data-mode="lab" aria-pressed="false">🧪 Lab</button>
   </div>
 </header>
+
+<section class="home" id="home" aria-labelledby="home-title">
+  <div class="home-inner">
+    <p class="home-eyebrow">Free · No sign-up · Works offline</p>
+    <h1 id="home-title">Revise Class&nbsp;12 SQL <span class="grad">the smart way</span></h1>
+    <p class="home-lead">Concepts, MCQs, typed-answer practice, flashcards and a live SQL lab with real queries, all in one place. Built for exam day.</p>
+    <div class="home-cta">
+      <button class="btn home-primary" id="home-start" data-action="enter" data-mode="learn">Start learning →</button>
+      <button class="btn home-secondary" data-action="enter" data-mode="practice">Take a quiz</button>
+    </div>
+    <button class="home-continue" id="home-continue" data-action="enter" data-mode="practice" hidden></button>
+    <ul class="home-stats" id="home-stats" aria-label="What is inside"></ul>
+    <div class="home-grid">
+      <button class="home-card" data-action="enter" data-mode="learn"><span class="hc-icon" aria-hidden="true">📚</span><h2>Learn</h2><p>Topic-by-topic cards with syntax, examples and a search to find any keyword fast.</p><span class="hc-go">Open Learn →</span></button>
+      <button class="home-card" data-action="enter" data-mode="practice"><span class="hc-icon" aria-hidden="true">🎯</span><h2>Practice</h2><p>MCQs, typed SQL answers, flashcards and smart review that brings cards back before you forget.</p><span class="hc-go">Open Practice →</span></button>
+      <button class="home-card" data-action="enter" data-mode="lab"><span class="hc-icon" aria-hidden="true">🧪</span><h2>Lab</h2><p>Write and run real SQL on sample tables. Solve quests, earn XP and keep your streak alive.</p><span class="hc-go">Open Lab →</span></button>
+    </div>
+    <div class="home-final">
+      <h2>Ready to ace your SQL paper?</h2>
+      <button class="btn home-primary" data-action="enter" data-mode="learn">Start revising now →</button>
+    </div>
+    <p class="home-foot">Your progress is saved in this browser only. Nothing is uploaded.</p>
+  </div>
+</section>
 
 <main>
   <nav class="sidebar" id="sidebar" aria-label="Topics">

@@ -10,7 +10,7 @@ try:
     with sync_playwright() as p:
         b = p.chromium.launch(); pg = b.new_context().new_page()
         pg.on("pageerror", lambda e: errors.append(str(e))); pg.on("dialog", lambda d: d.accept())
-        pg.goto("http://localhost:8768/index.html"); pg.click('.mode-tab[data-mode="practice"]')
+        pg.goto("http://localhost:8768/index.html#app"); pg.click('.mode-tab[data-mode="practice"]')
         txt = pg.inner_text('[data-mode="smart"]'); check("smart review offers new cards first", "0 due" in txt and "15 new" in txt)
         pg.click('[data-mode="smart"]'); check("smart session has 15 cards", pg.inner_text('.fc-topbar span').endswith("/ 15"))
         pg.click('[data-action="flip"]'); pg.click('[data-action="mark"][data-kind="hard"]'); pg.wait_for_timeout(500)

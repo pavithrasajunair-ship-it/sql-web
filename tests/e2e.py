@@ -4,7 +4,7 @@ import pathlib, sys
 from playwright.sync_api import sync_playwright
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-URL = (ROOT / "index.html").as_uri()
+URL = (ROOT / "index.html").as_uri() + "#app"
 SHOTS = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else None
 fails, passes = [], 0
 

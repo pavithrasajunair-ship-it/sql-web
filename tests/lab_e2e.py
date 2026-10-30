@@ -10,7 +10,7 @@ try:
     with sync_playwright() as p:
         b = p.chromium.launch(); ctx = b.new_context(); pg = ctx.new_page()
         pg.on("pageerror", lambda e: errors.append(str(e))); pg.on("dialog", lambda d: d.accept())
-        pg.goto("http://localhost:8766/index.html"); pg.click('.mode-tab[data-mode="practice"]')
+        pg.goto("http://localhost:8766/index.html#app"); pg.click('.mode-tab[data-mode="practice"]')
         # --- quiz length + timer
         pg.click('[data-action="setn"][data-k="mcqN"][data-n="50"]'); pg.check('[data-action="timer"]')
         pg.click('[data-action="start"][data-mode="mcq"]')

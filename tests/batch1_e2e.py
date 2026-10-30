@@ -12,7 +12,7 @@ try:
     with sync_playwright() as p:
         b = p.chromium.launch(); ctx = b.new_context(accept_downloads=True); pg = ctx.new_page()
         pg.on("pageerror", lambda e: errors.append(str(e))); pg.on("dialog", on_dialog)
-        pg.goto("http://localhost:8767/index.html"); pg.click('.mode-tab[data-mode="practice"]')
+        pg.goto("http://localhost:8767/index.html#app"); pg.click('.mode-tab[data-mode="practice"]')
         check("no streak at start", "finish a quiz" in pg.inner_text('.streak'))
         pg.click('[data-action="setn"][data-k="mcqN"][data-n="10"]'); pg.click('[data-action="start"][data-mode="mcq"]')
         pg.evaluate("quizIdx = quizQ.length; showResult()"); pg.click('[data-action="home"]')
@@ -30,7 +30,7 @@ try:
         with pg.expect_download() as dl: pg.click('[data-action="export"]')
         path = dl.value.path(); data = json.load(open(path))
         check("export file has progress", data["format"] == "sql-revision-backup" and "sqlrev.v3" in data["data"])
-        pg.close(); ctx = b.new_context(accept_downloads=True); pg = ctx.new_page(); pg.on("pageerror", lambda e: errors.append(str(e))); pg.on("dialog", on_dialog); pg.goto("http://localhost:8767/index.html")  # a brand-new phone
+        pg.close(); ctx = b.new_context(accept_downloads=True); pg = ctx.new_page(); pg.on("pageerror", lambda e: errors.append(str(e))); pg.on("dialog", on_dialog); pg.goto("http://localhost:8767/index.html#app")  # a brand-new phone
         pg.click('.mode-tab[data-mode="practice"]'); check("cleared = fresh", "finish a quiz" in pg.inner_text('.streak'))
         pg.set_input_files('#imp', path); pg.wait_for_load_state(); pg.wait_for_timeout(800)
         pg.click('.mode-tab[data-mode="lab"]')
