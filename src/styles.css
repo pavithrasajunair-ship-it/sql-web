@@ -260,3 +260,10 @@ body[data-view="home"] main,body[data-view="home"] .mode-tabs{display:none;}
 .home-foot{font-size:12px;color:var(--text3);margin-top:20px;}
 @media (prefers-reduced-motion:reduce){.home-card{transition:none;}.home-card:hover{transform:none;}}
 @media (max-width:600px){.home-inner{padding:36px 16px 28px;}.home-primary,.home-secondary{width:100%;}}
+
+/* ---- header Home button ---- */
+.header-right{display:flex;align-items:center;gap:10px;}
+.home-btn{padding:9px 16px;border-radius:10px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;}
+.home-btn:hover{border-color:var(--purple);}
+body[data-view="home"] .home-btn{display:none;}
+@media (max-width:700px){header{padding:12px 14px;flex-wrap:wrap;}.header-right{width:100%;justify-content:space-between;}.home-btn span{display:none;}.home-btn{padding:9px 12px;}.mode-tab{padding:8px 14px;}}
