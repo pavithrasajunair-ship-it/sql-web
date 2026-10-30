@@ -1,0 +1,2297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Revise Class 12 SQL: concepts, MCQs, typed-answer practice and flashcards.">
+<meta name="theme-color" content="#0d0d0d">
+<meta name="color-scheme" content="dark">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>SQL Revision — Class 12</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  color-scheme:dark;
+  --bg:#0d0d0d;--surface:#161616;--surface2:#1f1f1f;--surface3:#2a2a2a;
+  --border:#2e2e2e;--border2:#3a3a3a;
+  --text:#f0f0f0;--text2:#a8a8a8;--text3:#8a8a8a;
+  --purple:#7f77dd;--purple-light:#afa9ec;--purple-dark:#3c3489;--purple-bg:#1a1840;
+  --green:#1d9e75;--green-light:#5dcaa5;--green-bg:#00231a;
+  --red:#d4537e;--red-bg:#2a0f1c;
+  --radius:10px;--radius-lg:14px;
+}
+[hidden]{display:none!important;}
+html,body{height:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);
+  display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden;}
+button{font-family:inherit;}
+:focus-visible{outline:2px solid var(--purple-light);outline-offset:2px;}
+.skip{position:absolute;left:-999px;top:0;}
+.skip:focus{left:8px;top:8px;background:var(--purple);color:#fff;padding:8px 12px;border-radius:8px;z-index:10;}
+
+/* HEADER */
+header{padding:16px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:32px;height:32px;background:var(--purple-bg);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.logo-text{font-size:15px;font-weight:600;}
+.logo-sub{font-size:12px;color:var(--text3);margin-top:1px;}
+.mode-tabs{display:flex;background:var(--surface2);border-radius:10px;padding:4px;gap:2px;}
+.mode-tab{padding:8px 22px;border-radius:8px;border:none;background:transparent;color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;transition:background .2s;}
+.mode-tab.active{background:var(--purple);color:#fff;}
+
+/* LAYOUT */
+main{flex:1;display:flex;min-height:0;}
+body[data-mode="practice"] .sidebar,body[data-mode="lab"] .sidebar{display:none;}
+.sidebar{width:240px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);padding:16px;overflow-y:auto;}
+.sidebar-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;padding:0 4px;}
+.topic-item{display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border-radius:8px;border:none;background:transparent;cursor:pointer;margin-bottom:2px;text-align:left;}
+.topic-item:hover{background:var(--surface2);}
+.topic-item.active{background:var(--purple-bg);}
+.topic-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.topic-label{font-size:13px;color:var(--text2);}
+.topic-item.active .topic-label{color:var(--purple-light);}
+.topic-count{font-size:11px;color:var(--text3);margin-left:auto;}
+.content{flex:1;overflow-y:auto;padding:28px 32px;min-width:0;}
+
+/* LEARN */
+.search-row{margin-bottom:18px;}
+.search{width:100%;padding:11px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;}
+.search:focus{border-color:var(--purple);outline:none;}
+.empty{color:var(--text2);padding:20px 0;font-size:14px;}
+.topic-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.topic-title{font-size:20px;font-weight:600;}
+.topic-subtitle{font-size:13px;color:var(--text3);margin-top:2px;}
+.flash-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:12px;}
+.flash-card:hover{border-color:var(--border2);}
+.card-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.keyword-badge{font-size:12px;font-weight:600;padding:3px 10px;border-radius:6px;}
+.card-topic{font-size:11px;color:var(--text3);}
+.syntax-wrap{position:relative;margin-bottom:10px;}
+.syntax-box{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 70px 10px 14px;
+  font-family:'SF Mono',Consolas,monospace;font-size:13px;color:#c9d1d9;line-height:1.6;white-space:pre-wrap;word-break:break-word;}
+.copy-btn{position:absolute;top:8px;right:8px;font-size:11px;padding:3px 9px;border-radius:6px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer;}
+.copy-btn:hover{background:var(--surface3);}
+.card-desc{font-size:13px;color:var(--text2);line-height:1.7;}
+
+/* PRACTICE HOME */
+.practice-hero{text-align:center;padding:24px 0 20px;}
+.practice-hero h2{font-size:26px;font-weight:700;margin-bottom:6px;}
+.practice-hero p{font-size:14px;color:var(--text2);}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:24px;}
+.stat-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center;}
+.stat-num{font-size:24px;font-weight:700;color:var(--purple);}
+.stat-lbl{font-size:11px;color:var(--text3);margin-top:3px;}
+.quiz-modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:20px;}
+.quiz-mode-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;cursor:pointer;text-align:center;color:inherit;}
+.quiz-mode-card:hover{border-color:var(--purple);background:var(--purple-bg);}
+.quiz-mode-card .icon{font-size:28px;margin-bottom:10px;}
+.quiz-mode-card h3{font-size:14px;font-weight:600;margin-bottom:4px;}
+.quiz-mode-card p{font-size:12px;color:var(--text2);}
+.setting{display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px;color:var(--text2);margin:0 0 22px;cursor:pointer;text-align:left;}
+.setting input{width:16px;height:16px;accent-color:var(--purple);flex-shrink:0;}
+.hard-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap;font-size:12px;color:var(--text3);}
+.hard-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);}
+.hard-row code{font-size:12px;color:var(--text3);font-family:monospace;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.reset-row{margin-top:32px;text-align:center;}
+
+/* QUIZ */
+.quiz-wrap{max-width:680px;margin:0 auto;}
+.quiz-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:8px;}
+.quiz-progress-wrap{flex:1;margin:0 8px;}
+.quiz-progress-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:4px;}
+.quiz-progress-bg{height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;}
+.quiz-progress-fill{height:100%;background:var(--purple);border-radius:3px;transition:width .3s;}
+.quiz-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;}
+.quiz-q{font-size:16px;font-weight:500;line-height:1.6;margin-bottom:16px;}
+.quiz-tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;margin-bottom:14px;}
+.opt-btn{display:block;width:100%;text-align:left;padding:12px 16px;border:1px solid var(--border);border-radius:9px;background:transparent;color:var(--text);font-size:13px;cursor:pointer;margin-bottom:8px;}
+.opt-btn:hover:not(:disabled){background:var(--surface2);border-color:var(--border2);}
+.opt-btn.correct{background:var(--green-bg);border-color:var(--green);color:var(--green-light);}
+.opt-btn.wrong{background:var(--red-bg);border-color:var(--red);color:#f099c0;}
+.opt-btn:disabled{cursor:default;}
+.explanation{background:var(--surface2);border-left:3px solid var(--purple);border-radius:0 8px 8px 0;padding:12px 16px;font-size:13px;color:var(--text2);line-height:1.7;margin-top:14px;}
+.given{background:var(--purple-bg);border:1px solid var(--purple-dark);border-radius:9px;padding:10px 14px;margin-bottom:14px;font-size:13px;line-height:1.6;color:var(--purple-light);}
+.given code{font-family:'SF Mono',Consolas,monospace;color:#d9d5ff;word-break:break-word;}
+.given .note{display:block;margin-top:4px;font-size:11px;color:var(--text3);}
+.type-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:9px;padding:12px 14px;font-family:'SF Mono',Consolas,monospace;font-size:13px;color:var(--text);resize:vertical;min-height:90px;}
+.type-input:focus{border-color:var(--purple);outline:none;}
+.type-feedback{border-radius:9px;padding:12px 14px;font-size:13px;line-height:1.7;margin-top:12px;}
+.type-feedback.correct{background:var(--green-bg);border:1px solid var(--green);color:var(--green-light);}
+.type-feedback.wrong{background:var(--red-bg);border:1px solid var(--red);color:#f099c0;}
+.type-feedback code{font-family:monospace;font-size:12px;word-break:break-word;}
+.btn{border:1px solid var(--border2);border-radius:8px;padding:9px 18px;font-size:13px;background:transparent;color:var(--text2);cursor:pointer;}
+.btn:hover:not(:disabled){background:var(--surface2);}
+.btn:disabled{opacity:.35;cursor:not-allowed;}
+.btn.primary{background:var(--purple);border-color:var(--purple);color:#fff;}
+.btn.primary:hover:not(:disabled){background:var(--purple-dark);}
+.btn.danger{color:#f099c0;border-color:var(--red);}
+.btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.quiz-result{text-align:center;padding:32px 8px;}
+.result-pct{font-size:56px;font-weight:700;color:var(--purple);line-height:1;}
+.result-label{font-size:15px;color:var(--text2);margin:8px 0 12px;}
+.result-msg{font-size:14px;color:var(--text2);margin-bottom:24px;}
+.review-list{text-align:left;margin-top:28px;}
+.review-list h3{font-size:14px;margin-bottom:8px;}
+.review-item{border-top:1px solid var(--border);padding:12px 0;font-size:13px;color:var(--text2);line-height:1.6;}
+.review-item strong{color:var(--text);font-weight:500;display:block;margin-bottom:4px;}
+.review-item code{font-family:monospace;font-size:12px;color:var(--green-light);word-break:break-word;}
+.review-item .mine{color:#f099c0;}
+
+/* FLASHCARDS */
+.fc-wrap{max-width:560px;margin:0 auto;}
+.fc-topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:12px;color:var(--text3);}
+.fc-progress{height:5px;background:var(--surface3);border-radius:3px;margin-bottom:16px;overflow:hidden;}
+.fc-progress div{height:100%;background:var(--purple);border-radius:3px;transition:width .3s;}
+.big-card{cursor:pointer;perspective:1000px;margin-bottom:14px;border-radius:var(--radius-lg);}
+.big-card-inner{display:grid;transform-style:preserve-3d;transition:transform .5s;}
+.big-card.flipped .big-card-inner{transform:rotateY(180deg);}
+.fc-face{grid-area:1/1;min-height:280px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:32px 24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.fc-front{background:var(--surface);}
+.fc-back{background:var(--purple-bg);transform:rotateY(180deg);}
+.fc-hint{font-size:11px;color:var(--text3);margin-bottom:20px;}
+.fc-word{font-size:22px;font-weight:600;}
+.fc-tag{margin-top:14px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px;}
+.fc-back-syntax{background:rgba(255,255,255,.07);border-radius:8px;padding:10px 14px;font-family:'SF Mono',Consolas,monospace;font-size:13px;color:#c9d1d9;width:100%;text-align:left;margin:12px 0;white-space:pre-wrap;word-break:break-word;}
+.fc-back-desc{font-size:13px;color:var(--purple-light);line-height:1.6;}
+.fc-actions{display:flex;gap:8px;}
+.fc-actions .btn{flex:1;}
+.fc-status{font-size:12px;color:var(--text3);text-align:center;margin-top:10px;min-height:18px;}
+.fc-keys{font-size:11px;color:var(--text3);text-align:center;margin-top:4px;}
+
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* MOBILE */
+@media (max-width:768px){
+  header{padding:12px 14px;}
+  .logo-sub{display:none;}
+  .mode-tab{padding:8px 14px;}
+  main{flex-direction:column;}
+  .sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border);padding:10px 12px;overflow-x:auto;overflow-y:hidden;flex-shrink:0;}
+  .sidebar-title{display:none;}
+  #topic-list{display:flex;gap:6px;white-space:nowrap;}
+  .topic-item{width:auto;margin:0;border:1px solid var(--border);padding:7px 12px;}
+  .content{padding:18px 14px;}
+  .quiz-card{padding:18px;}
+  .fc-actions{flex-wrap:wrap;}
+  .fc-actions .btn{flex:1 1 45%;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;}}
+
+/* ---- practice settings ---- */
+.cfg{max-width:640px;margin:0 auto 22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px;}
+.cfg-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:6px 0;}
+.cfg-lbl{font-size:13px;color:var(--text2);}
+.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.chip{border:1px solid var(--border2);background:transparent;color:var(--text2);border-radius:999px;padding:5px 12px;font-size:12px;cursor:pointer;}
+.chip.on{background:var(--purple);border-color:var(--purple);color:#fff;}
+.num{width:64px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text);padding:5px 8px;font-size:13px;}
+.qtimer{font-variant-numeric:tabular-nums;color:var(--purple-light);font-weight:600;}
+.qtimer.warn{color:var(--red);animation:pulse 1s infinite;}
+@keyframes pulse{50%{opacity:.5;}}
+/* ---- SQL lab ---- */
+.lab{max-width:860px;margin:0 auto;padding:18px 16px 60px;display:flex;flex-direction:column;gap:14px;}
+.lab-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;}
+.lab-tabs{display:flex;gap:6px;}
+.lab-rank{font-size:16px;font-weight:600;margin-bottom:6px;}
+.xpbar{width:220px;max-width:100%;height:8px;background:var(--surface3);border-radius:99px;overflow:hidden;}
+.xpbar div{height:100%;background:linear-gradient(90deg,var(--purple),var(--green-light));transition:width .5s;}
+.lab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;}
+.lab-card h3{font-size:14px;}.stars{margin-top:6px;font-size:13px;min-height:18px;}
+.lab-title{font-size:20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.lab-task{color:var(--text);font-size:15px;line-height:1.5;}
+.lab-schema{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;font-size:12.5px;color:var(--text2);}
+.lab-schema summary{cursor:pointer;color:var(--text);margin-bottom:6px;}.sch{padding:3px 0;}.sch i{color:var(--text3);font-style:normal;}
+textarea.sql{width:100%;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;background:#0a0a0a;color:#e8e8e8;border:1px solid var(--border2);border-radius:var(--radius);padding:12px;resize:vertical;tab-size:2;}
+textarea.sql:focus{outline:2px solid var(--purple);outline-offset:1px;}
+.res-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);margin-top:6px;}
+table.res{border-collapse:collapse;width:100%;font-size:13px;}
+table.res th,table.res td{padding:7px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+table.res th{background:var(--surface2);color:var(--purple-light);font-weight:600;}
+.nul{color:var(--text3);font-style:italic;}.res-meta{font-size:12px;color:var(--text3);margin-top:4px;}
+.lab-ok{color:var(--green-light);font-size:13px;margin-top:6px;}
+.lab-err{background:var(--red-bg);border:1px solid var(--red);color:#ffc2d4;border-radius:var(--radius);padding:10px 12px;font-size:13px;margin-top:8px;}
+.lab-hint{background:var(--purple-bg);border:1px solid var(--purple-dark);color:var(--purple-light);border-radius:var(--radius);padding:10px 12px;font-size:13px;margin-top:8px;line-height:1.5;}
+.lab-hint ul,.lab-hints{margin:6px 0 0 18px;}
+.lab-hints{color:var(--purple-light);font-size:13.5px;line-height:1.6;background:var(--purple-bg);border-radius:var(--radius);padding:10px 12px 10px 32px;}
+.lab-win{background:var(--green-bg);border:1px solid var(--green);color:var(--green-light);border-radius:var(--radius);padding:14px;font-size:16px;margin:10px 0;text-align:center;animation:pop .5s;}
+@keyframes pop{0%{transform:scale(.85);opacity:0}60%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.lab-win,.qtimer.warn{animation:none;}}
+
+.streak{margin-top:8px;font-size:13px;color:#ffb866;}
+.daily{width:100%;margin-bottom:12px;text-align:left;border-color:var(--purple);}
+:root[data-big="1"] body{zoom:1.18;}
+:root[data-theme="light"]{color-scheme:light;
+  --bg:#f6f6fa;--surface:#ffffff;--surface2:#eeeef4;--surface3:#e0e0ea;--border:#dcdce6;--border2:#c6c6d4;
+  --text:#1b1b22;--text2:#45454f;--text3:#5f5f6b;--purple:#5b52c9;--purple-light:#4a41b5;--purple-dark:#cfcbf5;--purple-bg:#eceafc;
+  --green:#12795a;--green-light:#0f6a4e;--green-bg:#e3f6ee;--red:#c0305f;--red-bg:#fdebf1;}
+:root[data-theme="light"] textarea.sql{background:#fff;color:#1b1b22;}
+:root[data-theme="light"] .lab-err{color:#8a1f45;}
+:root[data-theme="light"] .streak{color:#a85a00;}
+
+/* ---- quest groups + exam ---- */
+.grp{font-size:14px;margin:14px 0 8px;color:var(--text);}.grp span{color:var(--text3);font-weight:400;font-size:12px;margin-left:6px;}
+.exam{max-width:760px;margin:0 auto;padding:12px 16px 60px;}
+.exam-bar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--border);margin-bottom:8px;}
+.ex-sec{font-size:15px;margin:22px 0 10px;}.ex-sec span{font-size:12px;color:var(--text3);font-weight:400;margin-left:8px;}
+.ex-q{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;}
+.ex-qt{font-size:14.5px;line-height:1.5;margin-bottom:8px;}
+.ex-opt{display:flex;gap:10px;align-items:flex-start;padding:7px 8px;border-radius:8px;cursor:pointer;font-size:14px;}
+.ex-opt:hover{background:var(--surface2);}.ex-opt input{margin-top:3px;accent-color:var(--purple);}
+</style>
+</head>
+<body data-mode="learn">
+<a class="skip" href="#content-area">Skip to content</a>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon" aria-hidden="true">🗄️</div>
+    <div>
+      <div class="logo-text">SQL Revision</div>
+      <div class="logo-sub">Class 12 · All topics</div>
+    </div>
+  </div>
+  <div class="mode-tabs" role="group" aria-label="Mode">
+    <button class="mode-tab active" data-action="mode" data-mode="learn" aria-pressed="true">📚 Learn</button>
+    <button class="mode-tab" data-action="mode" data-mode="practice" aria-pressed="false">🎯 Practice</button>
+    <button class="mode-tab" data-action="mode" data-mode="lab" aria-pressed="false">🧪 Lab</button>
+  </div>
+</header>
+
+<main>
+  <nav class="sidebar" id="sidebar" aria-label="Topics">
+    <div class="sidebar-title">Topics</div>
+    <div id="topic-list"></div>
+  </nav>
+  <div class="content" id="content-area" tabindex="-1"></div>
+</main>
+
+<noscript><p style="padding:24px">This app needs JavaScript enabled.</p></noscript>
+<script>
+'use strict';
+
+/* ======================= LEARN CONTENT ======================= */
+const TOPICS = [
+  {id:'keywords', label:'Keywords', color:'#378add', bg:'#001830', cards:[
+    {k:'SHOW DATABASES', s:'SHOW DATABASES;', d:'Lists all databases on the server.'},
+    {k:'SHOW TABLES', s:'SHOW TABLES;', d:'Lists all tables in the currently selected database.'},
+    {k:'USE', s:'USE database_name;', d:'Opens/selects a database to run queries in.'},
+    {k:'DESC', s:'DESC table_name;', d:'Shows the structure of a table — columns, datatypes, constraints.'},
+  ]},
+  {id:'ddl', label:'DDL Commands', color:'#7f77dd', bg:'#1a1840', cards:[
+    {k:'CREATE DATABASE', s:'CREATE DATABASE database_name;', d:'Creates a new database.'},
+    {k:'DROP DATABASE', s:'DROP DATABASE database_name;', d:'Permanently deletes a database with all its tables.'},
+    {k:'CREATE TABLE', s:'CREATE TABLE tablename(\n  field1 datatype1,\n  field2 datatype2\n);', d:'Creates a new table with defined columns and data types.'},
+    {k:'DROP TABLE', s:'DROP TABLE tablename;', d:'Permanently deletes a table — its structure and all its data.'},
+    {k:'TRUNCATE', s:'TRUNCATE TABLE tablename;', d:'Deletes ALL rows but keeps the table structure. No WHERE allowed. DELETE can filter rows; DROP removes the table itself.'},
+    {k:'ALTER — ADD column', s:'ALTER TABLE tablename\nADD field1 datatype1;', d:'Adds a new column to an existing table.'},
+    {k:'ALTER — MODIFY', s:'ALTER TABLE tablename\nMODIFY field1 datatype1;', d:'Changes the datatype of an existing column.'},
+    {k:'ALTER — DROP column', s:'ALTER TABLE tablename\nDROP field1;', d:'Removes a column from a table.'},
+    {k:'ALTER — CHANGE', s:'ALTER TABLE tablename\nCHANGE old_name new_name datatype;', d:'Renames a column and (re)states its datatype.'},
+    {k:'ALTER — RENAME', s:'ALTER TABLE tablename\nRENAME TO new_tablename;', d:'Renames the table itself.'},
+    {k:'ALTER — ADD PRIMARY KEY', s:'ALTER TABLE tablename\nADD PRIMARY KEY(field);', d:'Makes an existing column the primary key.'},
+    {k:'ALTER — DROP PRIMARY KEY', s:'ALTER TABLE tablename\nDROP PRIMARY KEY;', d:'Removes the primary key from a table.'},
+  ]},
+  {id:'dml', label:'DML Commands', color:'#1d9e75', bg:'#00231a', cards:[
+    {k:'INSERT INTO', s:'INSERT INTO tablename(col1, col2)\nVALUES(val1, val2);', d:'Inserts a new row of data into a table.'},
+    {k:'INSERT (all columns)', s:'INSERT INTO tablename\nVALUES(val1, val2, val3);', d:'Column names can be skipped only if you give a value for EVERY column, in table order.'},
+    {k:'INSERT with NULL', s:'INSERT INTO tablename(col1, col2)\nVALUES(val1, NULL);', d:'Inserts NULL to represent a missing/unknown value.'},
+    {k:'UPDATE', s:'UPDATE tablename\nSET field = value\nWHERE condition;', d:'Modifies existing rows that satisfy the condition. Without WHERE, ALL rows change.'},
+    {k:'DELETE', s:'DELETE FROM tablename\nWHERE condition;', d:'Removes rows that satisfy the condition. Without WHERE, all rows are deleted (structure stays).'},
+    {k:'SELECT *', s:'SELECT * FROM table_name;', d:'Retrieves all columns and all rows from a table.'},
+    {k:'SELECT columns', s:'SELECT field1, field2\nFROM table_name;', d:'Retrieves only specified columns from a table.'},
+  ]},
+  {id:'clauses', label:'Clauses & Filters', color:'#ef9f27', bg:'#2a1e00', cards:[
+    {k:'Order of clauses', s:'SELECT ... FROM ...\nWHERE ...\nGROUP BY ...\nHAVING ...\nORDER BY ...\nLIMIT ...;', d:'Clauses must be written in this order. Writing them in any other order gives a syntax error.'},
+    {k:'DISTINCT', s:'SELECT DISTINCT field\nFROM table_name;', d:'Removes duplicate values from the result so each value appears once.'},
+    {k:'AS (alias)', s:'SELECT field AS new_name\nFROM table_name;', d:'Gives a column or table a temporary name in the output.'},
+    {k:'WHERE — comparison', s:'SELECT * FROM table_name\nWHERE field > value;', d:'Filters rows using operators: >, <, >=, <=, !=, =.'},
+    {k:'WHERE — BETWEEN', s:'SELECT * FROM table_name\nWHERE field BETWEEN num1 AND num2;', d:'Returns rows where the field is within the range (both ends inclusive).'},
+    {k:'IS NULL', s:'SELECT * FROM table_name\nWHERE field IS NULL;', d:'Finds rows where the value is missing. Never use = NULL — it never matches.'},
+    {k:'IS NOT NULL', s:'SELECT * FROM table_name\nWHERE field IS NOT NULL;', d:'Finds rows where the field has a value.'},
+    {k:'LIKE', s:"SELECT * FROM table_name\nWHERE field LIKE 'A%';", d:"% matches zero or more characters. _ matches exactly one character. E.g. 'A%' = starts with A, '_a%' = 2nd letter is a."},
+    {k:'IN', s:'SELECT * FROM table_name\nWHERE field IN (val1, val2);', d:'Returns rows where the field matches any value in the list.'},
+    {k:'AND operator', s:'SELECT * FROM table_name\nWHERE cond1 AND cond2;', d:'Returns rows satisfying BOTH conditions.'},
+    {k:'OR operator', s:'SELECT * FROM table_name\nWHERE cond1 OR cond2;', d:'Returns rows satisfying AT LEAST ONE condition.'},
+    {k:'NOT operator', s:'SELECT * FROM table_name\nWHERE NOT field = value;', d:'Returns rows where the condition is false. Same as !=.'},
+    {k:'ORDER BY', s:'SELECT * FROM table_name\nORDER BY fieldname ASC/DESC;', d:'Sorts the result by a column. Default is ASC (ascending).'},
+    {k:'ORDER BY (two columns)', s:'SELECT * FROM table_name\nORDER BY field1 DESC, field2 ASC;', d:'Sorts by field1 first; rows with equal field1 are then sorted by field2.'},
+    {k:'GROUP BY', s:'SELECT field, COUNT(*)\nFROM table_name\nGROUP BY field;', d:'Groups rows with the same value — used with aggregate functions.'},
+    {k:'HAVING', s:'SELECT field, COUNT(*)\nFROM table_name\nGROUP BY field\nHAVING condition;', d:'Filters GROUPS after GROUP BY. Like WHERE, but for aggregates.'},
+    {k:'LIMIT', s:'SELECT * FROM table_name\nLIMIT 5;', d:'Returns only the first N rows from the result.'},
+    {k:'Cartesian Product', s:'SELECT * FROM table1, table2;', d:'Combines EVERY row of table1 with EVERY row of table2 — no condition. Degree = sum of columns, cardinality = product of rows.'},
+    {k:'JOIN … ON', s:'SELECT * FROM table1\nJOIN table2\nON table1.col = table2.col;', d:'Combines rows from two tables where the join condition matches (equi-join).'},
+    {k:'JOIN using WHERE', s:'SELECT * FROM table1, table2\nWHERE table1.col = table2.col;', d:'Old-style join — same result as JOIN … ON, written with WHERE.'},
+    {k:'NATURAL JOIN', s:'SELECT * FROM table1\nNATURAL JOIN table2;', d:'Joins on the column(s) with the same name in both tables and shows that column only once.'},
+  ]},
+  {id:'aggregate', label:'Aggregate Functions', color:'#ef9f27', bg:'#2a1e00', cards:[
+    {k:'SUM()', s:'SELECT SUM(field) FROM table_name;', d:'Total of all values in a numeric column (NULLs ignored).'},
+    {k:'AVG()', s:'SELECT AVG(field) FROM table_name;', d:'Average of all values in a column (NULLs ignored).'},
+    {k:'MIN()', s:'SELECT MIN(field) FROM table_name;', d:'Smallest value in a column.'},
+    {k:'MAX()', s:'SELECT MAX(field) FROM table_name;', d:'Largest value in a column.'},
+    {k:'COUNT(field)', s:'SELECT COUNT(field) FROM table_name;', d:'Counts non-NULL values in a column.'},
+    {k:'COUNT(*)', s:'SELECT COUNT(*) FROM table_name;', d:'Counts ALL rows, including those with NULL values.'},
+    {k:'Aggregate + GROUP BY', s:'SELECT city, AVG(marks)\nFROM students\nGROUP BY city;', d:'One result row per group — e.g. the average marks of each city.'},
+  ]},
+  {id:'constraints', label:'Constraints', color:'#d4537e', bg:'#2a0f1c', cards:[
+    {k:'PRIMARY KEY', s:'CREATE TABLE t(\n  id INT PRIMARY KEY,\n  name VARCHAR(50)\n);', d:'Uniquely identifies each row. No duplicates, no NULLs. Only ONE per table.'},
+    {k:'UNIQUE', s:'CREATE TABLE t(\n  id INT,\n  email VARCHAR(50) UNIQUE\n);', d:'No duplicate values, but NULLs are allowed (MySQL allows several). A table can have many UNIQUE columns, unlike PRIMARY KEY.'},
+    {k:'NOT NULL', s:'CREATE TABLE t(\n  id INT,\n  name VARCHAR(50) NOT NULL\n);', d:'Field must always have a value — NULL not allowed.'},
+    {k:'DEFAULT', s:"CREATE TABLE t(\n  id INT,\n  city VARCHAR(50) DEFAULT 'Unknown'\n);", d:'Sets a default value when none is given during INSERT.'},
+    {k:'CHECK', s:'CREATE TABLE t(\n  id INT,\n  age INT CHECK(age >= 18)\n);', d:'Validates data — only values satisfying the condition are allowed.'},
+    {k:'AUTO_INCREMENT', s:'CREATE TABLE t(\n  id INT PRIMARY KEY AUTO_INCREMENT,\n  name VARCHAR(50)\n);', d:'MySQL generates 1, 2, 3… automatically when no value is given. Usually paired with PRIMARY KEY.'},
+    {k:'FOREIGN KEY', s:'CREATE TABLE orders(\n  id INT PRIMARY KEY,\n  cust_id INT,\n  FOREIGN KEY (cust_id)\n  REFERENCES customers(id)\n);', d:"Links two tables. cust_id must match an existing value in the parent table's key (customers.id) or be NULL. Create the parent table first."},
+  ]},
+  {id:'datatypes', label:'Datatypes', color:'#5dcaa5', bg:'#00231a', cards:[
+    {k:'INT', s:'fieldname INT', d:'Whole numbers — e.g. rollno, age, marks.'},
+    {k:'VARCHAR(n)', s:'fieldname VARCHAR(n)', d:'Variable-length string up to n characters. Uses only the space it needs.'},
+    {k:'CHAR(n)', s:'fieldname CHAR(n)', d:'Fixed-length string of exactly n characters (shorter values are padded with spaces).'},
+    {k:'DATE', s:'fieldname DATE', d:"Stores a date in 'YYYY-MM-DD' format."},
+    {k:'FLOAT', s:'fieldname FLOAT', d:'Approximate decimal numbers — e.g. percentage.'},
+    {k:'DECIMAL(p, s)', s:'fieldname DECIMAL(7, 2)', d:'Exact decimal number: p = total digits, s = digits after the point. DECIMAL(7,2) stores up to 12345.67.'},
+    {k:'BOOLEAN', s:'fieldname BOOLEAN', d:'Stores TRUE (1) or FALSE (0).'},
+  ]},
+  {id:'functions', label:'SQL Functions', color:'#378add', bg:'#001830', cards:[
+    {k:'UPPER / LOWER', s:"SELECT UPPER('sql'), LOWER('SQL');\n-- SQL   sql", d:'Converts text to upper or lower case. UCASE and LCASE do the same.'},
+    {k:'LENGTH', s:"SELECT LENGTH('Computer');\n-- 8", d:'Returns the number of characters in a string.'},
+    {k:'LEFT / RIGHT', s:"SELECT LEFT('Computer', 3), RIGHT('Computer', 3);\n-- Com   ter", d:'Returns the first / last n characters.'},
+    {k:'MID / SUBSTR', s:"SELECT MID('Computer', 2, 3);\n-- omp", d:'MID(string, start, length) — start counts from 1. SUBSTR works the same way.'},
+    {k:'INSTR', s:"SELECT INSTR('Computer', 'put');\n-- 4", d:'Returns the position where the substring first appears (0 if not found).'},
+    {k:'LTRIM / RTRIM / TRIM', s:"SELECT TRIM('  hello  ');\n-- hello", d:'Removes leading / trailing / both-side spaces.'},
+    {k:'POWER', s:'SELECT POWER(2, 3);\n-- 8', d:'POWER(x, y) returns x raised to the power y. POW is the same.'},
+    {k:'ROUND', s:'SELECT ROUND(15.789, 1);\n-- 15.8', d:'Rounds to the given number of decimal places. A negative value rounds to tens, hundreds, etc.'},
+    {k:'MOD', s:'SELECT MOD(17, 5);\n-- 2', d:'Returns the remainder after division.'},
+    {k:'NOW / CURDATE', s:'SELECT NOW(), CURDATE();', d:'NOW() = current date and time. CURDATE() = current date only.'},
+    {k:'DAY / MONTH / YEAR', s:"SELECT DAY('2026-10-28'), MONTH('2026-10-28'), YEAR('2026-10-28');\n-- 28   10   2026", d:'Extracts the day, month number or year from a date.'},
+    {k:'DAYNAME / MONTHNAME', s:"SELECT DAYNAME('2026-10-28'), MONTHNAME('2026-10-28');\n-- Wednesday   October", d:'Returns the name of the weekday or month.'},
+  ]},
+  {id:'terms', label:'Relational Model', color:'#5dcaa5', bg:'#00231a', cards:[
+    {k:'Relation', s:'', d:'A table — rows and columns of data.'},
+    {k:'Attribute', s:'', d:'A column of a table.'},
+    {k:'Tuple', s:'', d:'A row (record) of a table.'},
+    {k:'Domain', s:'', d:'The set of allowed values for an attribute.'},
+    {k:'Degree', s:'', d:'Number of attributes (columns) in a relation.'},
+    {k:'Cardinality', s:'', d:'Number of tuples (rows) in a relation.'},
+    {k:'Candidate Key', s:'', d:'Any attribute (or set) that could uniquely identify every row.'},
+    {k:'Primary Key', s:'', d:'The candidate key chosen to identify rows. Cannot be NULL or duplicate.'},
+    {k:'Alternate Key', s:'', d:'A candidate key that was NOT chosen as the primary key.'},
+    {k:'Foreign Key', s:'', d:'An attribute that refers to the primary key of another table.'},
+  ]},
+  {id:'python', label:'Python + MySQL', color:'#afa9ec', bg:'#1a1840', cards:[
+    {k:'Connect', s:'import mysql.connector as sql\ncon = sql.connect(host="localhost",\n  user="root", passwd="your_password",\n  database="school")', d:'Opens a connection to the MySQL server.'},
+    {k:'is_connected()', s:'if con.is_connected():\n    print("Connected")', d:'Returns True if the connection succeeded.'},
+    {k:'cursor()', s:'cur = con.cursor()', d:'Creates a cursor — the object used to run queries and read results.'},
+    {k:'execute()', s:'cur.execute("SELECT * FROM student")', d:'Runs an SQL query through the cursor.'},
+    {k:'fetchone()', s:'row = cur.fetchone()', d:'Returns the next single row as a tuple (None when no rows are left).'},
+    {k:'fetchall()', s:'rows = cur.fetchall()', d:'Returns all remaining rows as a list of tuples.'},
+    {k:'fetchmany(n)', s:'rows = cur.fetchmany(3)', d:'Returns the next n rows as a list of tuples.'},
+    {k:'rowcount', s:'print(cur.rowcount)', d:'Number of rows affected by the last execute. For SELECT it is reliable after fetching the rows.'},
+    {k:'Parameterised query', s:'cur.execute(\n  "INSERT INTO student VALUES(%s, %s)",\n  (1, "Rahul"))', d:'Use %s placeholders and pass the values separately. Safer than joining strings.'},
+    {k:'commit()', s:'con.commit()', d:'Saves INSERT / UPDATE / DELETE changes permanently. Called on the connection, not the cursor.'},
+    {k:'close()', s:'con.close()', d:'Closes the connection when you are finished.'},
+  ]},
+];
+
+/* ======================= MCQ BANK =======================
+   `correct` = index of the right option as written here. The app shuffles the options each time. */
+const MCQ = [
+  {topic:'DDL', q:'Which command permanently deletes a table and all its data?', opts:['DELETE TABLE students;','REMOVE TABLE students;','DROP TABLE students;','TRUNCATE students;'], correct:2, exp:'DROP TABLE removes both the structure and the data. DELETE only removes rows and keeps the table.'},
+  {topic:'DML', q:'Which command is used to modify existing data in a table?', opts:['MODIFY','ALTER','UPDATE','CHANGE'], correct:2, exp:'UPDATE tablename SET field=value WHERE condition; modifies rows that satisfy the condition.'},
+  {topic:'Clause', q:"What does the LIKE pattern 'A%' match?", opts:['Exactly the letter A','Strings ending with A','Strings starting with A','Strings containing A anywhere'], correct:2, exp:"% matches zero or more characters, so 'A%' matches any string starting with A."},
+  {topic:'Aggregate', q:'What is the difference between COUNT(field) and COUNT(*)?', opts:['No difference','COUNT(field) includes NULLs','COUNT(*) includes NULLs, COUNT(field) skips NULLs','COUNT(*) only works with numbers'], correct:2, exp:'COUNT(*) counts all rows. COUNT(field) counts only rows where that field is NOT NULL.'},
+  {topic:'Constraint', q:'Which constraint prevents empty/NULL values in a column?', opts:['UNIQUE','CHECK','DEFAULT','NOT NULL'], correct:3, exp:'NOT NULL ensures the column always has a value.'},
+  {topic:'Clause', q:'HAVING is used instead of WHERE when:', opts:['Sorting results','Filtering individual rows','Filtering after GROUP BY','Joining two tables'], correct:2, exp:'HAVING filters groups produced by GROUP BY. WHERE filters individual rows before grouping.'},
+  {topic:'DDL', q:'Which ALTER command renames a column AND changes its datatype?', opts:['MODIFY','RENAME','CHANGE','ADD'], correct:2, exp:'ALTER TABLE t CHANGE old_name new_name datatype; MODIFY only changes the datatype.'},
+  {topic:'Constraint', q:"Which constraint links a child table column to a parent table's PRIMARY KEY?", opts:['UNIQUE','CHECK','NOT NULL','FOREIGN KEY'], correct:3, exp:'FOREIGN KEY (child_col) REFERENCES parent_table(parent_col) creates the relationship and enforces referential integrity.'},
+  {topic:'Clause', q:'What does the Cartesian Product (SELECT * FROM t1, t2) return?', opts:['Only matching rows','All rows from t1 only','Every row of t1 combined with every row of t2','Rows sorted alphabetically'], correct:2, exp:'No condition is applied: 3 rows × 4 rows = 12 rows.'},
+  {topic:'Aggregate', q:'Which function returns the highest value in a column?', opts:['SUM()','AVG()','MIN()','MAX()'], correct:3, exp:'MAX(field) returns the largest value in that column.'},
+  {topic:'DML', q:'What does SELECT * FROM students LIMIT 3 return?', opts:['Last 3 rows','First 3 rows','3 random rows','Error'], correct:1, exp:'LIMIT n returns the first n rows of the result.'},
+  {topic:'Keyword', q:'Which command shows all available databases on the server?', opts:['LIST DATABASES;','VIEW DATABASES;','SHOW DATABASES;','DISPLAY DATABASES;'], correct:2, exp:'SHOW DATABASES; lists all databases on the MySQL server.'},
+  {topic:'Constraint', q:'PRIMARY KEY vs UNIQUE — what is the main difference?', opts:['PRIMARY KEY allows NULLs, UNIQUE does not','PRIMARY KEY does not allow NULLs; UNIQUE allows NULLs','No difference','UNIQUE allows duplicate values'], correct:1, exp:'PRIMARY KEY = unique + NOT NULL, and only one per table. UNIQUE = no duplicate values, but NULLs are allowed (MySQL allows several), and a table can have many UNIQUE columns.'},
+  {topic:'Clause', q:"LIKE '_a%' matches names where:", opts:['Name starts with a','Name ends with a','Second character is a','Name has exactly 2 characters'], correct:2, exp:"_ matches exactly one character, so '_a%' means the second character is 'a' — e.g. Rahul, Barat."},
+  {topic:'DML', q:'Which SQL correctly deletes students with marks < 35?', opts:['REMOVE FROM students WHERE marks < 35;','DELETE students WHERE marks < 35;','DELETE FROM students WHERE marks < 35;','DROP FROM students WHERE marks < 35;'], correct:2, exp:'DELETE FROM tablename WHERE condition; is the correct syntax.'},
+  {topic:'DDL', q:'Which command removes ALL rows but keeps the table structure, and cannot use a WHERE clause?', opts:['DELETE FROM t;','TRUNCATE TABLE t;','DROP TABLE t;','ALTER TABLE t;'], correct:1, exp:'TRUNCATE empties the table and keeps its structure; it takes no WHERE. DELETE can filter with WHERE; DROP removes the table itself.'},
+  {topic:'Clause', q:'Which query lists each city only once?', opts:['SELECT UNIQUE city FROM t;','SELECT DISTINCT city FROM t;','SELECT ONLY city FROM t;','SELECT city GROUP FROM t;'], correct:1, exp:'DISTINCT removes duplicate values from the result.'},
+  {topic:'Clause', q:'Which condition correctly finds rows where phone has no value?', opts:['WHERE phone = NULL','WHERE phone == NULL','WHERE phone IS NULL','WHERE phone LIKE NULL'], correct:2, exp:'NULL is not equal to anything, not even NULL, so use IS NULL (or IS NOT NULL).'},
+  {topic:'Terms', q:'A table has 5 columns and 8 rows. What are its degree and cardinality?', opts:['Degree 8, cardinality 5','Degree 5, cardinality 8','Degree 13, cardinality 40','Degree 5, cardinality 5'], correct:1, exp:'Degree = number of columns (attributes). Cardinality = number of rows (tuples).'},
+  {topic:'Terms', q:'Table A: 3 columns, 4 rows. Table B: 2 columns, 5 rows. What are the degree and cardinality of A × B?', opts:['5 and 9','6 and 20','5 and 20','6 and 9'], correct:2, exp:'Degree = 3 + 2 = 5. Cardinality = 4 × 5 = 20.'},
+  {topic:'Constraint', q:'What does AUTO_INCREMENT do?', opts:['Enlarges the column datatype automatically','Generates the next number automatically on each INSERT','Adds 1 to every value on UPDATE','Sorts the column automatically'], correct:1, exp:'MySQL fills the column with 1, 2, 3… when no value is given. It is usually used with PRIMARY KEY.'},
+  {topic:'Function', q:'What does SELECT MOD(17, 5); return?', opts:['3','2','3.4','12'], correct:1, exp:'MOD returns the remainder: 17 = 3 × 5 + 2.'},
+  {topic:'Function', q:'What does SELECT ROUND(15.789, 1); return?', opts:['15.7','15.8','16','15.79'], correct:1, exp:'ROUND(x, 1) keeps one decimal place: 15.789 rounds to 15.8.'},
+  {topic:'Python', q:'Which method returns all remaining rows after cur.execute("SELECT ...")?', opts:['cur.fetchone()','cur.fetchall()','cur.fetchrows()','con.fetchall()'], correct:1, exp:'fetchall() returns all remaining rows as a list of tuples.'},
+  {topic:'Python', q:'After running an INSERT through Python-MySQL connectivity, which call saves the change?', opts:['cur.save()','con.commit()','cur.commit()','con.close()'], correct:1, exp:'commit() belongs to the connection object: con.commit().'},
+  {topic:'Keyword', q:'Which command selects the database you want to work in?', opts:['SELECT school;','OPEN school;','USE school;','SHOW school;'], correct:2, exp:'USE database_name; makes that database the current one.'},
+  {topic:'Keyword', q:'Which command displays the columns, datatypes and constraints of a table?', opts:['SHOW students;','DESC students;','LIST students;','SELECT students;'], correct:1, exp:'DESC table_name; (or DESCRIBE) shows the structure of the table.'},
+  {topic:'DDL', q:'Which statement adds a new column to an existing table?', opts:['ALTER TABLE t ADD col datatype;','UPDATE TABLE t ADD col datatype;','INSERT INTO t ADD col datatype;','CREATE COLUMN col datatype;'], correct:0, exp:'Structure changes use ALTER TABLE. ADD adds a column, MODIFY changes a datatype, DROP removes a column.'},
+  {topic:'Datatype', q:'Which datatype always uses a fixed number of characters, padding shorter values with spaces?', opts:['VARCHAR','CHAR','TEXT','DATE'], correct:1, exp:'CHAR(n) is fixed-length. VARCHAR(n) is variable-length and uses only the space it needs.'},
+  {topic:'Datatype', q:'Which datatype can store 12345.67 exactly, with 2 digits after the decimal point?', opts:['INT','DECIMAL(7,2)','CHAR(7)','DATE'], correct:1, exp:'DECIMAL(p, s): p = total digits (7), s = digits after the point (2). INT cannot store fractions.'},
+  {topic:'Constraint', q:'What does the DEFAULT constraint do?', opts:['Rejects NULL values','Fills in a preset value when none is given in INSERT','Makes the column the primary key','Checks a condition on every value'], correct:1, exp:"DEFAULT supplies a value automatically, e.g. city VARCHAR(50) DEFAULT 'Unknown'."},
+  {topic:'Clause', q:'marks BETWEEN 60 AND 90 returns rows where marks is:', opts:['Greater than 60 and less than 90 only','From 60 to 90, both ends included','From 61 to 89 only','Less than 60 or more than 90'], correct:1, exp:'BETWEEN is inclusive: 60 and 90 are both included.'},
+  {topic:'Clause', q:'If ORDER BY has no ASC or DESC, how are the rows sorted?', opts:['Descending','Ascending','Randomly','By primary key only'], correct:1, exp:'ASC (ascending) is the default.'},
+  {topic:'Clause', q:'Which query is INVALID?', opts:['SELECT city, COUNT(*) FROM s GROUP BY city HAVING COUNT(*) > 2;','SELECT city FROM s WHERE COUNT(*) > 2 GROUP BY city;','SELECT city, AVG(marks) FROM s GROUP BY city;','SELECT COUNT(*) FROM s WHERE marks > 50;'], correct:1, exp:'Aggregate functions cannot be used in WHERE (rows are not grouped yet). Use HAVING to filter groups.'},
+  {topic:'Clause', q:'Which is the correct order of clauses in a SELECT statement?', opts:['SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY','SELECT, WHERE, FROM, GROUP BY, ORDER BY, HAVING','SELECT, FROM, GROUP BY, WHERE, HAVING, ORDER BY','FROM, SELECT, WHERE, HAVING, GROUP BY, ORDER BY'], correct:0, exp:'SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY → LIMIT.'},
+  {topic:'Aggregate', q:'The column marks holds 10, 20 and NULL. What does SELECT AVG(marks) return?', opts:['10','15','30','Error'], correct:1, exp:'Aggregate functions ignore NULLs: (10 + 20) / 2 = 15.'},
+  {topic:'Aggregate', q:'A table has 5 rows and phone is NULL in 2 of them. What does COUNT(phone) return?', opts:['5','2','3','0'], correct:2, exp:'COUNT(column) skips NULLs: 5 − 2 = 3. COUNT(*) would return 5.'},
+  {topic:'Aggregate', q:'Which clause makes an aggregate function give one result per group?', opts:['ORDER BY','GROUP BY','LIMIT','DISTINCT'], correct:1, exp:'GROUP BY splits the rows into groups; the aggregate is then calculated for each group.'},
+  {topic:'Clause', q:'What does AS do in SELECT name AS student_name FROM students?', opts:['Renames the column in the table permanently','Gives the column a temporary name in the output','Creates a new column','Sorts by the column'], correct:1, exp:'An alias only changes the heading in the result, not the table.'},
+  {topic:'Clause', q:'In a NATURAL JOIN of two tables, the common column:', opts:['Appears twice','Appears once','Is dropped completely','Causes an error'], correct:1, exp:'NATURAL JOIN matches the same-named column(s) and shows each of them only once.'},
+  {topic:'Clause', q:'WHERE NOT marks = 50 is the same as:', opts:['marks = 50','marks != 50','marks > 50','marks < 50'], correct:1, exp:'NOT reverses the condition, so it is the same as marks != 50.'},
+  {topic:'Clause', q:'WHERE city IN ("Delhi", "Pune") means the city is:', opts:['Between Delhi and Pune','Delhi or Pune','Delhi and Pune together','Neither Delhi nor Pune'], correct:1, exp:'IN checks whether the value matches any value in the list.'},
+  {topic:'Terms', q:'A candidate key that is NOT chosen as the primary key is called:', opts:['Foreign key','Alternate key','Default key','Composite table'], correct:1, exp:'Candidate keys = all possible primary keys. The chosen one is the primary key; the rest are alternate keys.'},
+  {topic:'Terms', q:'Which of these can uniquely identify every row of a table?', opts:['Candidate key','Domain','Cardinality','Degree'], correct:0, exp:'A candidate key (an attribute or set of attributes) uniquely identifies each tuple.'},
+  {topic:'Terms', q:'A foreign key in one table refers to:', opts:['Any column of the same table','The primary key of another (parent) table','Only NULL values','The degree of the table'], correct:1, exp:'A foreign key links a child table to the primary key of the parent table.'},
+  {topic:'Constraint', q:'How many PRIMARY KEYs can one table have?', opts:['Only one','Two','One per column','None'], correct:0, exp:'A table has only one primary key (it may be made of several columns together).'},
+  {topic:'Function', q:"What does SELECT LENGTH('Computer'); return?", opts:['7','8','9','Computer'], correct:1, exp:'Computer has 8 characters.'},
+  {topic:'Function', q:"What does SELECT MID('Computer', 2, 3); return?", opts:['Com','omp','mpu','ompu'], correct:1, exp:'MID(string, start, length): start at position 2 and take 3 characters → omp.'},
+  {topic:'Function', q:'What does SELECT POWER(2, 3); return?', opts:['6','8','9','23'], correct:1, exp:'POWER(x, y) = x raised to y: 2³ = 8.'},
+  {topic:'Function', q:"What does SELECT INSTR('Computer', 'put'); return?", opts:['3','4','5','0'], correct:1, exp:"'put' starts at the 4th character of 'Computer'."},
+  {topic:'Function', q:'What does NOW() return?', opts:['Only the current date','The current date and time','Only the current time','The current year'], correct:1, exp:'NOW() gives date and time. CURDATE() gives only the date.'},
+  {topic:'Function', q:"What does SELECT YEAR('2026-10-28'); return?", opts:['10','28','2026','Oct'], correct:2, exp:'YEAR() extracts the year from a date.'},
+  {topic:'Function', q:"What does SELECT UPPER('sql'); return?", opts:['sql','SQL','Sql','Error'], correct:1, exp:'UPPER (or UCASE) converts text to capital letters.'},
+  {topic:'Python', q:'Which object is used to run SQL queries in Python-MySQL connectivity?', opts:['connection','cursor','database','table'], correct:1, exp:'cur = con.cursor() creates the cursor; cur.execute(query) runs the query.'},
+  {topic:'Python', q:'Which placeholder is used in a parameterised query with mysql.connector?', opts:['?','%s','{}','$1'], correct:1, exp:'cur.execute("INSERT INTO t VALUES(%s, %s)", (1, "Rahul")).'},
+  {topic:'Python', q:'What does cur.fetchone() return when there are no rows left?', opts:['0','An empty list','None','An error'], correct:2, exp:'fetchone() returns None when no more rows are available.'},
+  {topic:'Python', q:'Which attribute gives the number of rows affected by the last execute()?', opts:['cur.count','cur.rowcount','cur.rows','con.rowcount'], correct:1, exp:'cur.rowcount holds the number of rows affected (for SELECT, reliable after fetching).'},
+  {topic:'Python', q:'Which method confirms that the connection to MySQL succeeded?', opts:['con.is_connected()','con.check()','cur.is_connected()','con.open()'], correct:0, exp:'con.is_connected() returns True if the connection is open.'},
+  {topic:'DDL', q:'Which of these is a DDL command?', opts:['INSERT','SELECT','CREATE','UPDATE'], correct:2, exp:'DDL (Data Definition Language) defines structure: CREATE, ALTER, DROP, TRUNCATE. INSERT, UPDATE and DELETE are DML.'},
+  {topic:'DML', q:'What happens after DELETE FROM students; (no WHERE clause)?', opts:['The table is dropped','All rows are removed but the table structure stays','Only the first row is removed','Error: WHERE is required'], correct:1, exp:'DELETE without WHERE removes every row; the empty table remains. DROP TABLE removes the table itself.'},
+  {topic:'DDL', q:'What does DROP DATABASE school; do?', opts:['Deletes only the tables','Deletes the database with all its tables','Renames the database','Selects the database'], correct:1, exp:'DROP DATABASE permanently removes the database and everything in it.'},
+];
+
+/* ======================= TYPE-THE-ANSWER BANK =======================
+   given  : what the student is told (table / column names)
+   answer : model answer shown after checking
+   accept : accepted forms (see grader.js).  Keywords/functions/values are NOT case-sensitive.
+   names  : table, column, database and object names that MUST match exactly (case-sensitive). */
+const STUDENTS = 'Table: students(rollno, name, marks, city, phone)';
+const TYPE_Q = [
+  {topic:'DDL', q:'Write the SQL command to create a database named school.', given:'Database name: school',
+    answer:'CREATE DATABASE school;', accept:['create database school','create schema school'], names:['school']},
+  {topic:'DML', q:'Insert a student with rollno 1 and name "Rahul". Leave the other columns out.', given:STUDENTS,
+    answer:'INSERT INTO students(rollno, name) VALUES(1, "Rahul");', accept:["insert into students(rollno,name) values|value(1,'rahul')"], names:['students','rollno','name']},
+  {topic:'Clause', q:'Display all students whose marks are more than 80, highest marks first.', given:STUDENTS,
+    answer:'SELECT * FROM students WHERE marks > 80 ORDER BY marks DESC;', accept:['select * from students where marks > 80 order by marks desc'], names:['students','marks']},
+  {topic:'Aggregate', q:'Find the average marks of all students.', given:STUDENTS,
+    answer:'SELECT AVG(marks) FROM students;', accept:['select avg(marks) [as <word>] from students'], names:['students','marks']},
+  {topic:'Constraint', q:'Create a table students with id (INT) as PRIMARY KEY and name (VARCHAR) as NOT NULL.', given:'Table to create: students(id, name)',
+    answer:'CREATE TABLE students(id INT PRIMARY KEY, name VARCHAR(50) NOT NULL);', names:['students','id','name'], accept:[
+      'create table students(id int primary key, name varchar|char(<int>) not null)',
+      'create table students(id int not null primary key, name varchar|char(<int>) not null)',
+      'create table students(id int primary key not null, name varchar|char(<int>) not null)',
+      'create table students(id int, name varchar|char(<int>) not null, primary key(id))',
+      'create table students(name varchar|char(<int>) not null, id int primary key)',
+      'create table students(name varchar|char(<int>) not null, id int, primary key(id))']},
+  {topic:'DDL', q:'Add a new column email of type VARCHAR(100) to the students table.', given:STUDENTS,
+    answer:'ALTER TABLE students ADD email VARCHAR(100);', accept:['alter table students add [column] email varchar(100)'], names:['students','email']},
+  {topic:'Clause', q:"Find all students whose name starts with 'A'.", given:STUDENTS,
+    answer:"SELECT * FROM students WHERE name LIKE 'A%';", accept:["select * from students where name like 'a%'"], names:['students','name']},
+  {topic:'Aggregate', q:'Count all the rows in the students table (including rows with NULLs).', given:STUDENTS,
+    answer:'SELECT COUNT(*) FROM students;', accept:['select count(*) [as <word>] from students'], names:['students']},
+  {topic:'Clause', q:'Get the students whose marks are between 60 and 90.', given:STUDENTS,
+    answer:'SELECT * FROM students WHERE marks BETWEEN 60 AND 90;', accept:['select * from students where marks between 60 and 90','select * from students where marks >= 60 and marks <= 90','select * from students where marks <= 90 and marks >= 60'], names:['students','marks']},
+  {topic:'DDL', q:'Rename the column name to student_name in the students table, keeping the datatype VARCHAR(50).', given:STUDENTS,
+    answer:'ALTER TABLE students CHANGE name student_name VARCHAR(50);', accept:['alter table students change [column] name student_name varchar(50)'], names:['students','name','student_name']},
+  {topic:'DML', q:'Update the marks to 95 for the student whose rollno is 5.', given:STUDENTS,
+    answer:'UPDATE students SET marks = 95 WHERE rollno = 5;', accept:['update students set marks = 95 where rollno = 5'], names:['students','marks','rollno']},
+  {topic:'Constraint', q:'Write the column definition for age (INT) with a CHECK constraint so that age is always 18 or more.', given:'Column: age (INT)',
+    answer:'age INT CHECK(age >= 18)', accept:['age int check(age >= 18)','check(age >= 18)','age int check(age > 17)','check(age > 17)','constraint <word> check(age >= 18)'], names:['age']},
+  {topic:'Clause', q:'Display each city from the students table only once (no duplicates).', given:STUDENTS,
+    answer:'SELECT DISTINCT city FROM students;', accept:['select distinct city from students'], names:['students','city']},
+  {topic:'Clause', q:'Display all students whose phone number is missing (NULL).', given:STUDENTS,
+    answer:'SELECT * FROM students WHERE phone IS NULL;', accept:['select * from students where phone is null'], names:['students','phone']},
+  {topic:'DDL', q:'Delete ALL rows of students but keep the table structure (no WHERE clause).', given:STUDENTS,
+    answer:'TRUNCATE TABLE students;', accept:['truncate [table] students'], names:['students']},
+  {topic:'Aggregate', q:'Show the number of students in each city (display city and the count).', given:STUDENTS,
+    answer:'SELECT city, COUNT(*) FROM students GROUP BY city;', accept:['select city, count(*) [as <word>] from students group by city'], names:['students','city']},
+  {topic:'DDL', q:'Permanently delete the students table (structure and data).', given:STUDENTS,
+    answer:'DROP TABLE students;', accept:['drop table students'], names:['students']},
+  {topic:'DML', q:'Delete the students who have marks less than 35.', given:STUDENTS,
+    answer:'DELETE FROM students WHERE marks < 35;', accept:['delete from students where marks < 35'], names:['students','marks']},
+  {topic:'DML', q:'Display only the name and marks columns of all students.', given:STUDENTS,
+    answer:'SELECT name, marks FROM students;', accept:['select name, marks from students'], names:['students','name','marks']},
+  {topic:'Clause', q:'Display all students sorted by name in ascending order.', given:STUDENTS,
+    answer:'SELECT * FROM students ORDER BY name ASC;', accept:['select * from students order by name [asc]'], names:['students','name']},
+  {topic:'Clause', q:'Display only the first 5 rows of the students table.', given:STUDENTS,
+    answer:'SELECT * FROM students LIMIT 5;', accept:['select * from students limit 5'], names:['students']},
+  {topic:'Aggregate', q:'Find the highest marks in the students table.', given:STUDENTS,
+    answer:'SELECT MAX(marks) FROM students;', accept:['select max(marks) [as <word>] from students'], names:['students','marks']},
+  {topic:'Clause', q:"Display the students who live in 'Delhi' or 'Mumbai' using IN.", given:STUDENTS,
+    answer:"SELECT * FROM students WHERE city IN ('Delhi', 'Mumbai');", accept:["select * from students where city in ('delhi', 'mumbai')","select * from students where city in ('mumbai', 'delhi')"], names:['students','city']},
+  {topic:'Clause', q:"Display the students with marks above 70 who live in 'Chennai'.", given:STUDENTS,
+    answer:"SELECT * FROM students WHERE marks > 70 AND city = 'Chennai';", accept:["select * from students where marks > 70 and city = 'chennai'","select * from students where city = 'chennai' and marks > 70"], names:['students','marks','city']},
+  {topic:'Clause', q:'Show the cities that have more than 2 students (display city and the count).', given:STUDENTS,
+    answer:'SELECT city, COUNT(*) FROM students GROUP BY city HAVING COUNT(*) > 2;', accept:['select city, count(*) [as <word>] from students group by city having count(*) > 2'], names:['students','city']},
+  {topic:'DDL', q:'Rename the table students to learners.', given:STUDENTS,
+    answer:'ALTER TABLE students RENAME TO learners;', accept:['alter table students rename to|as learners','rename table students to learners'], names:['students','learners']},
+  {topic:'DDL', q:'Make the existing column rollno the primary key of the students table.', given:STUDENTS,
+    answer:'ALTER TABLE students ADD PRIMARY KEY(rollno);', accept:['alter table students add primary key(rollno)'], names:['students','rollno']},
+  {topic:'DDL', q:'Change the datatype of the column name to VARCHAR(60) in the students table.', given:STUDENTS,
+    answer:'ALTER TABLE students MODIFY name VARCHAR(60);', accept:['alter table students modify [column] name varchar(60)'], names:['students','name']},
+  {topic:'DDL', q:'Remove the column phone from the students table.', given:STUDENTS,
+    answer:'ALTER TABLE students DROP phone;', accept:['alter table students drop [column] phone'], names:['students','phone']},
+  {topic:'Keyword', q:'Display the list of all tables in the current database.', given:'Database school is already selected.',
+    answer:'SHOW TABLES;', accept:['show tables'], names:[]},
+  {topic:'Keyword', q:'Select (open) the database named school.', given:'Database name: school',
+    answer:'USE school;', accept:['use school'], names:['school']},
+  {topic:'Keyword', q:'Display the structure (columns and datatypes) of the students table.', given:STUDENTS,
+    answer:'DESC students;', accept:['desc|describe students'], names:['students']},
+  {topic:'Constraint', q:"Create a table students with rollno (INT) and city (VARCHAR) where city is 'Unknown' by default.", given:'Table to create: students(rollno, city)',
+    answer:"CREATE TABLE students(rollno INT, city VARCHAR(50) DEFAULT 'Unknown');", accept:["create table students(rollno int, city varchar|char(<int>) default 'unknown')"], names:['students','rollno','city']},
+  {topic:'Aggregate', q:"Find the total marks of the students who live in 'Delhi'.", given:STUDENTS,
+    answer:"SELECT SUM(marks) FROM students WHERE city = 'Delhi';", accept:["select sum(marks) [as <word>] from students where city = 'delhi'"], names:['students','marks','city']},
+  {topic:'Clause', q:'Display all students who do have a phone number (not NULL).', given:STUDENTS,
+    answer:'SELECT * FROM students WHERE phone IS NOT NULL;', accept:['select * from students where phone is not null'], names:['students','phone']},
+  {topic:'Clause', q:'Write the Cartesian product of the two tables.', given:'Tables: students(rollno, name) and result(rollno, grade)',
+    answer:'SELECT * FROM students, result;', accept:['select * from students, result','select * from result, students'], names:['students','result']},
+  {topic:'Clause', q:'Join students and result on rollno (use a JOIN ... ON or a WHERE condition).', given:'Tables: students(rollno, name) and result(rollno, grade)',
+    answer:'SELECT * FROM students JOIN result ON students.rollno = result.rollno;', names:['students','result','rollno'], accept:[
+      'select * from students [inner] join result on students.rollno = result.rollno',
+      'select * from students [inner] join result on result.rollno = students.rollno',
+      'select * from students, result where students.rollno = result.rollno',
+      'select * from students, result where result.rollno = students.rollno']},
+  {topic:'Function', q:'Display the names of all students in capital letters.', given:STUDENTS,
+    answer:'SELECT UPPER(name) FROM students;', accept:['select upper|ucase(name) [as <word>] from students'], names:['students','name']},
+  {topic:'Python', q:'Write the Python statement that creates a cursor object named cur from the connection object con.', given:'Connection object: con · Cursor name: cur',
+    answer:'cur = con.cursor()', accept:['cur = con.cursor()'], names:['cur','con']},
+  {topic:'Python', q:'Write the Python statement that saves the changes made through the connection object con.', given:'Connection object: con',
+    answer:'con.commit()', accept:['con.commit()'], names:['con']},
+  {topic:'DML', q:"Set marks to 90 and city to 'Pune' for the student with rollno 3 (one UPDATE statement).", given:STUDENTS,
+    answer:"UPDATE students SET marks = 90, city = 'Pune' WHERE rollno = 3;", accept:["update students set marks = 90, city = 'pune' where rollno = 3","update students set city = 'pune', marks = 90 where rollno = 3"], names:['students','marks','city','rollno']},
+  {topic:'DML', q:"Insert rollno 7, name 'Asha' and no phone number (NULL) into students, naming the columns.", given:STUDENTS,
+    answer:"INSERT INTO students(rollno, name, phone) VALUES(7, 'Asha', NULL);", accept:["insert into students(rollno, name, phone) values|value(7, 'asha', null)"], names:['students','rollno','name','phone']},
+  {topic:'Aggregate', q:'Count how many different cities appear in the students table.', given:STUDENTS,
+    answer:'SELECT COUNT(DISTINCT city) FROM students;', accept:['select count(distinct city) [as <word>] from students'], names:['students','city']},
+  {topic:'Clause', q:"Display the students whose name has 'a' as the second letter.", given:STUDENTS,
+    answer:"SELECT * FROM students WHERE name LIKE '_a%';", accept:["select * from students where name like '_a%'"], names:['students','name']},
+  {topic:'Clause', q:"Display the students whose name ends with 'a'.", given:STUDENTS,
+    answer:"SELECT * FROM students WHERE name LIKE '%a';", accept:["select * from students where name like '%a'"], names:['students','name']},
+  {topic:'Clause', q:'Display the name column with the heading student_name (use an alias).', given:STUDENTS,
+    answer:'SELECT name AS student_name FROM students;', accept:['select name as student_name from students'], names:['students','name','student_name']},
+];
+
+if (typeof module !== 'undefined' && module.exports) module.exports = {TOPICS, MCQ, TYPE_Q};
+</script>
+<script>
+'use strict';
+/*
+  SQL answer grader.
+  - SQL keywords / functions / string values: NOT case-sensitive.
+  - Table and column names (listed in `names` of each question): case-sensitive (optional, toggle in the UI).
+  - Spacing, line breaks, a trailing ; and ' vs " quotes do not matter.
+  - Each question lists the accepted forms in `accept`, written as a tiny pattern language:
+        word|word     either word          [as <word>]   optional part
+        <int>         any whole number     <word>        any name (e.g. an alias)
+*/
+const SQLGrader = (() => {
+  const TOKEN_RE = /'(?:[^']|'')*'|"(?:[^"]|"")*"|[A-Za-z_][A-Za-z0-9_]*|\d+(?:\.\d+)?|<=|>=|<>|!=|\S/g;
+  const PAT_RE = /\[[^\]]*\]|<int>|<word>|'(?:[^']|'')*'|[A-Za-z_][A-Za-z0-9_|]*|\d+(?:\.\d+)?|<=|>=|<>|!=|\S/g;
+  const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  const clean = text => String(text).replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/`/g, '');
+
+  function tokenize(text) {
+    const out = [];
+    for (const raw of clean(text).match(TOKEN_RE) || []) {
+      let norm, type;
+      if (raw[0] === "'" || raw[0] === '"') { type = 'str'; norm = "'" + raw.slice(1, -1).toLowerCase() + "'"; }
+      else if (/^[A-Za-z_]/.test(raw)) { type = 'word'; norm = raw.toLowerCase(); }
+      else if (/^\d/.test(raw)) { type = 'num'; norm = raw; }
+      else { type = 'sym'; norm = raw === '<>' ? '!=' : raw; }
+      out.push({raw, norm, type});
+    }
+    while (out.length && out[out.length - 1].norm === ';') out.pop();      // trailing ; is optional
+    return out;
+  }
+
+  function piece(t) {
+    if (t.length > 1 && t[0] === '[' && t[t.length - 1] === ']')
+      return {opt: true, re: (t.slice(1, -1).match(PAT_RE) || []).map(piece).map(p => p.re).join(' ')};
+    if (t === '<int>') return {re: '\\d+'};
+    if (t === '<word>') return {re: '[a-z_][a-z0-9_]*'};
+    if (t[0] === "'") return {re: reEsc("'" + t.slice(1, -1).toLowerCase() + "'")};
+    if (/^[A-Za-z_]/.test(t)) return {re: t.includes('|') ? '(?:' + t.toLowerCase().split('|').map(reEsc).join('|') + ')' : reEsc(t.toLowerCase())};
+    return {re: reEsc(t === '<>' ? '!=' : t)};
+  }
+
+  const cache = new Map();
+  function matcher(pattern) {
+    if (!cache.has(pattern)) {
+      const pieces = (pattern.match(PAT_RE) || []).map(piece);
+      if (!pieces.length || pieces[0].opt) throw new Error('Bad pattern (empty or starts with an optional part): ' + pattern);
+      const re = '^' + pieces.map((p, i) => p.opt ? '(?: ' + p.re + ')?' : (i ? ' ' : '') + p.re).join('') + '$';
+      cache.set(pattern, new RegExp(re));
+    }
+    return cache.get(pattern);
+  }
+
+  function nameIssue(tokens, names) {
+    const canon = new Map((names || []).map(n => [n.toLowerCase(), n]));
+    for (const t of tokens) {
+      if (t.type !== 'word') continue;
+      const c = canon.get(t.norm);
+      if (c && c !== t.raw) return {typed: t.raw, expected: c};
+    }
+    return null;
+  }
+
+  /** @returns {{correct:boolean, empty?:boolean, nameIssue?:{typed:string,expected:string}}} */
+  function grade(q, text, strictNames) {
+    const tokens = tokenize(text);
+    if (!tokens.length) return {correct: false, empty: true};
+    const joined = tokens.map(t => t.norm).join(' ');
+    if (!q.accept.some(p => matcher(p).test(joined))) return {correct: false};
+    if (strictNames) {
+      const issue = nameIssue(tokens, q.names);
+      if (issue) return {correct: false, nameIssue: issue};
+    }
+    return {correct: true};
+  }
+
+  return {tokenize, matcher, nameIssue, grade};
+})();
+
+if (typeof module !== 'undefined' && module.exports) module.exports = SQLGrader;
+</script>
+<script>
+'use strict';
+/* Small MySQL-flavoured SQL engine (runs fully in the browser, no server). Covers the Class 12 syllabus:
+   SELECT (DISTINCT, WHERE, JOIN, GROUP BY, HAVING, ORDER BY, LIMIT), INSERT, UPDATE, DELETE, CREATE/DROP/ALTER TABLE,
+   TRUNCATE, SHOW TABLES, DESCRIBE. Not supported: subqueries, UNION, views, transactions. */
+const SQLEngine = (() => {
+  class SQLError extends Error { constructor(code, msg, info = {}) { super(msg); this.code = code; this.info = info; } }
+  const err = (c, m, i) => new SQLError(c, m, i);
+  const AGG = new Set(['COUNT', 'SUM', 'AVG', 'MIN', 'MAX']);
+
+  /* ---------- tokenizer ---------- */
+  function tokenize(sql) {
+    const out = [], re = /\s+|--[^\n]*|#[^\n]*|\/\*[\s\S]*?\*\/|('(?:[^'\\]|\\.|'')*')|("(?:[^"\\]|\\.|"")*")|(`[^`]*`)|(\d+\.?\d*|\.\d+)|([A-Za-z_][A-Za-z0-9_$]*)|(<=>|<=|>=|<>|!=|==|[(),;.*+\-\/%=<>])/y;
+    let p = 0, m;
+    while (p < sql.length) {
+      re.lastIndex = p; m = re.exec(sql);
+      if (!m) {
+        if (/['"`]/.test(sql[p])) throw err(1064, `Unterminated quote ${sql[p]} — a text value or name is not closed`, {near: sql.slice(p, p + 20), kind: 'quote'});
+        throw err(1064, `Unexpected character '${sql[p]}'`, {near: sql.slice(p, p + 20), kind: 'char'});
+      }
+      if (m[1] || m[2]) out.push({t: 'str', v: m[0].slice(1, -1).replace(/\\(.)|''|""/g, (x, c) => c ? ({n: '\n', t: '\t'}[c] || c) : x[0]), pos: p});
+      else if (m[3]) out.push({t: 'id', v: m[0].slice(1, -1), pos: p, q: true});
+      else if (m[4]) out.push({t: 'num', v: parseFloat(m[0]), pos: p});
+      else if (m[5]) out.push({t: 'id', v: m[0], pos: p});
+      else if (m[6]) out.push({t: 'op', v: m[0], pos: p});
+      p = re.lastIndex;
+    }
+    out.push({t: 'eof', v: '', pos: sql.length});
+    return out;
+  }
+
+  /* ---------- parser ---------- */
+  const RESERVED = new Set('SELECT FROM WHERE GROUP BY HAVING ORDER LIMIT JOIN INNER LEFT RIGHT CROSS NATURAL ON AS AND OR NOT SET VALUES INTO'.split(' '));
+  class Parser {
+    constructor(sql) { this.sql = sql; this.tk = tokenize(sql); this.i = 0; }
+    get cur() { return this.tk[this.i]; }
+    isKw(...ws) { const c = this.cur; return c.t === 'id' && !c.q && ws.includes(c.v.toUpperCase()); }
+    isOp(o) { return this.cur.t === 'op' && this.cur.v === o; }
+    acceptKw(...ws) { if (this.isKw(...ws)) { return this.tk[this.i++].v.toUpperCase(); } return null; }
+    acceptOp(o) { if (this.isOp(o)) { this.i++; return true; } return false; }
+    syntax(expected) {
+      const c = this.cur, near = this.sql.slice(c.pos, c.pos + 25) || '(end of query)';
+      return err(1064, `You have an error in your SQL syntax near '${near}'`, {near, pos: c.pos, expected, kind: 'syntax', prev: this.tk[this.i - 1]});
+    }
+    expectKw(w) { if (!this.acceptKw(w)) throw this.syntax(w); }
+    expectOp(o) { if (!this.acceptOp(o)) throw this.syntax(o); }
+    ident() { const c = this.cur; if (c.t !== 'id' || (!c.q && RESERVED.has(c.v.toUpperCase()))) throw this.syntax('a name'); this.i++; return c.v; }
+
+    script() {
+      const stmts = [];
+      while (this.cur.t !== 'eof') { if (this.acceptOp(';')) continue; stmts.push(this.statement()); if (this.cur.t !== 'eof') this.expectOp(';'); }
+      return stmts;
+    }
+    statement() {
+      const w = this.cur.t === 'id' ? this.cur.v.toUpperCase() : '';
+      switch (w) {
+        case 'SELECT': return this.select();
+        case 'INSERT': return this.insert();
+        case 'UPDATE': return this.update();
+        case 'DELETE': return this.del();
+        case 'CREATE': return this.create();
+        case 'DROP': { this.i++; this.expectKw('TABLE'); const ie = !!(this.acceptKw('IF') && (this.expectKw('EXISTS'), 1)); return {k: 'drop', name: this.ident(), ie}; }
+        case 'TRUNCATE': { this.i++; this.acceptKw('TABLE'); return {k: 'truncate', name: this.ident()}; }
+        case 'ALTER': return this.alter();
+        case 'SHOW': { this.i++; this.expectKw('TABLES'); return {k: 'show'}; }
+        case 'DESCRIBE': case 'DESC': case 'EXPLAIN': { this.i++; return {k: 'describe', name: this.ident()}; }
+        default: throw this.syntax('a statement such as SELECT, INSERT, UPDATE, DELETE or CREATE');
+      }
+    }
+    select() {
+      this.expectKw('SELECT');
+      const s = {k: 'select', distinct: false, items: [], from: [], where: null, group: [], having: null, order: [], limit: null, offset: 0};
+      if (this.acceptKw('DISTINCT')) s.distinct = true; else this.acceptKw('ALL');
+      do {
+        if (this.isOp('*')) { this.i++; s.items.push({star: true}); continue; }
+        if (this.cur.t === 'id' && this.tk[this.i + 1].v === '.' && this.tk[this.i + 2].v === '*') { s.items.push({star: true, tbl: this.cur.v}); this.i += 3; continue; }
+        const start = this.cur.pos, e = this.expr();
+        let alias = null;
+        if (this.acceptKw('AS')) alias = this.cur.t === 'str' ? this.tk[this.i++].v : this.ident();
+        else if (this.cur.t === 'id' && !RESERVED.has(this.cur.v.toUpperCase())) alias = this.ident();
+        else if (this.cur.t === 'str') alias = this.tk[this.i++].v;
+        s.items.push({e, alias, text: this.sql.slice(start, this.tk[this.i - 1].pos + String(this.tk[this.i - 1].v).length + (this.tk[this.i - 1].t === 'str' ? 2 : 0)).trim()});
+      } while (this.acceptOp(','));
+      if (this.acceptKw('FROM')) {
+        s.from.push(this.tref());
+        for (;;) {
+          if (this.acceptOp(',')) { s.from.push({...this.tref(), join: 'cross'}); continue; }
+          let jt = null;
+          if (this.acceptKw('NATURAL')) { this.acceptKw('INNER'); jt = 'natural'; }
+          else if (this.acceptKw('CROSS')) jt = 'cross';
+          else if (this.acceptKw('LEFT')) { this.acceptKw('OUTER'); jt = 'left'; }
+          else if (this.acceptKw('RIGHT')) { this.acceptKw('OUTER'); jt = 'right'; }
+          else if (this.acceptKw('INNER')) jt = 'inner';
+          if (jt || this.isKw('JOIN')) {
+            this.expectKw('JOIN'); const t = {...this.tref(), join: jt || 'inner'};
+            if (this.acceptKw('ON')) t.on = this.expr();
+            else if (this.acceptKw('USING')) { this.expectOp('('); t.using = [this.ident()]; while (this.acceptOp(',')) t.using.push(this.ident()); this.expectOp(')'); }
+            else if (t.join === 'inner' || t.join === 'left' || t.join === 'right') t.join = jt && jt !== 'inner' ? t.join : 'cross';
+            s.from.push(t); continue;
+          }
+          break;
+        }
+      }
+      if (this.acceptKw('WHERE')) s.where = this.expr();
+      if (this.acceptKw('GROUP')) { this.expectKw('BY'); do s.group.push(this.expr()); while (this.acceptOp(',')); }
+      if (this.acceptKw('HAVING')) s.having = this.expr();
+      if (this.acceptKw('ORDER')) { this.expectKw('BY'); do { const e = this.expr(); const d = this.acceptKw('DESC'); if (!d) this.acceptKw('ASC'); s.order.push({e, desc: !!d}); } while (this.acceptOp(',')); }
+      if (this.acceptKw('LIMIT')) {
+        const n = this.cur; if (n.t !== 'num') throw this.syntax('a number'); this.i++; s.limit = n.v;
+        if (this.acceptOp(',')) { s.offset = s.limit; const m = this.cur; if (m.t !== 'num') throw this.syntax('a number'); this.i++; s.limit = m.v; }
+        else if (this.acceptKw('OFFSET')) { const m = this.cur; if (m.t !== 'num') throw this.syntax('a number'); this.i++; s.offset = m.v; }
+      }
+      return s;
+    }
+    tref() {
+      const name = this.ident(); let alias = null;
+      if (this.acceptKw('AS')) alias = this.ident();
+      else if (this.cur.t === 'id' && !RESERVED.has(this.cur.v.toUpperCase()) && !this.isKw('USING')) alias = this.ident();
+      return {name, alias: alias || name};
+    }
+    insert() {
+      this.expectKw('INSERT'); this.acceptKw('INTO'); const name = this.ident(); let cols = null;
+      if (this.isOp('(')) { this.i++; cols = [this.ident()]; while (this.acceptOp(',')) cols.push(this.ident()); this.expectOp(')'); }
+      if (!this.acceptKw('VALUES') && !this.acceptKw('VALUE')) throw this.syntax('VALUES');
+      const rows = [];
+      do { this.expectOp('('); const r = [this.expr()]; while (this.acceptOp(',')) r.push(this.expr()); this.expectOp(')'); rows.push(r); } while (this.acceptOp(','));
+      return {k: 'insert', name, cols, rows};
+    }
+    update() {
+      this.expectKw('UPDATE'); const name = this.ident(); this.expectKw('SET'); const sets = [];
+      do { const c = this.ident(); this.expectOp('='); sets.push({c, e: this.expr()}); } while (this.acceptOp(','));
+      return {k: 'update', name, sets, where: this.acceptKw('WHERE') ? this.expr() : null};
+    }
+    del() { this.expectKw('DELETE'); this.expectKw('FROM'); const name = this.ident(); return {k: 'delete', name, where: this.acceptKw('WHERE') ? this.expr() : null}; }
+    colDef() {
+      const name = this.ident(), tn = this.ident().toUpperCase(); let len = null;
+      if (this.acceptOp('(')) { len = this.cur.v; this.i++; while (this.acceptOp(',')) this.i++; this.expectOp(')'); }
+      const c = {name, type: tn, len, pk: false, nn: false, uq: false, def: undefined, ai: false};
+      if (!/^(INT|INTEGER|SMALLINT|TINYINT|BIGINT|FLOAT|DOUBLE|DECIMAL|NUMERIC|CHAR|VARCHAR|TEXT|DATE|DATETIME)$/.test(tn)) throw err(1064, `Unknown data type '${tn}'`, {kind: 'type', bad: tn});
+      for (;;) {
+        if (this.acceptKw('PRIMARY')) { this.expectKw('KEY'); c.pk = c.nn = true; }
+        else if (this.acceptKw('NOT')) { this.expectKw('NULL'); c.nn = true; }
+        else if (this.acceptKw('NULL')) { /* default */ }
+        else if (this.acceptKw('UNIQUE')) c.uq = true;
+        else if (this.acceptKw('AUTO_INCREMENT')) c.ai = true;
+        else if (this.acceptKw('DEFAULT')) c.def = this.expr();
+        else break;
+      }
+      return c;
+    }
+    create() {
+      this.expectKw('CREATE'); this.expectKw('TABLE'); const ine = !!(this.acceptKw('IF') && (this.expectKw('NOT'), this.expectKw('EXISTS'), 1));
+      const name = this.ident(); this.expectOp('('); const cols = []; let pk = [];
+      do {
+        if (this.acceptKw('PRIMARY')) { this.expectKw('KEY'); this.expectOp('('); pk.push(this.ident()); while (this.acceptOp(',')) pk.push(this.ident()); this.expectOp(')'); }
+        else cols.push(this.colDef());
+      } while (this.acceptOp(','));
+      this.expectOp(')');
+      return {k: 'create', name, cols, pk, ine};
+    }
+    alter() {
+      this.expectKw('ALTER'); this.expectKw('TABLE'); const name = this.ident();
+      if (this.acceptKw('ADD')) { this.acceptKw('COLUMN'); return {k: 'alter', name, op: 'add', col: this.colDef()}; }
+      if (this.acceptKw('DROP')) { this.acceptKw('COLUMN'); return {k: 'alter', name, op: 'drop', col: this.ident()}; }
+      throw this.syntax('ADD or DROP');
+    }
+
+    /* expressions: OR < AND < NOT < comparison < + - < * / % < unary < primary */
+    expr() { return this.orE(); }
+    orE() { let l = this.andE(); while (this.acceptKw('OR')) l = {k: 'bin', op: 'OR', l, r: this.andE()}; return l; }
+    andE() { let l = this.notE(); while (this.acceptKw('AND')) l = {k: 'bin', op: 'AND', l, r: this.notE()}; return l; }
+    notE() { return this.acceptKw('NOT') ? {k: 'not', e: this.notE()} : this.cmp(); }
+    cmp() {
+      let l = this.add();
+      for (;;) {
+        const c = this.cur;
+        if (c.t === 'op' && ['=', '==', '<>', '!=', '<', '>', '<=', '>='].includes(c.v)) { this.i++; l = {k: 'bin', op: c.v === '==' ? '=' : c.v === '!=' ? '<>' : c.v, l, r: this.add()}; continue; }
+        if (this.acceptKw('IS')) { const neg = !!this.acceptKw('NOT'); this.expectKw('NULL'); l = {k: 'isnull', e: l, neg}; continue; }
+        const save = this.i, neg = !!this.acceptKw('NOT');
+        if (this.acceptKw('LIKE')) { l = {k: 'like', e: l, p: this.add(), neg}; continue; }
+        if (this.acceptKw('BETWEEN')) { const lo = this.add(); this.expectKw('AND'); l = {k: 'btw', e: l, lo, hi: this.add(), neg}; continue; }
+        if (this.acceptKw('IN')) { this.expectOp('('); const list = [this.expr()]; while (this.acceptOp(',')) list.push(this.expr()); this.expectOp(')'); l = {k: 'in', e: l, list, neg}; continue; }
+        this.i = save; return l;
+      }
+    }
+    add() { let l = this.mul(); while (this.isOp('+') || this.isOp('-')) { const op = this.tk[this.i++].v; l = {k: 'bin', op, l, r: this.mul()}; } return l; }
+    mul() {
+      let l = this.unary();
+      while (this.isOp('*') || this.isOp('/') || this.isOp('%') || this.isKw('DIV', 'MOD')) { const op = this.tk[this.i++].v.toUpperCase(); l = {k: 'bin', op: op === 'MOD' ? '%' : op, l, r: this.unary()}; }
+      return l;
+    }
+    unary() { if (this.acceptOp('-')) return {k: 'neg', e: this.unary()}; if (this.acceptOp('+')) return this.unary(); return this.primary(); }
+    primary() {
+      const c = this.cur;
+      if (c.t === 'num') { this.i++; return {k: 'lit', v: c.v}; }
+      if (c.t === 'str') { this.i++; return {k: 'lit', v: c.v}; }
+      if (this.acceptOp('(')) { const e = this.expr(); this.expectOp(')'); return e; }
+      if (c.t === 'id' && !c.q) {
+        const u = c.v.toUpperCase();
+        if (u === 'NULL') { this.i++; return {k: 'lit', v: null}; }
+        if (u === 'TRUE' || u === 'FALSE') { this.i++; return {k: 'lit', v: u === 'TRUE' ? 1 : 0}; }
+        if (u === 'CASE') return this.caseE();
+        if (this.tk[this.i + 1].v === '(' && this.tk[this.i + 1].t === 'op') {
+          this.i += 2; const f = {k: 'fn', name: u, args: [], distinct: false, star: false};
+          if (this.acceptOp('*')) f.star = true;
+          else if (!this.isOp(')')) { if (this.acceptKw('DISTINCT')) f.distinct = true; f.args.push(this.expr()); while (this.acceptOp(',')) f.args.push(this.expr()); }
+          this.expectOp(')'); return f;
+        }
+      }
+      if (c.t === 'id' && (c.q || !RESERVED.has(c.v.toUpperCase()))) {
+        this.i++;
+        if (this.isOp('.') && this.tk[this.i + 1].t === 'id') { this.i++; const n = this.tk[this.i++].v; return {k: 'col', tbl: c.v, name: n}; }
+        return {k: 'col', tbl: null, name: c.v, pos: c.pos};
+      }
+      throw this.syntax('a value, column name or expression');
+    }
+    caseE() {
+      this.i++; const whens = []; let els = null;
+      while (this.acceptKw('WHEN')) { const w = this.expr(); this.expectKw('THEN'); whens.push([w, this.expr()]); }
+      if (this.acceptKw('ELSE')) els = this.expr();
+      this.expectKw('END'); return {k: 'case', whens, els};
+    }
+  }
+
+  /* ---------- value helpers (MySQL-like: text compares ignore case, NULL propagates) ---------- */
+  const isNum = v => typeof v === 'number';
+  const num = v => v === null ? null : isNum(v) ? v : (parseFloat(v) || 0);
+  const truthy = v => v === null ? null : (isNum(v) ? v !== 0 : (parseFloat(v) || 0) !== 0) ? 1 : 0;
+  function cmpv(a, b) {
+    if (a === null || b === null) return null;
+    if (isNum(a) || isNum(b)) { const x = num(a), y = num(b); return x < y ? -1 : x > y ? 1 : 0; }
+    const x = a.toLowerCase(), y = b.toLowerCase(); return x < y ? -1 : x > y ? 1 : 0;
+  }
+  const sortCmp = (a, b) => a === null ? (b === null ? 0 : -1) : b === null ? 1 : cmpv(a, b);
+  const likeRe = p => new RegExp('^' + String(p).replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/%/g, '.*').replace(/_/g, '.') + '$', 'is');
+  const rnd = (x, d = 0) => { const f = Math.pow(10, d); return Math.sign(x) * Math.round(Math.abs(x) * f + 1e-9) / f; };
+  const D = v => { const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(v === null ? '' : String(v)); return m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])) : null; };
+  const pad = n => String(n).padStart(2, '0'), today = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; };
+  const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+  const FN = {
+    UPPER: s => s === null ? null : String(s).toUpperCase(), UCASE: s => FN.UPPER(s),
+    LOWER: s => s === null ? null : String(s).toLowerCase(), LCASE: s => FN.LOWER(s),
+    LENGTH: s => s === null ? null : String(s).length, CHAR_LENGTH: s => FN.LENGTH(s),
+    TRIM: s => s === null ? null : String(s).trim(), LTRIM: s => s === null ? null : String(s).trimStart(), RTRIM: s => s === null ? null : String(s).trimEnd(),
+    LEFT: (s, n) => s === null ? null : String(s).slice(0, Math.max(0, num(n))),
+    RIGHT: (s, n) => s === null ? null : (n = Math.max(0, num(n))) ? String(s).slice(-n) : '',
+    SUBSTR: (s, p, n) => { if (s === null || p === null) return null; s = String(s); p = num(p); const st = p < 0 ? s.length + p : p - 1; return n === undefined ? s.slice(Math.max(st, 0)) : s.substr(Math.max(st, 0), Math.max(0, num(n))); },
+    INSTR: (s, t) => s === null || t === null ? null : String(s).toLowerCase().indexOf(String(t).toLowerCase()) + 1,
+    CONCAT: (...a) => a.includes(null) ? null : a.join(''),
+    ROUND: (x, d) => x === null ? null : rnd(num(x), d === undefined ? 0 : num(d)),
+    ABS: x => x === null ? null : Math.abs(num(x)), SQRT: x => x === null || num(x) < 0 ? null : Math.sqrt(num(x)),
+    POW: (a, b) => a === null || b === null ? null : Math.pow(num(a), num(b)), MOD: (a, b) => a === null || b === null || !num(b) ? null : num(a) % num(b),
+    CEIL: x => x === null ? null : Math.ceil(num(x)), FLOOR: x => x === null ? null : Math.floor(num(x)),
+    YEAR: d => D(d) ? D(d).getUTCFullYear() : null, MONTH: d => D(d) ? D(d).getUTCMonth() + 1 : null, DAY: d => D(d) ? D(d).getUTCDate() : null,
+    DAYNAME: d => D(d) ? DAYS[D(d).getUTCDay()] : null, MONTHNAME: d => D(d) ? MONTHS[D(d).getUTCMonth()] : null,
+    DATEDIFF: (a, b) => D(a) && D(b) ? Math.round((D(a) - D(b)) / 864e5) : null,
+    CURDATE: () => today(), NOW: () => today() + ' 00:00:00',
+    IFNULL: (a, b) => a === null ? b : a, COALESCE: (...a) => { const v = a.find(x => x !== null); return v === undefined ? null : v; },
+  };
+  Object.assign(FN, {SUBSTRING: FN.SUBSTR, MID: FN.SUBSTR, POWER: FN.POW, CEILING: FN.CEIL, CURRENT_DATE: FN.CURDATE});
+
+  /* ---------- evaluation ---------- */
+  // ctx = {rows: [row, ...]}: a plain row is [row]; a group is all its rows. Aggregates fold over ctx.rows.
+  function ev(n, ctx) {
+    switch (n.k) {
+      case 'lit': return n.v;
+      case 'col': { const r = ctx.rows[0]; return r ? r[n.i] : null; }
+      case 'neg': { const v = ev(n.e, ctx); return v === null ? null : -num(v); }
+      case 'not': { const v = truthy(ev(n.e, ctx)); return v === null ? null : 1 - v; }
+      case 'isnull': { const v = ev(n.e, ctx) === null; return (n.neg ? !v : v) ? 1 : 0; }
+      case 'like': { const v = ev(n.e, ctx), p = ev(n.p, ctx); if (v === null || p === null) return null; const m = likeRe(p).test(String(v)); return (n.neg ? !m : m) ? 1 : 0; }
+      case 'btw': { const v = ev(n.e, ctx), a = cmpv(v, ev(n.lo, ctx)), b = cmpv(v, ev(n.hi, ctx)); if (a === null || b === null) return null; const m = a >= 0 && b <= 0; return (n.neg ? !m : m) ? 1 : 0; }
+      case 'in': {
+        const v = ev(n.e, ctx); if (v === null) return null; let nul = false;
+        for (const x of n.list) { const c = cmpv(v, ev(x, ctx)); if (c === 0) return n.neg ? 0 : 1; if (c === null) nul = true; }
+        return nul ? null : n.neg ? 1 : 0;
+      }
+      case 'case': { for (const [w, t] of n.whens) if (truthy(ev(w, ctx)) === 1) return ev(t, ctx); return n.els ? ev(n.els, ctx) : null; }
+      case 'bin': {
+        if (n.op === 'AND') { const a = truthy(ev(n.l, ctx)); if (a === 0) return 0; const b = truthy(ev(n.r, ctx)); return b === 0 ? 0 : a === null || b === null ? null : 1; }
+        if (n.op === 'OR') { const a = truthy(ev(n.l, ctx)); if (a === 1) return 1; const b = truthy(ev(n.r, ctx)); return b === 1 ? 1 : a === null || b === null ? null : 0; }
+        const a = ev(n.l, ctx), b = ev(n.r, ctx);
+        if (['=', '<>', '<', '>', '<=', '>='].includes(n.op)) {
+          const c = cmpv(a, b); if (c === null) return null;
+          return ({'=': c === 0, '<>': c !== 0, '<': c < 0, '>': c > 0, '<=': c <= 0, '>=': c >= 0})[n.op] ? 1 : 0;
+        }
+        if (a === null || b === null) return null;
+        const x = num(a), y = num(b);
+        switch (n.op) {
+          case '+': return x + y; case '-': return x - y; case '*': return x * y;
+          case '/': return y === 0 ? null : x / y; case 'DIV': return y === 0 ? null : Math.trunc(x / y); case '%': return y === 0 ? null : x % y;
+        }
+      }
+      case 'fn': {
+        if (AGG.has(n.name)) return agg(n, ctx);
+        const f = FN[n.name]; if (!f) throw err(1305, `FUNCTION ${n.name} does not exist`, {kind: 'fn', bad: n.name});
+        return f(...n.args.map(a => ev(a, ctx)));
+      }
+    }
+  }
+  function agg(n, ctx) {
+    if (n.name === 'COUNT' && n.star) return ctx.rows.length;
+    if (!n.args.length) throw err(1064, `${n.name}() needs a column or expression inside the brackets`, {kind: 'argc'});
+    let vals = ctx.rows.map(r => ev(n.args[0], {rows: [r]})).filter(v => v !== null);
+    if (n.distinct) { const seen = new Set(); vals = vals.filter(v => { const k = typeof v === 'string' ? v.toLowerCase() : v; return seen.has(k) ? false : seen.add(k); }); }
+    if (n.name === 'COUNT') return vals.length;
+    if (!vals.length) return null;
+    if (n.name === 'SUM') return vals.reduce((a, v) => a + num(v), 0);
+    if (n.name === 'AVG') return vals.reduce((a, v) => a + num(v), 0) / vals.length;
+    return vals.reduce((a, v) => (n.name === 'MIN' ? sortCmp(v, a) < 0 : sortCmp(v, a) > 0) ? v : a);
+  }
+  const hasAgg = n => !!n && typeof n === 'object' && (n.k === 'fn' && AGG.has(n.name) || Object.values(n).some(v => Array.isArray(v) ? v.some(x => hasAgg(Array.isArray(x) ? {k: 'x', x} : x)) : hasAgg(v)));
+  const kids = n => Object.values(n).flatMap(v => Array.isArray(v) ? v.flat() : [v]).filter(x => x && typeof x === 'object' && x.k);
+
+  /* bind: resolve each column reference to an index in the row (throws MySQL-style errors) */
+  function bind(n, scope, aliases, where) {
+    if (n.k === 'col') {
+      if (aliases && !n.tbl && aliases.pre && aliases.map.has(n.name.toLowerCase())) { Object.assign(n, {...aliases.map.get(n.name.toLowerCase()), k: aliases.map.get(n.name.toLowerCase()).k}); return n; }
+      const hits = scope.filter(c => c.col.toLowerCase() === n.name.toLowerCase() && (!n.tbl || c.tbl.toLowerCase() === n.tbl.toLowerCase()));
+      if (hits.length > 1) throw err(1052, `Column '${n.name}' is ambiguous — it exists in more than one table`, {kind: 'ambiguous', bad: n.name});
+      if (!hits.length) {
+        if (aliases && !n.tbl && aliases.map.has(n.name.toLowerCase())) { Object.assign(n, JSON.parse(JSON.stringify(aliases.map.get(n.name.toLowerCase())))); return n; }
+        throw err(1054, `Unknown column '${n.tbl ? n.tbl + '.' : ''}${n.name}' in '${where}'`, {kind: 'column', bad: n.name, tbl: n.tbl});
+      }
+      n.i = scope.indexOf(hits[0]); return n;
+    }
+    kids(n).forEach(c => bind(c, scope, aliases, where)); return n;
+  }
+  const sig = n => JSON.stringify(n, (k, v) => k === 'pos' || k === 'name' && n.k === 'col' && false ? undefined : v);
+  function checkFull(n, keys, idx) {
+    if (keys.has(sig(n))) return;
+    if (n.k === 'fn' && AGG.has(n.name)) return;
+    if (n.k === 'col') throw err(1055, `Expression #${idx} ('${n.name}') is not in GROUP BY and is not inside an aggregate function (COUNT, SUM, ...)`, {kind: 'fullgroup', bad: n.name});
+    kids(n).forEach(c => checkFull(c, keys, idx));
+  }
+
+  /* ---------- database ---------- */
+  const lc = s => s.toLowerCase();
+  const getTable = (db, name) => { const t = db.tables[lc(name)]; if (!t) throw err(1146, `Table '${name}' doesn't exist`, {kind: 'table', bad: name}); return t; };
+  const colIdx = (t, name) => { const i = t.cols.findIndex(c => lc(c.name) === lc(name)); if (i < 0) throw err(1054, `Unknown column '${name}' in table '${t.name}'`, {kind: 'column', bad: name, tbl: t.name}); return i; };
+
+  function coerce(c, v, rowNo) {
+    if (v === null) return null;
+    const ty = c.type;
+    if (/INT|SMALLINT|TINYINT|BIGINT/.test(ty)) { const x = typeof v === 'number' ? v : (/^\s*-?\d+(\.\d*)?\s*$/.test(v) ? parseFloat(v) : NaN); if (Number.isNaN(x)) throw err(1366, `Incorrect integer value: '${v}' for column '${c.name}' at row ${rowNo}`, {kind: 'type', bad: v}); return Math.round(x); }
+    if (/FLOAT|DOUBLE|DECIMAL|NUMERIC/.test(ty)) { const x = typeof v === 'number' ? v : (/^\s*-?\d*\.?\d+\s*$/.test(v) ? parseFloat(v) : NaN); if (Number.isNaN(x)) throw err(1366, `Incorrect decimal value: '${v}' for column '${c.name}' at row ${rowNo}`, {kind: 'type', bad: v}); return x; }
+    if (ty === 'DATE' || ty === 'DATETIME') { if (!D(v)) throw err(1292, `Incorrect date value: '${v}' for column '${c.name}' at row ${rowNo}`, {kind: 'date', bad: v}); return String(v).slice(0, 10); }
+    const s = String(v);
+    if ((ty === 'CHAR' || ty === 'VARCHAR') && c.len && s.length > +c.len) throw err(1406, `Data too long for column '${c.name}' at row ${rowNo} (max ${c.len} characters)`, {kind: 'toolong', bad: c.name, max: +c.len});
+    return s;
+  }
+  function checkKeys(t, rows) {
+    const keyCols = t.cols.map((c, i) => c.pk || t.pk.some(p => lc(p) === lc(c.name)) ? i : -1).filter(i => i >= 0);
+    const groups = [keyCols, ...t.cols.map((c, i) => c.uq ? [i] : null).filter(Boolean)].filter(g => g.length);
+    groups.forEach((g, gi) => {
+      const seen = new Set();
+      for (const r of rows) {
+        const k = JSON.stringify(g.map(i => typeof r[i] === 'string' ? r[i].toLowerCase() : r[i]));
+        if (g.some(i => r[i] === null)) continue;
+        if (seen.has(k)) throw err(1062, `Duplicate entry ${g.map(i => `'${r[i]}'`).join('-')} for key '${gi === 0 && keyCols.length ? 'PRIMARY' : t.cols[g[0]].name}'`, {kind: 'dup', bad: g.map(i => r[i]).join('-')});
+        seen.add(k);
+      }
+    });
+  }
+
+  function runSelect(db, s) {
+    // 1. FROM: build the row source (joins are nested loops)
+    let scope = [], rows = [[]];
+    s.from.forEach((ref, n) => {
+      const t = getTable(db, ref.name), sc = t.cols.map(c => ({tbl: ref.alias, col: c.name}));
+      const right = t.rows; let out = [];
+      const newScope = scope.concat(sc);
+      let onTest = () => true;
+      if (ref.using || ref.join === 'natural') {
+        const names = ref.using || sc.map(c => c.col).filter(c => scope.some(x => lc(x.col) === lc(c)));
+        onTest = (l, r) => names.every(nm => cmpv(l[scope.findIndex(x => lc(x.col) === lc(nm))], r[colIdx(t, nm)]) === 0);
+      } else if (ref.on) { bind(ref.on, newScope, null, 'on clause'); onTest = (l, r) => truthy(ev(ref.on, {rows: [l.concat(r)]})) === 1; }
+      for (const l of rows) {
+        let hit = false;
+        for (const r of right) if (n === 0 || ref.join === 'cross' || onTest(l, r)) { out.push(l.concat(r)); hit = true; }
+        if (!hit && ref.join === 'left') out.push(l.concat(right[0] ? right[0].map(() => null) : t.cols.map(() => null)));
+      }
+      if (ref.join === 'right') {            // keep unmatched right rows too
+        for (const r of right) if (!rows.some(l => onTest(l, r))) out.push(scope.map(() => null).concat(r));
+      }
+      scope = newScope; rows = out;
+    });
+    // 2. SELECT list (expand *), aliases
+    const items = [];
+    for (const it of s.items) {
+      if (it.star) {
+        const cols = scope.map((c, i) => ({c, i})).filter(x => !it.tbl || lc(x.c.tbl) === lc(it.tbl));
+        if (!cols.length) throw err(1146, `Unknown table '${it.tbl}'`, {kind: 'table', bad: it.tbl});
+        cols.forEach(x => items.push({e: {k: 'col', i: x.i, name: x.c.col}, label: x.c.col}));
+      } else items.push({e: bind(it.e, scope, null, 'field list'), label: it.alias || it.text});
+    }
+    const amap = new Map(); s.items.forEach((it, i) => { if (it.alias) amap.set(lc(it.alias), items.find(x => x.label === it.alias).e); });
+    if (!s.from.length && items.some(x => x.e.k === 'col')) throw err(1054, `Unknown column in field list (there is no FROM clause)`, {kind: 'column', bad: items.find(x => x.e.k === 'col').e.name});
+    // 3. WHERE
+    if (s.where) {
+      if (hasAgg(s.where)) throw err(1111, 'Invalid use of group function: aggregate functions (COUNT, SUM, ...) cannot be used in WHERE', {kind: 'aggwhere'});
+      bind(s.where, scope, {map: amap, pre: false}, 'where clause');
+      rows = rows.filter(r => truthy(ev(s.where, {rows: [r]})) === 1);
+    }
+    // 4. grouping
+    const group = s.group.map(g => g.k === 'lit' && isNum(g.v) ? items[g.v - 1]?.e || g : bind(g, scope, {map: amap, pre: false}, 'group statement'));
+    if (s.having) bind(s.having, scope, {map: amap, pre: false}, 'having clause');
+    const order = s.order.map(o => ({...o, e: o.e.k === 'lit' && isNum(o.e.v) ? (items[o.e.v - 1] ? items[o.e.v - 1].e : (() => { throw err(1054, `Unknown column '${o.e.v}' in 'order clause'`, {kind: 'column', bad: String(o.e.v)}); })()) : bind(o.e, scope, {map: amap, pre: true}, 'order clause')}));
+    const aggregated = group.length > 0 || items.some(x => hasAgg(x.e)) || (s.having && hasAgg(s.having)) || order.some(o => hasAgg(o.e));
+    let units;                                       // each unit = one output row's source rows
+    if (aggregated) {
+      const keys = new Set(group.map(sig));
+      items.forEach((x, i) => checkFull(x.e, keys, i + 1));
+      if (s.having) checkFull(s.having, keys, 'HAVING'); order.forEach(o => checkFull(o.e, keys, 'ORDER BY'));
+      if (group.length) { const m = new Map(); for (const r of rows) { const k = JSON.stringify(group.map(g => { const v = ev(g, {rows: [r]}); return typeof v === 'string' ? v.toLowerCase() : v; })); (m.get(k) || m.set(k, []).get(k)).push(r); } units = [...m.values()]; }
+      else units = [rows];
+    } else units = rows.map(r => [r]);
+    if (s.having) units = units.filter(u => truthy(ev(s.having, {rows: u})) === 1);
+    // 5. project, DISTINCT, ORDER BY, LIMIT
+    let out = units.map(u => ({vals: items.map(x => ev(x.e, {rows: u})), key: order.map(o => ev(o.e, {rows: u}))}));
+    if (s.distinct) { const seen = new Set(); out = out.filter(o => { const k = JSON.stringify(o.vals.map(v => typeof v === 'string' ? v.toLowerCase() : v)); return seen.has(k) ? false : seen.add(k); }); }
+    if (order.length) out = out.map((o, i) => ({o, i})).sort((a, b) => { for (let k = 0; k < order.length; k++) { const c = sortCmp(a.o.key[k], b.o.key[k]); if (c) return order[k].desc ? -c : c; } return a.i - b.i; }).map(x => x.o);
+    if (s.limit !== null) out = out.slice(s.offset, s.offset + s.limit);
+    return {kind: 'rows', cols: items.map(x => x.label), rows: out.map(o => o.vals)};
+  }
+
+  function runStmt(db, s) {
+    switch (s.k) {
+      case 'select': return runSelect(db, s);
+      case 'show': return {kind: 'rows', cols: ['Tables'], rows: Object.values(db.tables).map(t => [t.name])};
+      case 'describe': { const t = getTable(db, s.name); return {kind: 'rows', cols: ['Field', 'Type', 'Null', 'Key', 'Default'], rows: t.cols.map(c => [c.name, c.type.toLowerCase() + (c.len ? `(${c.len})` : ''), c.nn ? 'NO' : 'YES', c.pk || t.pk.some(p => lc(p) === lc(c.name)) ? 'PRI' : c.uq ? 'UNI' : '', c.def ? ev(c.def, {rows: []}) : null])}; }
+      case 'create': {
+        if (db.tables[lc(s.name)]) { if (s.ine) return {kind: 'ok', msg: 'Table already exists (skipped)'}; throw err(1050, `Table '${s.name}' already exists`, {kind: 'exists', bad: s.name}); }
+        const seen = new Set(); s.cols.forEach(c => { if (seen.has(lc(c.name))) throw err(1060, `Duplicate column name '${c.name}'`, {kind: 'dupcol'}); seen.add(lc(c.name)); });
+        s.pk.forEach(p => { if (!seen.has(lc(p))) throw err(1072, `Key column '${p}' doesn't exist in table`, {kind: 'column', bad: p}); });
+        db.tables[lc(s.name)] = {name: s.name, cols: s.cols.map(c => ({...c, def: c.def ? ev(c.def, {rows: []}) : undefined})), pk: s.pk, rows: []};
+        return {kind: 'ok', msg: `Table '${s.name}' created`};
+      }
+      case 'drop': { if (!db.tables[lc(s.name)]) { if (s.ie) return {kind: 'ok', msg: 'Nothing to drop'}; throw err(1051, `Unknown table '${s.name}'`, {kind: 'table', bad: s.name}); } delete db.tables[lc(s.name)]; return {kind: 'ok', msg: `Table '${s.name}' dropped`}; }
+      case 'truncate': { const t = getTable(db, s.name); const n = t.rows.length; t.rows = []; return {kind: 'ok', msg: `Table emptied (${n} rows removed)`}; }
+      case 'alter': {
+        const t = getTable(db, s.name);
+        if (s.op === 'add') { if (t.cols.some(c => lc(c.name) === lc(s.col.name))) throw err(1060, `Duplicate column name '${s.col.name}'`, {kind: 'dupcol'}); const d = s.col.def ? ev(s.col.def, {rows: []}) : null; t.cols.push({...s.col, def: s.col.def ? d : undefined}); t.rows.forEach(r => r.push(d)); }
+        else { const i = colIdx(t, s.col); if (t.cols.length === 1) throw err(1090, "You can't delete all columns with ALTER TABLE; use DROP TABLE instead", {kind: 'lastcol'}); t.cols.splice(i, 1); t.rows.forEach(r => r.splice(i, 1)); }
+        return {kind: 'ok', msg: `Table '${t.name}' altered`};
+      }
+      case 'insert': {
+        const t = getTable(db, s.name), idx = s.cols ? s.cols.map(c => colIdx(t, c)) : t.cols.map((_, i) => i), made = [];
+        s.rows.forEach((vals, n) => {
+          if (vals.length !== idx.length) throw err(1136, `Column count doesn't match value count at row ${n + 1}: ${idx.length} column(s) but ${vals.length} value(s)`, {kind: 'count', cols: idx.length, vals: vals.length});
+          const row = t.cols.map(c => c.def !== undefined ? c.def : null);
+          vals.forEach((e, k) => { if (e.k === 'col') throw err(1054, `Unknown column '${e.name}' in 'field list'`, {kind: 'column', bad: e.name, asValue: true}); row[idx[k]] = ev(e, {rows: []}); });
+          t.cols.forEach((c, i) => {
+            if (c.ai && (row[i] === null) && !idx.includes(i)) row[i] = Math.max(0, ...t.rows.concat(made).map(r => r[i] || 0)) + 1;
+            if (row[i] === null && c.nn) { if (idx.includes(i)) throw err(1048, `Column '${c.name}' cannot be null`, {kind: 'notnull', bad: c.name}); throw err(1364, `Field '${c.name}' doesn't have a default value (it is NOT NULL, so give it a value)`, {kind: 'notnull', bad: c.name}); }
+            row[i] = coerce(c, row[i], n + 1);
+          });
+          made.push(row);
+        });
+        checkKeys(t, t.rows.concat(made)); t.rows.push(...made);
+        return {kind: 'ok', msg: `${made.length} row${made.length === 1 ? '' : 's'} inserted`};
+      }
+      case 'update': case 'delete': {
+        const t = getTable(db, s.name), scope = t.cols.map(c => ({tbl: t.name, col: c.name}));
+        if (s.where) { if (hasAgg(s.where)) throw err(1111, 'Invalid use of group function', {kind: 'aggwhere'}); bind(s.where, scope, null, 'where clause'); }
+        const hit = r => !s.where || truthy(ev(s.where, {rows: [r]})) === 1;
+        if (s.k === 'delete') { const before = t.rows.length; t.rows = t.rows.filter(r => !hit(r)); return {kind: 'ok', msg: `${before - t.rows.length} row(s) deleted`}; }
+        const sets = s.sets.map(x => ({i: colIdx(t, x.c), e: bind(x.e, scope, null, 'field list')}));
+        let n = 0; const next = t.rows.map(r => { if (!hit(r)) return r; n++; const c = r.slice(); sets.forEach(x => { const v = ev(x.e, {rows: [r]}); if (v === null && t.cols[x.i].nn) throw err(1048, `Column '${t.cols[x.i].name}' cannot be null`, {kind: 'notnull', bad: t.cols[x.i].name}); c[x.i] = coerce(t.cols[x.i], v, 1); }); return c; });
+        checkKeys(t, next); t.rows = next; return {kind: 'ok', msg: `${n} row(s) updated`};
+      }
+    }
+  }
+
+  /* run a whole script; stops at the first error. Returns {results, error, failedAt} */
+  function run(db, sql) {
+    const results = [];
+    let stmts;
+    try { stmts = new Parser(sql).script(); } catch (e) { if (e instanceof SQLError) return {results, error: e}; throw e; }
+    if (!stmts.length) return {results, error: err(1065, 'Query was empty', {kind: 'empty'})};
+    for (const s of stmts) { try { results.push(runStmt(db, s)); } catch (e) { if (e instanceof SQLError) return {results, error: e}; throw e; } }
+    return {results, error: null};
+  }
+  const clone = db => JSON.parse(JSON.stringify(db));
+  const newDb = () => ({tables: {}});
+  return {run, clone, newDb, SQLError, tokenize};
+})();
+if (typeof module !== 'undefined' && module.exports) module.exports = SQLEngine;
+</script>
+<script>
+'use strict';
+/* ===== SQL Lab: helpful error hints + sample databases + quests (graded challenges) + free playground ===== */
+const SQLHints = (() => {
+  const KW = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'CREATE', 'DROP', 'ALTER', 'SHOW', 'DESCRIBE', 'TRUNCATE', 'FROM', 'WHERE', 'GROUP', 'ORDER', 'HAVING', 'LIMIT', 'VALUES', 'INTO', 'JOIN', 'DISTINCT', 'LIKE', 'BETWEEN', 'TABLE', 'SET'];
+  const lev = (a, b) => { a = a.toLowerCase(); b = b.toLowerCase(); const d = Array.from({length: a.length + 1}, (_, i) => [i, ...Array(b.length).fill(0)]); for (let j = 1; j <= b.length; j++) d[0][j] = j; for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); return d[a.length][b.length]; };
+  const closest = (w, list, max = 2) => { let best = null, bd = max + 1; for (const x of list) { const d = lev(w, x); if (d < bd) { bd = d; best = x; } } return best; };
+  const mentioned = (sql, db) => Object.values(db.tables).filter(t => new RegExp('\\b' + t.name + '\\b', 'i').test(sql));
+
+  function forError(e, sql, db) {
+    const h = [], i = e.info || {}, tabs = Object.values(db.tables);
+    switch (e.code) {
+      case 1054: {
+        const pool = (mentioned(sql, db).length ? mentioned(sql, db) : tabs).flatMap(t => t.cols.map(c => c.name));
+        const m = i.bad && closest(i.bad, pool, 3);
+        if (m) h.push(`Did you mean the column "${m}"? Column names must be spelled exactly as in the table.`);
+        if (i.bad && /^[A-Za-z]+$/.test(i.bad) && new RegExp("[=<>]\\s*" + i.bad + "\\b|\\bIN\\s*\\([^)]*\\b" + i.bad + "\\b", 'i').test(sql) || i.asValue)
+          h.push(`If "${i.bad}" is meant to be text (like a city or a name), put it in quotes: '${i.bad}'. Without quotes SQL thinks it is a column.`);
+        const t = mentioned(sql, db)[0]; if (t) h.push(`Columns of ${t.name}: ${t.cols.map(c => c.name).join(', ')}`);
+        break;
+      }
+      case 1146: case 1051: {
+        const m = i.bad && closest(i.bad, tabs.map(t => t.name), 3);
+        if (m) h.push(`Did you mean the table "${m}"?`);
+        h.push(`Tables in this database: ${tabs.map(t => t.name).join(', ') || '(none yet — use CREATE TABLE)'}`); break;
+      }
+      case 1055: h.push(`When you use GROUP BY (or an aggregate like COUNT/AVG), every plain column in SELECT must be listed in GROUP BY, or be wrapped in an aggregate.`, i.bad ? `Try adding "${i.bad}" to GROUP BY, or remove it from SELECT.` : ''); break;
+      case 1111: h.push('WHERE filters single rows, before grouping. To filter on COUNT/SUM/AVG results use HAVING, placed after GROUP BY.'); break;
+      case 1052: h.push(`Both tables have a column called "${i.bad}". Say which one: table_name.${i.bad}`); break;
+      case 1062: h.push('A PRIMARY KEY (or UNIQUE) column cannot repeat. A row with that value already exists. Pick a new value, or UPDATE the existing row instead.'); break;
+      case 1048: case 1364: h.push(`"${i.bad}" is NOT NULL, so it must be given a real value. List it in the INSERT.`); break;
+      case 1406: h.push(`The text is longer than the column allows (VARCHAR(${i.max})). Shorten it, or widen the column with a bigger VARCHAR.`); break;
+      case 1136: h.push(`You gave ${i.vals} value(s) for ${i.cols} column(s). Either list all the columns' values, or name the columns: INSERT INTO t (col1, col2) VALUES (...).`); break;
+      case 1366: h.push('A number column only accepts numbers. Remove the quotes/letters, or check the order of your values matches the column order.'); break;
+      case 1292: h.push("Dates must look like 'YYYY-MM-DD' (in quotes), e.g. '2007-03-14'."); break;
+      case 1050: h.push('That table already exists. Use a different name, or DROP TABLE it first.'); break;
+      case 1305: { const m = closest(i.bad, Object.keys({UPPER: 1, LOWER: 1, LENGTH: 1, ROUND: 1, COUNT: 1, SUM: 1, AVG: 1, MIN: 1, MAX: 1, YEAR: 1, MONTH: 1, SUBSTR: 1, CONCAT: 1, ABS: 1}), 2); if (m) h.push(`Did you mean ${m}()?`); break; }
+      case 1065: h.push('The editor is empty — type a query first.'); break;
+      case 1064: {
+        const first = (sql.trim().match(/^[A-Za-z]+/) || [''])[0];
+        if (first && !KW.includes(first.toUpperCase())) { const m = closest(first, KW, 2); if (m) h.push(`The first word "${first}" is not a command. Did you mean ${m}?`); }
+        const words = [...sql.matchAll(/\b[A-Za-z]+\b/g)].map(x => x[0]);
+        for (const w of words) if (!KW.includes(w.toUpperCase()) && closest(w, ['FROM', 'WHERE', 'GROUP', 'ORDER', 'HAVING', 'LIMIT', 'VALUES', 'SELECT', 'DISTINCT'], 1) && lev(w, closest(w, ['FROM', 'WHERE', 'GROUP', 'ORDER', 'HAVING', 'LIMIT', 'VALUES', 'SELECT', 'DISTINCT'], 1)) === 1 && w.length > 3 && !db.tables[w.toLowerCase()] && !tabs.some(t => t.cols.some(c => c.name.toLowerCase() === w.toLowerCase()))) { h.push(`"${w}" looks like a misspelt keyword — did you mean ${closest(w, ['FROM', 'WHERE', 'GROUP', 'ORDER', 'HAVING', 'LIMIT', 'VALUES', 'SELECT', 'DISTINCT'], 1)}?`); break; }
+        if (i.kind === 'quote' || (sql.match(/'/g) || []).length % 2) h.push("A quote is not closed. Every opening ' needs a closing ' — check text values.");
+        if ((sql.match(/\(/g) || []).length !== (sql.match(/\)/g) || []).length) h.push('Brackets do not match: count your ( and ).');
+        if (/,\s*(FROM|WHERE)\b/i.test(sql)) h.push('Remove the extra comma just before FROM / WHERE.');
+        const order = ['FROM', 'WHERE', 'GROUP BY', 'HAVING', 'ORDER BY', 'LIMIT'].map(k => sql.toUpperCase().search(new RegExp('\\b' + k.replace(' ', '\\s+') + '\\b')));
+        const present = order.filter(x => x >= 0); if (present.join() !== [...present].sort((a, b) => a - b).join()) h.push('Clauses must come in this order: SELECT → FROM → WHERE → GROUP BY → HAVING → ORDER BY → LIMIT.');
+        if (/\bSELECT\b[^;]*\b(\w+)\s+(\w+)\s+FROM/i.test(sql) && i.kind === 'syntax') h.push('Between two column names in SELECT you need a comma.');
+        if (/\bAND\b[^;]*\bBETWEEN\b|\bIN\s*\(\s*\)/i.test(sql)) h.push('Check BETWEEN a AND b and IN (x, y) are written exactly like that.');
+        h.push(`SQL stopped reading at: "${i.near || ''}". The mistake is usually right at, or just before, that spot.`);
+        break;
+      }
+    }
+    return h.filter(Boolean);
+  }
+  // gentle nudges for queries that run but are probably wrong
+  function soft(sql, res) {
+    const h = [];
+    if (/[=<>]\s*NULL\b/i.test(sql) && !/IS\s+(NOT\s+)?NULL/i.test(sql)) h.push('Comparing with = NULL never matches. Use IS NULL or IS NOT NULL.');
+    if (res && res.kind === 'rows' && !res.rows.length && /\bWHERE\b/i.test(sql)) h.push('No rows matched. Check the spelling of text values (they must be in quotes) and the comparison signs.');
+    if (/\bSELECT\s+\*/i.test(sql) && /\bCOUNT\s*\(/i.test(sql)) h.push('SELECT * together with COUNT is unusual — decide which columns you really need.');
+    return h;
+  }
+  return {forError, soft, lev, closest};
+})();
+
+const SEEDS = {
+  school: {
+    label: '🏫 School', blurb: 'student and club tables',
+    sql: `CREATE TABLE student (roll INT PRIMARY KEY, name VARCHAR(20) NOT NULL, class INT, section CHAR(1), marks INT, city VARCHAR(15), dob DATE);
+INSERT INTO student VALUES (1,'Aarav',12,'A',92,'Delhi','2007-03-14'),(2,'Diya',12,'A',85,'Mumbai','2007-07-21'),(3,'Kabir',12,'B',67,'Delhi','2006-12-02'),(4,'Meera',12,'B',78,'Pune','2007-01-30'),(5,'Rohan',11,'A',54,'Chennai','2008-05-11'),(6,'Sana',11,'A',88,'Delhi','2008-09-09'),(7,'Tara',11,'B',NULL,'Mumbai','2008-02-17'),(8,'Vikram',11,'B',73,'Pune','2008-11-25'),(9,'Anaya',12,'A',95,'Chennai','2007-04-05'),(10,'Yash',12,'B',41,'Delhi','2007-08-19');
+CREATE TABLE club (roll INT, club VARCHAR(15));
+INSERT INTO club VALUES (1,'Chess'),(1,'Coding'),(2,'Dance'),(4,'Chess'),(6,'Coding'),(9,'Coding'),(9,'Drama');`},
+  company: {
+    label: '🏢 Company', blurb: 'emp and dept tables',
+    sql: `CREATE TABLE emp (empid INT PRIMARY KEY, name VARCHAR(20) NOT NULL, dept VARCHAR(10), salary INT, city VARCHAR(15), joined DATE);
+INSERT INTO emp VALUES (101,'Neha','Sales',52000,'Delhi','2019-06-01'),(102,'Arjun','IT',78000,'Pune','2018-02-12'),(103,'Priya','IT',69000,'Mumbai','2020-09-23'),(104,'Rahul','HR',45000,'Delhi','2021-01-15'),(105,'Isha','Sales',58000,'Chennai','2017-11-30'),(106,'Dev','IT',91000,'Pune','2016-04-08'),(107,'Kavya','HR',47000,'Mumbai','2022-03-03'),(108,'Sameer','Sales',NULL,'Delhi','2023-07-19');
+CREATE TABLE dept (dept VARCHAR(10) PRIMARY KEY, head VARCHAR(20));
+INSERT INTO dept VALUES ('Sales','Anita'),('IT','Rajesh'),('HR','Sunita'),('Legal','Mohan');`},
+  library: {
+    label: '📚 Library', blurb: 'book and issue tables',
+    sql: `CREATE TABLE book (bookid INT PRIMARY KEY, title VARCHAR(30) NOT NULL, author VARCHAR(20), genre VARCHAR(12), price INT, year INT);
+INSERT INTO book VALUES (1,'The Alchemist','Coelho','Fiction',299,1988),(2,'Wings of Fire','Kalam','Biography',350,1999),(3,'Malgudi Days','Narayan','Fiction',199,1943),(4,'Python Basics','Sharma','Tech',450,2019),(5,'Database Systems','Korth','Tech',699,2010),(6,'Discovery of India','Nehru','History',399,1946),(7,'Gitanjali','Tagore','Poetry',149,1910),(8,'SQL in 10 Days','Verma','Tech',250,2021),(9,'Train to Pakistan','Singh','Fiction',275,1956),(10,'Ignited Minds','Kalam','Biography',320,2002);
+CREATE TABLE issue (issueid INT PRIMARY KEY, bookid INT, member VARCHAR(15), issued DATE, returned DATE);
+INSERT INTO issue VALUES (1,1,'Asha','2026-08-01','2026-08-10'),(2,4,'Ravi','2026-08-03',NULL),(3,5,'Asha','2026-08-05',NULL),(4,2,'Meena','2026-08-07','2026-08-15'),(5,4,'Meena','2026-08-20',NULL),(6,8,'Ravi','2026-09-01','2026-09-09'),(7,1,'Ravi','2026-09-03',NULL);`},
+  shop: {
+    label: '🛒 Shop', blurb: 'product and orders tables',
+    sql: `CREATE TABLE product (pid INT PRIMARY KEY, pname VARCHAR(20) NOT NULL, category VARCHAR(12), price INT, stock INT);
+INSERT INTO product VALUES (1,'Notebook','Stationery',60,120),(2,'Pen Pack','Stationery',45,200),(3,'Backpack','Bags',799,15),(4,'Water Bottle','Home',199,0),(5,'Headphones','Electronics',999,8),(6,'Calculator','Electronics',650,25),(7,'Lunch Box','Home',249,40),(8,'USB Cable','Electronics',149,60);
+CREATE TABLE orders (oid INT PRIMARY KEY, pid INT, customer VARCHAR(15), qty INT, odate DATE);
+INSERT INTO orders VALUES (1,1,'Asha',5,'2026-10-01'),(2,3,'Ravi',1,'2026-10-02'),(3,5,'Meena',2,'2026-10-02'),(4,2,'Asha',10,'2026-10-04'),(5,6,'Kabir',1,'2026-10-05'),(6,1,'Ravi',3,'2026-10-07'),(7,8,'Meena',4,'2026-10-09'),(8,5,'Asha',1,'2026-10-12');`},
+  cricket: {
+    label: '🏏 Cricket', blurb: 'player and team tables',
+    sql: `CREATE TABLE player (pid INT PRIMARY KEY, name VARCHAR(20) NOT NULL, team VARCHAR(10), role VARCHAR(12), runs INT, wickets INT, matches INT);
+INSERT INTO player VALUES (1,'Virat','RCB','Batter',7263,4,237),(2,'Rohit','MI','Batter',6211,15,243),(3,'Bumrah','MI','Bowler',56,165,120),(4,'Jadeja','CSK','Allrounder',2692,152,226),(5,'Dhoni','CSK','Keeper',5243,0,264),(6,'Chahal','RR','Bowler',74,205,145),(7,'Pandya','MI','Allrounder',1963,64,123),(8,'Samson','RR','Keeper',4419,0,160),(9,'Rashid','GT','Bowler',443,139,121);
+CREATE TABLE team (team VARCHAR(10) PRIMARY KEY, city VARCHAR(12), titles INT);
+INSERT INTO team VALUES ('MI','Mumbai',5),('CSK','Chennai',5),('RCB','Bengaluru',0),('RR','Jaipur',1),('GT','Ahmedabad',1);`},
+};
+const _base = {};
+const baseDb = n => { if (!_base[n]) { const d = SQLEngine.newDb(); const r = SQLEngine.run(d, SEEDS[n].sql); if (r.error) throw r.error; _base[n] = d; } return _base[n]; };
+const freshDb = n => SQLEngine.clone(baseDb(n));
+
+const QUESTS = [
+  {id: 's1', db: 'school', lvl: 1, title: 'Show everyone', task: 'Display every column and every row of the student table.', sol: 'SELECT * FROM student',
+    hints: ['Start with SELECT, then say which columns, then FROM which table.', 'The symbol for "all columns" is *', 'SELECT * FROM student;']},
+  {id: 's2', db: 'school', lvl: 1, title: 'Delhi crew', task: 'List the names of students who live in Delhi.', sol: "SELECT name FROM student WHERE city='Delhi'",
+    hints: ['You only want the name column, and only some rows. Filtering rows is the job of WHERE.', "Text values go inside quotes: 'Delhi'", "SELECT name FROM student WHERE city = 'Delhi';"]},
+  {id: 's3', db: 'school', lvl: 1, title: 'Distinct cities', task: 'Show each city only once (no repeats).', sol: 'SELECT DISTINCT city FROM student',
+    hints: ['Some cities appear several times. Which keyword removes duplicates?', 'Put DISTINCT right after SELECT.', 'SELECT DISTINCT city FROM student;']},
+  {id: 's4', db: 'school', lvl: 2, title: 'Toppers', task: 'Show name and marks of students scoring more than 80, highest marks first.', ordered: true, sol: 'SELECT name, marks FROM student WHERE marks > 80 ORDER BY marks DESC',
+    hints: ['You need two things: a WHERE condition and an ORDER BY.', 'ORDER BY marks DESC puts the biggest first. ORDER BY goes after WHERE.', 'SELECT name, marks FROM student WHERE marks > 80 ORDER BY marks DESC;']},
+  {id: 's5', db: 'school', lvl: 2, title: 'Name pattern', task: "List names that start with the letter 'A'.", sol: "SELECT name FROM student WHERE name LIKE 'A%'",
+    hints: ['Pattern matching on text uses LIKE.', "% means \"anything can follow\". So 'A%' means starts with A.", "SELECT name FROM student WHERE name LIKE 'A%';"]},
+  {id: 's6', db: 'school', lvl: 2, title: 'Missing marks', task: 'Find the names of students whose marks are not recorded (NULL).', sol: 'SELECT name FROM student WHERE marks IS NULL',
+    hints: ['NULL is "no value", so = does not work with it.', 'The test is IS NULL.', 'SELECT name FROM student WHERE marks IS NULL;']},
+  {id: 's7', db: 'school', lvl: 3, title: 'Class averages', task: 'For each class show the class and the average marks.', sol: 'SELECT class, AVG(marks) FROM student GROUP BY class',
+    hints: ['"For each class" is the signal for GROUP BY.', 'SELECT class, AVG(marks) ... then GROUP BY class.', 'SELECT class, AVG(marks) FROM student GROUP BY class;']},
+  {id: 's8', db: 'school', lvl: 3, title: 'Busy cities', task: 'Show each city that has more than 2 students, with the number of students.', sol: 'SELECT city, COUNT(*) FROM student GROUP BY city HAVING COUNT(*) > 2',
+    hints: ['Group by city and count. But the filter is on the count, not on a single row.', 'Conditions on COUNT/AVG/SUM go in HAVING (after GROUP BY), not WHERE.', 'SELECT city, COUNT(*) FROM student GROUP BY city HAVING COUNT(*) > 2;']},
+  {id: 's9', db: 'school', lvl: 3, title: 'Club members', task: 'Show each student name with the club they belong to (only students who are in a club).', sol: 'SELECT name, club FROM student JOIN club ON student.roll = club.roll',
+    hints: ['The data is in two tables, so you need a JOIN.', 'They are linked by roll: student.roll = club.roll', 'SELECT name, club FROM student JOIN club ON student.roll = club.roll;']},
+  {id: 's10', db: 'school', lvl: 3, title: 'Grace marks', task: 'Give +5 marks to every class 11 student who scored below 60.', check: 'SELECT roll, marks FROM student ORDER BY roll', sol: 'UPDATE student SET marks = marks + 5 WHERE class = 11 AND marks < 60',
+    hints: ['Changing existing rows is UPDATE ... SET ... WHERE.', 'SET marks = marks + 5, and WHERE needs both conditions joined with AND.', 'UPDATE student SET marks = marks + 5 WHERE class = 11 AND marks < 60;']},
+  {id: 'c1', db: 'company', lvl: 1, title: 'Well paid', task: 'Show the names of employees earning more than 60000.', sol: 'SELECT name FROM emp WHERE salary > 60000',
+    hints: ['SELECT the name, FROM emp, with a WHERE on salary.', 'Numbers need no quotes: salary > 60000', 'SELECT name FROM emp WHERE salary > 60000;']},
+  {id: 'c2', db: 'company', lvl: 2, title: 'Top salary', task: 'Display the highest salary in the company.', sol: 'SELECT MAX(salary) FROM emp',
+    hints: ['There is an aggregate function that finds the biggest value.', 'MAX( column )', 'SELECT MAX(salary) FROM emp;']},
+  {id: 'c3', db: 'company', lvl: 2, title: 'Recent joiners', task: 'List names of employees who joined after the year 2020.', sol: 'SELECT name FROM emp WHERE YEAR(joined) > 2020',
+    hints: ['You only need the year part of the date. Is there a function for that?', 'YEAR(joined) gives a number you can compare.', 'SELECT name FROM emp WHERE YEAR(joined) > 2020;']},
+  {id: 'c4', db: 'company', lvl: 3, title: 'Payroll per dept', task: 'Show each dept with its total salary, biggest total first.', ordered: true, sol: 'SELECT dept, SUM(salary) FROM emp GROUP BY dept ORDER BY SUM(salary) DESC',
+    hints: ['Per department means GROUP BY dept.', 'Use SUM(salary) and ORDER BY it, descending.', 'SELECT dept, SUM(salary) FROM emp GROUP BY dept ORDER BY SUM(salary) DESC;']},
+  {id: 'c5', db: 'company', lvl: 3, title: 'Who is the boss', task: 'Show each employee name with the head of their department.', sol: 'SELECT name, head FROM emp JOIN dept ON emp.dept = dept.dept',
+    hints: ['Two tables again: JOIN them on the shared column.', 'Both tables have a column called dept, so write table.dept (e.g. emp.dept = dept.dept).', 'SELECT name, head FROM emp JOIN dept ON emp.dept = dept.dept;']},
+  {id: 'c6', db: 'company', lvl: 2, title: 'New hire', task: "Add a new employee: id 109, name 'Zoya', dept 'IT', salary 65000, city 'Delhi', joined '2024-01-10'.", check: 'SELECT * FROM emp ORDER BY empid', sol: "INSERT INTO emp VALUES (109,'Zoya','IT',65000,'Delhi','2024-01-10')",
+    hints: ['Adding a row is INSERT INTO table VALUES (...).', 'Values must follow the column order: empid, name, dept, salary, city, joined. Text and dates in quotes.', "INSERT INTO emp VALUES (109,'Zoya','IT',65000,'Delhi','2024-01-10');"]},
+];
+QUESTS.push(
+  {id: 'l1', db: 'library', lvl: 1, title: 'Tech shelf', task: "Show the titles of all books in the genre 'Tech'.", sol: "SELECT title FROM book WHERE genre='Tech'",
+    hints: ['One column (title), filtered rows: use WHERE.', "Text goes in quotes: genre = 'Tech'", "SELECT title FROM book WHERE genre = 'Tech';"]},
+  {id: 'l2', db: 'library', lvl: 1, title: 'Pocket friendly', task: 'Show title and price of books costing less than 300, cheapest first.', ordered: true, sol: 'SELECT title, price FROM book WHERE price < 300 ORDER BY price',
+    hints: ['WHERE for the price limit, then sort the result.', 'ORDER BY price sorts low to high (ASC is the default).', 'SELECT title, price FROM book WHERE price < 300 ORDER BY price;']},
+  {id: 'l3', db: 'library', lvl: 2, title: "Kalam's books", task: "How many books are written by 'Kalam'? Show just the count.", sol: "SELECT COUNT(*) FROM book WHERE author='Kalam'",
+    hints: ['You want a number, not a list of rows. Which function counts rows?', 'COUNT(*) together with a WHERE on author.', "SELECT COUNT(*) FROM book WHERE author = 'Kalam';"]},
+  {id: 'l4', db: 'library', lvl: 2, title: 'Old classics', task: 'List titles of books published between 1900 and 1950 (both included).', sol: 'SELECT title FROM book WHERE year BETWEEN 1900 AND 1950',
+    hints: ['A range of values has its own keyword.', 'year BETWEEN low AND high (both ends are included).', 'SELECT title FROM book WHERE year BETWEEN 1900 AND 1950;']},
+  {id: 'l5', db: 'library', lvl: 2, title: 'Still out', task: 'Show member and bookid for every issue that has not been returned yet (returned is empty).', sol: 'SELECT member, bookid FROM issue WHERE returned IS NULL',
+    hints: ['"Not returned" means the returned column has no value.', 'No value = NULL, and you test it with IS NULL, not =.', 'SELECT member, bookid FROM issue WHERE returned IS NULL;']},
+  {id: 'l6', db: 'library', lvl: 3, title: 'Genre value', task: 'For each genre show the genre and the total price of its books.', sol: 'SELECT genre, SUM(price) FROM book GROUP BY genre',
+    hints: ['"For each genre" is the sign of GROUP BY.', 'Pair the grouped column with an aggregate: genre, SUM(price).', 'SELECT genre, SUM(price) FROM book GROUP BY genre;']},
+  {id: 'l7', db: 'library', lvl: 3, title: 'Who has what', task: 'Show book title and member name for books that are currently not returned.', sol: 'SELECT title, member FROM book JOIN issue ON book.bookid = issue.bookid WHERE returned IS NULL',
+    hints: ['The title is in book, the member in issue. You need a JOIN.', 'Join on bookid, then add the filter with WHERE returned IS NULL.', 'SELECT title, member FROM book JOIN issue ON book.bookid = issue.bookid WHERE returned IS NULL;']},
+  {id: 'l8', db: 'library', lvl: 2, title: 'Clear the shelf', task: 'Delete all books published before 1950.', check: 'SELECT bookid FROM book ORDER BY bookid', sol: 'DELETE FROM book WHERE year < 1950',
+    hints: ['Removing rows is DELETE FROM table.', 'Without WHERE it would delete EVERYTHING. Add the condition on year.', 'DELETE FROM book WHERE year < 1950;']},
+  {id: 'h1', db: 'shop', lvl: 1, title: 'Sold out', task: 'List the names of products whose stock is 0.', sol: 'SELECT pname FROM product WHERE stock = 0',
+    hints: ['Filter rows with WHERE on the stock column.', 'Numbers need no quotes: stock = 0', 'SELECT pname FROM product WHERE stock = 0;']},
+  {id: 'h2', db: 'shop', lvl: 1, title: 'Electronics aisle', task: "Show name and price of products in the category 'Electronics', most expensive first.", ordered: true, sol: "SELECT pname, price FROM product WHERE category='Electronics' ORDER BY price DESC",
+    hints: ['WHERE for the category, ORDER BY for the sorting.', 'DESC makes it high to low.', "SELECT pname, price FROM product WHERE category = 'Electronics' ORDER BY price DESC;"]},
+  {id: 'h3', db: 'shop', lvl: 2, title: 'Sale time', task: 'Show each product name with its price after a 10% discount.', sol: 'SELECT pname, price * 0.9 FROM product',
+    hints: ['You can calculate inside SELECT, e.g. price * 2.', '10% off means paying 90% of the price: price * 0.9', 'SELECT pname, price * 0.9 FROM product;  (add AS sale_price to name the column)']},
+  {id: 'h4', db: 'shop', lvl: 2, title: 'Stock value', task: 'Find the total value of the stock (price × stock for every product, added up).', sol: 'SELECT SUM(price * stock) FROM product',
+    hints: ['One number for the whole table: use an aggregate function.', 'The aggregate can wrap a calculation: SUM( a * b )', 'SELECT SUM(price * stock) FROM product;']},
+  {id: 'h5', db: 'shop', lvl: 2, title: 'Category count', task: 'Show each category with the number of products in it.', sol: 'SELECT category, COUNT(*) FROM product GROUP BY category',
+    hints: ['"Each category" means GROUP BY category.', 'Select the category and COUNT(*).', 'SELECT category, COUNT(*) FROM product GROUP BY category;']},
+  {id: 'h6', db: 'shop', lvl: 3, title: 'Order bill', task: 'For every order show customer, product name and the bill (price × qty).', sol: 'SELECT customer, pname, price * qty FROM orders JOIN product ON orders.pid = product.pid',
+    hints: ['customer is in orders, pname and price in product: JOIN.', 'Link them with orders.pid = product.pid, then calculate price * qty.', 'SELECT customer, pname, price * qty FROM orders JOIN product ON orders.pid = product.pid;']},
+  {id: 'h7', db: 'shop', lvl: 3, title: 'Never ordered', task: 'List the names of products that nobody has ordered yet.', sol: 'SELECT pname FROM product LEFT JOIN orders ON product.pid = orders.pid WHERE orders.oid IS NULL',
+    hints: ['A normal JOIN drops products with no orders. Which join keeps all rows of the left table?', 'LEFT JOIN keeps every product; unmatched ones get NULL order columns. Filter for those.', 'SELECT pname FROM product LEFT JOIN orders ON product.pid = orders.pid WHERE orders.oid IS NULL;']},
+  {id: 'h8', db: 'shop', lvl: 2, title: 'Restock', task: 'Add 50 to the stock of every product that has fewer than 10 in stock.', check: 'SELECT pid, stock FROM product ORDER BY pid', sol: 'UPDATE product SET stock = stock + 50 WHERE stock < 10',
+    hints: ['Changing existing rows: UPDATE ... SET ... WHERE.', 'SET stock = stock + 50, limited by WHERE stock < 10.', 'UPDATE product SET stock = stock + 50 WHERE stock < 10;']},
+  {id: 'k1', db: 'cricket', lvl: 1, title: 'Run machines', task: 'Show name and runs of players with more than 5000 runs, highest first.', ordered: true, sol: 'SELECT name, runs FROM player WHERE runs > 5000 ORDER BY runs DESC',
+    hints: ['WHERE for the runs condition, ORDER BY for the order.', 'ORDER BY runs DESC', 'SELECT name, runs FROM player WHERE runs > 5000 ORDER BY runs DESC;']},
+  {id: 'k2', db: 'cricket', lvl: 1, title: 'Bowlers only', task: "List the names of players whose role is 'Bowler'.", sol: "SELECT name FROM player WHERE role='Bowler'",
+    hints: ['Filter rows with WHERE.', "Text in quotes: role = 'Bowler'", "SELECT name FROM player WHERE role = 'Bowler';"]},
+  {id: 'k3', db: 'cricket', lvl: 2, title: 'Team strength', task: 'Show each team with its number of players.', sol: 'SELECT team, COUNT(*) FROM player GROUP BY team',
+    hints: ['"Each team" → GROUP BY team.', 'COUNT(*) counts the rows in every group.', 'SELECT team, COUNT(*) FROM player GROUP BY team;']},
+  {id: 'k4', db: 'cricket', lvl: 2, title: 'Wicket king', task: 'Show the name of the player with the most wickets.', sol: 'SELECT name FROM player ORDER BY wickets DESC LIMIT 1',
+    hints: ['Sort so the best comes first, then keep only one row.', 'ORDER BY wickets DESC, then LIMIT.', 'SELECT name FROM player ORDER BY wickets DESC LIMIT 1;']},
+  {id: 'k5', db: 'cricket', lvl: 2, title: 'Runs per match', task: 'Show each name with runs divided by matches, rounded to 2 decimals.', sol: 'SELECT name, ROUND(runs / matches, 2) FROM player',
+    hints: ['Divide with / and round with a function.', 'ROUND(value, decimals)', 'SELECT name, ROUND(runs / matches, 2) FROM player;']},
+  {id: 'k6', db: 'cricket', lvl: 3, title: 'Big-title squads', task: 'Show player name and team city for players whose team has won 5 or more titles.', sol: 'SELECT name, city FROM player JOIN team ON player.team = team.team WHERE titles >= 5',
+    hints: ['Name is in player, city and titles in team: JOIN.', 'Both tables have a column called team, so write player.team = team.team.', 'SELECT name, city FROM player JOIN team ON player.team = team.team WHERE titles >= 5;']},
+  {id: 'k7', db: 'cricket', lvl: 3, title: 'Team runs', task: 'Show each team with its total runs, but only teams whose total is above 7000.', sol: 'SELECT team, SUM(runs) FROM player GROUP BY team HAVING SUM(runs) > 7000',
+    hints: ['Group by team and add up runs. The filter is on the total.', 'Filters on SUM/COUNT/AVG go in HAVING, after GROUP BY.', 'SELECT team, SUM(runs) FROM player GROUP BY team HAVING SUM(runs) > 7000;']},
+  {id: 'k8', db: 'cricket', lvl: 2, title: 'Build a table', task: 'Create a table awards with: award_id (integer, primary key), pid (integer), title (VARCHAR of 30).', check: 'DESCRIBE awards', sol: 'CREATE TABLE awards (award_id INT PRIMARY KEY, pid INT, title VARCHAR(30))',
+    hints: ['CREATE TABLE name ( column type, column type, ... )', 'Add PRIMARY KEY after the type of award_id. Text type needs a size: VARCHAR(30).', 'CREATE TABLE awards (award_id INT PRIMARY KEY, pid INT, title VARCHAR(30));']},
+);
+const LVL = ['', 'Easy', 'Medium', 'Hard'], LVL_XP = [0, 10, 20, 30];
+const RANKS = [[0, 'Rookie 🐣'], [40, 'Query Cadet 🧭'], [100, 'Filter Fox 🦊'], [180, 'Join Juggler 🤹'], [260, 'SQL Ninja 🥷']];
+
+const labDefaults = () => ({xp: 0, solved: {}, db: 'school', tab: 'quests', open: null, drafts: {}, used: {}, dailyDone: ''});
+const dailyQuest = () => QUESTS[Math.floor(new Date().setHours(12, 0, 0, 0) / 864e5) % QUESTS.length];   // same quest all day, new one tomorrow
+const DAILY_BONUS = 10;
+let labOut = '', labConfetti = false;
+const labKey = () => lab.tab === 'quests' && lab.open ? 'q:' + lab.open : 'p:' + lab.db;
+const PLAY_KEY = 'sqlrev.play.v1';
+function playDb() {
+  try { const all = JSON.parse(localStorage.getItem(PLAY_KEY) || '{}'); if (all[lab.db] && all[lab.db].tables) return all[lab.db]; } catch (e) { /* ignore */ }
+  return freshDb(lab.db);
+}
+function savePlay(db) { try { const all = JSON.parse(localStorage.getItem(PLAY_KEY) || '{}'); all[lab.db] = db; localStorage.setItem(PLAY_KEY, JSON.stringify(all)); } catch (e) { /* ignore */ } }
+
+const cell = v => v === null ? '<span class="nul">NULL</span>' : esc(typeof v === 'number' && !Number.isInteger(v) ? +v.toFixed(4) : v);
+function tableHtml(r) {
+  const rows = r.rows.slice(0, 200);
+  return `<div class="res-wrap"><table class="res"><thead><tr>${r.cols.map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.map(x => `<tr>${x.map(v => `<td>${cell(v)}</td>`).join('')}</tr>`).join('') || `<tr><td colspan="${r.cols.length}" class="nul">(0 rows)</td></tr>`}</tbody></table></div>
+  <div class="res-meta">${r.rows.length} row${r.rows.length === 1 ? '' : 's'}${r.rows.length > 200 ? ' (showing first 200)' : ''}</div>`;
+}
+const norm = v => v === null ? 'NULL' : typeof v === 'number' ? String(+v.toFixed(4)) : String(v);
+function compare(user, want, ordered) {
+  if (!user || user.kind !== 'rows') return 'Your query did not return a table. A SELECT is needed here.';
+  if (user.cols.length !== want.cols.length) return `Your result has ${user.cols.length} column(s) but the task needs ${want.cols.length}. Re-read which columns are asked for.`;
+  const a = user.rows.map(r => r.map(norm).join('\u0001')), b = want.rows.map(r => r.map(norm).join('\u0001'));
+  if (a.length !== b.length) {
+    const dist = new Set(a).size === b.length || new Set(a).size < a.length && a.length > b.length;
+    return `You returned ${a.length} row(s) but ${b.length} are expected.` + (a.length > b.length ? (dist ? ' Some rows repeat — is DISTINCT needed?' : ' Your condition may be too loose.') : ' Your condition may be too strict, or a JOIN/WHERE removes rows.');
+  }
+  const same = [...a].sort().join('\u0002') === [...b].sort().join('\u0002');
+  if (!same) return 'Right number of rows, but some values differ. Check your conditions, the column you picked, or the calculation.';
+  if (ordered && a.join('\u0002') !== b.join('\u0002')) return 'Right rows, but in the wrong order. Check ORDER BY and ASC / DESC.';
+  return null;
+}
+function gradeQuest(q, db, res) {
+  const want = freshDb(q.db), w = SQLEngine.run(want, q.sol);
+  if (q.check) {
+    const u = SQLEngine.run(db, q.check), e = SQLEngine.run(want, q.check);
+    if (!res.results.length || res.results.every(r => r.kind === 'rows')) return 'This task changes data (UPDATE / INSERT). Your query only reads it.';
+    return compare(u.results[0], e.results[0], true);
+  }
+  const lastRows = [...res.results].reverse().find(r => r.kind === 'rows');
+  return compare(lastRows, w.results[w.results.length - 1], q.ordered);
+}
+const rankOf = xp => RANKS.filter(r => xp >= r[0]).pop();
+
+function schemaHtml(n) {
+  return Object.values(baseDb(n).tables).map(t => `<div class="sch"><b>${esc(t.name)}</b> (${t.cols.map(c => `${esc(c.name)} <i>${esc(c.type.toLowerCase())}${c.pk ? ' 🔑' : ''}</i>`).join(', ')})</div>`).join('');
+}
+function labHeader() {
+  const r = rankOf(lab.xp), nx = RANKS.find(x => x[0] > lab.xp), pct = nx ? Math.round((lab.xp - r[0]) / (nx[0] - r[0]) * 100) : 100;
+  return `<div class="lab-head"><div><div class="lab-rank">${esc(r[1])}</div><div class="xpbar"><div style="width:${pct}%"></div></div>
+    <div class="res-meta">${lab.xp} XP · 🔥 ${liveStreak()}${nx ? ` · ${nx[0] - lab.xp} to ${esc(nx[1])}` : ' · max rank!'} · ${Object.keys(lab.solved).length}/${QUESTS.length} quests</div></div>
+    <div class="lab-tabs"><button class="btn ${lab.tab === 'quests' ? 'primary' : ''}" data-action="labtab" data-tab="quests">🎯 Quests</button>
+    <button class="btn ${lab.tab === 'play' ? 'primary' : ''}" data-action="labtab" data-tab="play">🧪 Playground</button></div></div>`;
+}
+const editor = ph => `<textarea id="lab-sql" class="sql" spellcheck="false" autocapitalize="off" autocomplete="off" rows="6" placeholder="${ph}">${esc(lab.drafts[labKey()] || '')}</textarea>`;
+
+const card = q => `<button class="quiz-mode-card lab-card" data-action="labopen" data-id="${q.id}">
+  <h3>${lab.solved[q.id] ? '✅' : '▶️'} ${esc(q.title)}</h3><p>${LVL[q.lvl]} · +${LVL_XP[q.lvl]} XP</p>
+  <div class="stars">${lab.solved[q.id] ? '⭐'.repeat(lab.solved[q.id]) : ''}</div></button>`;
+function gradeSql(id, sql) {                     // used by the mock exam: run the student's SQL and grade it like a quest
+  const q = QUESTS.find(x => x.id === id), db = freshDb(q.db), res = SQLEngine.run(db, sql);
+  if (res.error) return {ok: false, msg: 'Error: ' + res.error.message};
+  const bad = gradeQuest(q, db, res); return {ok: !bad, msg: bad || ''};
+}
+function renderLab() {
+  const dbChips = Object.keys(SEEDS).map(k => `<button class="btn ${lab.db === k ? 'primary' : ''}" data-action="labdb" data-db="${k}">${SEEDS[k].label}</button>`).join('');
+  let body;
+  if (lab.tab === 'quests' && !lab.open) {
+    const dq = dailyQuest(), dDone = lab.dailyDone === dayStr();
+ const groups = Object.keys(SEEDS).map(k => `<h3 class="grp">${SEEDS[k].label} <span>${QUESTS.filter(q => q.db === k && lab.solved[q.id]).length}/${QUESTS.filter(q => q.db === k).length}</span></h3><div class="lab-grid">${QUESTS.filter(q => q.db === k).map(card).join('')}</div>`).join('');
+    body = `<button class="quiz-mode-card daily" data-action="labopen" data-id="${dq.id}"><h3>📅 Daily challenge: ${esc(dq.title)}</h3>
+      <p>${dDone ? '✅ Done today — come back tomorrow for a new one!' : `Solve it today for +${DAILY_BONUS} bonus XP`}</p></button>
+      ${groups}`;
+  } else if (lab.tab === 'quests') {
+    const q = QUESTS.find(x => x.id === lab.open), used = lab.used[q.id] || 0;
+    body = `<button class="btn" data-action="labback">← All quests</button>
+      <h2 class="lab-title">${esc(q.title)} <span class="keyword-badge">${LVL[q.lvl]}</span></h2><p class="lab-task">${esc(q.task)}</p>
+      <details class="lab-schema" open><summary>${SEEDS[q.db].label} database</summary>${schemaHtml(q.db)}</details>
+      ${editor('Write your SQL here…  (Ctrl+Enter to run)')}
+      <div class="btn-row"><button class="btn primary" data-action="labrun">▶ Run</button>
+        <button class="btn" data-action="labhint" ${used >= 3 ? 'disabled' : ''}>💡 Hint (${used}/3)</button>
+        ${used >= 3 ? '<button class="btn" data-action="labsol">👀 Show solution</button>' : ''}</div>
+      ${used ? `<ol class="lab-hints">${q.hints.slice(0, Math.min(used, 3)).map(h => `<li>${esc(h)}</li>`).join('')}</ol>` : ''}`;
+  } else {
+    body = `<div class="btn-row">${dbChips}</div><details class="lab-schema" open><summary>Tables</summary>${schemaHtml(lab.db)}</details>
+      ${editor('Try anything: SELECT, INSERT, UPDATE, DELETE, CREATE TABLE …  (Ctrl+Enter to run)')}
+      <div class="btn-row"><button class="btn primary" data-action="labrun">▶ Run</button><button class="btn danger" data-action="labreset">↺ Reset this database</button></div>
+      <p class="res-meta">Your changes here are kept on this device. Reset restores the original data.</p>`;
+  }
+  root.innerHTML = `<div class="lab">${labHeader()}${body}<div id="lab-out">${labOut}</div></div>`;
+}
+
+function labRun() {
+  const ta = $('#lab-sql'); if (!ta) return;
+  const sql = ta.value; lab.drafts[labKey()] = sql;
+  const q = lab.tab === 'quests' && lab.open ? QUESTS.find(x => x.id === lab.open) : null;
+  const db = q ? freshDb(q.db) : playDb();
+  const res = SQLEngine.run(db, sql);
+  let out = '';
+  res.results.forEach(r => { out += r.kind === 'rows' ? tableHtml(r) : `<div class="lab-ok">✔ ${esc(r.msg)}</div>`; });
+  if (res.error) {
+    const hs = SQLHints.forError(res.error, sql, db);
+    out += `<div class="lab-err"><b>ERROR ${res.error.code}:</b> ${esc(res.error.message)}</div>` + (hs.length ? `<div class="lab-hint">💡 <b>Hint</b><ul>${hs.map(h => `<li>${esc(h)}</li>`).join('')}</ul></div>` : '');
+  } else {
+    const soft = SQLHints.soft(sql, res.results[res.results.length - 1]);
+    if (soft.length) out += `<div class="lab-hint">💡 <ul>${soft.map(h => `<li>${esc(h)}</li>`).join('')}</ul></div>`;
+    if (q) {
+      const bad = gradeQuest(q, db, res);
+      if (bad) out += `<div class="lab-err">Not quite yet. ${esc(bad)}</div>`;
+      else {
+        const first = !lab.solved[q.id], used = lab.used[q.id] || 0, stars = used === 0 ? 3 : used < 3 ? 2 : 1;
+        const gain = first ? Math.max(5, LVL_XP[q.lvl] - used * 5) : 0, before = rankOf(lab.xp)[1];
+        const bonus = q.id === dailyQuest().id && lab.dailyDone !== dayStr() ? DAILY_BONUS : 0;
+        if (bonus) lab.dailyDone = dayStr();
+        lab.solved[q.id] = Math.max(lab.solved[q.id] || 0, stars); lab.xp += gain + bonus; touchStreak();
+        const after = rankOf(lab.xp)[1];
+        out += `<div class="lab-win">🎉 Nailed it! ${'⭐'.repeat(stars)} ${first ? `+${gain} XP` : '(already solved)'}${bonus ? ` 📅 +${bonus} daily bonus!` : ''}${after !== before ? `<br>🚀 Rank up: ${esc(after)}` : ''}</div>`;
+        const nx = QUESTS[QUESTS.indexOf(q) + 1]; if (nx) out += `<button class="btn primary" data-action="labopen" data-id="${nx.id}">Next quest →</button>`;
+      }
+    } else if (res.results.some(r => r.kind === 'ok')) savePlay(db);
+  }
+  if (!q && res.error && res.results.some(r => r.kind === 'ok')) savePlay(db);
+  labOut = out; save(); renderLab();
+  $('#lab-out').scrollIntoView({block: 'nearest', behavior: 'smooth'});
+}
+const LAB_ACTIONS = {
+  labtab: d => { lab.tab = d.tab; lab.open = null; labOut = ''; save(); renderLab(); },
+  labdb: d => { lab.db = d.db; labOut = ''; save(); renderLab(); },
+  labopen: d => { lab.open = d.id; lab.tab = 'quests'; labOut = ''; save(); renderLab(); root.scrollTop = 0; },
+  labback: () => { lab.open = null; labOut = ''; save(); renderLab(); },
+  labrun: () => labRun(),
+  labhint: () => { const q = QUESTS.find(x => x.id === lab.open); lab.used[q.id] = Math.min(3, (lab.used[q.id] || 0) + 1); const t = $('#lab-sql'); if (t) lab.drafts[labKey()] = t.value; save(); renderLab(); },
+  labsol: () => { const q = QUESTS.find(x => x.id === lab.open); lab.drafts[labKey()] = q.sol + ';'; labOut = '<div class="lab-hint">👀 Solution loaded in the editor. Press Run to see it work. Try to understand each part!</div>'; save(); renderLab(); },
+  labreset: () => { if (!confirm('Reset this database to its original data? Your changes will be lost.')) return; try { const all = JSON.parse(localStorage.getItem(PLAY_KEY) || '{}'); delete all[lab.db]; localStorage.setItem(PLAY_KEY, JSON.stringify(all)); } catch (e) { /* ignore */ } labOut = '<div class="lab-ok">✔ Database reset</div>'; renderLab(); },
+};
+if (typeof module !== 'undefined' && module.exports) module.exports = {SQLHints, SEEDS, QUESTS, freshDb, gradeQuest, compare, gradeSql};
+</script>
+<script>
+'use strict';
+/* ===== Mock exam: one paper (MCQ + typed answers + real SQL practical), timed, marked only at the end ===== */
+const EXAM = {mcq: 15, type: 5, sql: 3, secs: 2700, w: {m: 1, t: 2, s: 3}};
+EXAM.total = EXAM.mcq * EXAM.w.m + EXAM.type * EXAM.w.t + EXAM.sql * EXAM.w.s;
+let exam = null, examTickId = null, examLast = 0, examSaveT = 0;
+
+function examNew() {
+  const sql = shuffle(QUESTS).slice(0, EXAM.sql).sort((a, b) => a.lvl - b.lvl).map(q => q.id);
+  return {
+    mcq: shuffle(MCQ).slice(0, EXAM.mcq).map(b => ({q: b.q, order: shuffle(b.opts.map((_, i) => i))})),
+    type: shuffle(TYPE_Q).slice(0, EXAM.type).map(q => q.q), sql,
+    m: Array(EXAM.mcq).fill(null), t: Array(EXAM.type).fill(''), s: Array(EXAM.sql).fill(''),
+    used: 0, limit: EXAM.secs, done: false,
+  };
+}
+function examRestore(r) {                       // saved data may be old or tampered with: rebuild only if every part is valid
+  try {
+    if (!r || typeof r !== 'object') return null;
+    const mq = new Map(MCQ.map(q => [q.q, q])), tq = new Map(TYPE_Q.map(q => [q.q, q]));
+    if (![r.mcq, r.type, r.sql, r.m, r.t, r.s].every(Array.isArray)) return null;
+    if (r.mcq.length !== r.m.length || r.type.length !== r.t.length || r.sql.length !== r.s.length || !r.mcq.length) return null;
+    if (!r.mcq.every(x => x && mq.has(x.q) && isPerm(x.order, mq.get(x.q).opts.length))) return null;
+    if (!r.type.every(q => tq.has(q)) || !r.sql.every(id => QUESTS.some(q => q.id === id))) return null;
+    return {
+      mcq: r.mcq.map(x => ({q: x.q, order: x.order})), type: r.type.slice(), sql: r.sql.slice(),
+      m: r.m.map((v, i) => Number.isInteger(v) && v >= 0 && v < r.mcq[i].order.length ? v : null),
+      t: r.t.map(v => typeof v === 'string' ? v.slice(0, 2000) : ''), s: r.s.map(v => typeof v === 'string' ? v.slice(0, 2000) : ''),
+      used: Number.isFinite(r.used) && r.used >= 0 ? r.used : 0, limit: Number.isFinite(r.limit) && r.limit > 0 ? r.limit : EXAM.secs, done: !!r.done,
+    };
+  } catch (e) { return null; }
+}
+const examQs = () => ({
+  mcq: exam.mcq.map(x => buildMcq(MCQ.find(b => b.q === x.q), x.order)),
+  type: exam.type.map(q => TYPE_Q.find(b => b.q === q)),
+  sql: exam.sql.map(id => QUESTS.find(q => q.id === id)),
+});
+function examGrade() {
+  const Q = examQs();
+  const m = Q.mcq.map((q, i) => exam.m[i] === q.correct);
+  const t = Q.type.map((q, i) => { if (!exam.t[i].trim()) return false; const g = SQLGrader.grade(q, exam.t[i], strictNames); return !!g.correct; });
+  const s = Q.sql.map((q, i) => exam.s[i].trim() ? gradeSql(q.id, exam.s[i]) : {ok: false, msg: 'Not attempted'});
+  const marks = {m: m.filter(Boolean).length * EXAM.w.m, t: t.filter(Boolean).length * EXAM.w.t, s: s.filter(x => x.ok).length * EXAM.w.s};
+  return {Q, m, t, s, marks, total: marks.m + marks.t + marks.s};
+}
+
+function stopExamTick() { clearInterval(examTickId); examTickId = null; }
+function startExamTick() { stopExamTick(); if (!exam || exam.done) return; examLast = Date.now(); examTickId = setInterval(examTick, 1000); }
+function examTick() {
+  if (!exam || exam.done || currentMode !== 'practice') return stopExamTick();
+  const now = Date.now(); exam.used += (now - examLast) / 1000; examLast = now;
+  const left = Math.ceil(exam.limit - exam.used);
+  if (left <= 0) { exam.used = exam.limit; return examSubmit(true); }
+  const el = $('#extimer'); if (el) { el.textContent = '⏱ ' + fmtTime(left); el.classList.toggle('warn', left <= 300); }
+  if (left % 15 === 0) save();
+}
+function examInput(el) {
+  if (!exam || exam.done) return;
+  const k = el.dataset.ex, i = +el.dataset.i;
+  if (k === 'm') exam.m[i] = +el.value; else if (k === 't' || k === 's') exam[k][i] = el.value.slice(0, 2000); else return;
+  clearTimeout(examSaveT); examSaveT = setTimeout(save, 400);
+}
+
+function renderExam() {
+  if (!exam) return;
+  if (exam.done) return renderExamResult();
+  const Q = examQs(), left = Math.max(0, Math.ceil(exam.limit - exam.used));
+  root.innerHTML = `<div class="exam">
+    <div class="exam-bar"><button class="btn" data-action="examexit">✕ Exit</button>
+      <span id="extimer" class="qtimer${left <= 300 ? ' warn' : ''}">⏱ ${fmtTime(left)}</span>
+      <button class="btn primary" data-action="examsubmit">Submit paper</button></div>
+    <p class="res-meta">Total ${EXAM.total} marks · answers and marks appear only after you submit · your answers are saved automatically</p>
+    <h3 class="ex-sec">Section A · Multiple choice <span>${EXAM.w.m} mark each</span></h3>
+    ${Q.mcq.map((q, i) => `<div class="ex-q"><div class="ex-qt"><b>${i + 1}.</b> ${esc(q.q)} <span class="quiz-tag" style="${tagStyle(q.topic)}">${esc(q.topic)}</span></div>
+      ${q.opts.map((o, j) => `<label class="ex-opt"><input type="radio" name="m${i}" data-ex="m" data-i="${i}" value="${j}" ${exam.m[i] === j ? 'checked' : ''}> <span>${esc(o)}</span></label>`).join('')}</div>`).join('')}
+    <h3 class="ex-sec">Section B · Write the answer <span>${EXAM.w.t} marks each</span></h3>
+    ${Q.type.map((q, i) => `<div class="ex-q"><div class="ex-qt"><b>${i + 1}.</b> ${esc(q.q)}</div>
+      <textarea class="sql" rows="2" spellcheck="false" data-ex="t" data-i="${i}" placeholder="Type your SQL answer…">${esc(exam.t[i])}</textarea></div>`).join('')}
+    <h3 class="ex-sec">Section C · SQL practical <span>${EXAM.w.s} marks each · runs on a real database</span></h3>
+    ${Q.sql.map((q, i) => `<div class="ex-q"><div class="ex-qt"><b>${i + 1}.</b> ${esc(q.task)}</div>
+      <details class="lab-schema"><summary>${SEEDS[q.db].label} database</summary>${schemaHtml(q.db)}</details>
+      <textarea class="sql" rows="4" spellcheck="false" data-ex="s" data-i="${i}" placeholder="Write your query…">${esc(exam.s[i])}</textarea></div>`).join('')}
+    <div class="btn-row"><button class="btn primary" data-action="examsubmit">Submit paper</button></div></div>`;
+  startExamTick();
+}
+
+function examSubmit(auto) {
+  if (!exam || exam.done) return;
+  const blank = exam.m.filter(v => v === null).length + exam.t.filter(v => !v.trim()).length + exam.s.filter(v => !v.trim()).length;
+  if (auto !== true && blank && !confirm(`${blank} question${blank === 1 ? ' is' : 's are'} unanswered. Submit anyway?`)) return;
+  exam.done = true; stopExamTick(); touchStreak(); save(); renderExamResult();
+}
+
+function renderExamResult() {
+  const g = examGrade(), pct = Math.round(g.total / EXAM.total * 100), up = exam.used >= exam.limit;
+  const weak = {};                                // topics where marks were lost
+  g.Q.mcq.forEach((q, i) => { if (!g.m[i]) weak[q.topic] = (weak[q.topic] || 0) + 1; });
+  g.Q.type.forEach((q, i) => { if (!g.t[i]) weak[q.topic] = (weak[q.topic] || 0) + 1; });
+  g.Q.sql.forEach((q, i) => { if (!g.s[i].ok) weak['SQL practical'] = (weak['SQL practical'] || 0) + 1; });
+  const weakList = Object.entries(weak).sort((a, b) => b[1] - a[1]);
+  const msg = pct >= 80 ? '🎉 Excellent paper!' : pct >= 60 ? 'Good work. Fix the topics below.' : pct >= 40 ? 'Getting there. Revise the weak topics and try again.' : 'Keep going: revise in Learn mode, then retry.';
+  const wrong = [];
+  g.Q.mcq.forEach((q, i) => { if (!g.m[i]) wrong.push(`<div class="review-item"><strong>A${i + 1}. ${esc(q.q)}</strong>${exam.m[i] === null ? 'Not answered' : `You chose: ${esc(q.opts[exam.m[i]])}`}<br>Correct: ${esc(q.opts[q.correct])}<br><span class="res-meta">${esc(q.exp || '')}</span></div>`); });
+  g.Q.type.forEach((q, i) => { if (!g.t[i]) wrong.push(`<div class="review-item"><strong>B${i + 1}. ${esc(q.q)}</strong>${exam.t[i].trim() ? `You wrote: <code class="mine">${esc(exam.t[i])}</code><br>` : 'Not answered<br>'}Model answer: <code>${esc(q.answer)}</code></div>`); });
+  g.Q.sql.forEach((q, i) => { if (!g.s[i].ok) wrong.push(`<div class="review-item"><strong>C${i + 1}. ${esc(q.task)}</strong>${exam.s[i].trim() ? `You wrote: <code class="mine">${esc(exam.s[i])}</code><br>${esc(g.s[i].msg)}<br>` : 'Not attempted<br>'}Solution: <code>${esc(q.sol)}</code></div>`); });
+  root.innerHTML = `<div class="quiz-wrap"><div class="quiz-result">
+    <div class="result-pct">${g.total}/${EXAM.total}</div><div class="result-label">${pct}% · Section A ${g.marks.m}/${EXAM.mcq * EXAM.w.m} · B ${g.marks.t}/${EXAM.type * EXAM.w.t} · C ${g.marks.s}/${EXAM.sql * EXAM.w.s}</div>
+    <div class="result-msg">${up ? '⏰ Time was up. ' : ''}${msg}</div>
+    <div class="res-meta" style="text-align:center">⏱ Time used: ${fmtTime(Math.round(exam.used))} of ${fmtTime(exam.limit)}</div>
+    ${weakList.length ? `<div class="review-list"><h3>Where you lost marks</h3><p>${weakList.map(([t, n]) => `<span class="keyword-badge">${esc(t)} ×${n}</span>`).join(' ')}</p></div>` : ''}
+    <div class="btn-row" style="justify-content:center"><button class="btn primary" data-action="examstart">New paper</button><button class="btn" data-action="examexit">Back to practice</button></div>
+    ${wrong.length ? `<div class="review-list"><h3>To revise (${wrong.length})</h3>${wrong.join('')}</div>` : ''}</div></div>`;
+  root.scrollTop = 0;
+}
+const EXAM_ACTIONS = {
+  examstart: () => {
+    if (exam && !exam.done && !confirm('Start a new paper? Your current paper will be lost.')) return;
+    quizMode = null; quizTimer = null; stopTicking();
+    exam = examNew(); save(); renderExam(); root.scrollTop = 0;
+  },
+  examsubmit: () => examSubmit(),
+  examexit: () => {
+    if (exam && !exam.done && !confirm('Leave the exam? Your paper will be lost.')) return;
+    stopExamTick(); exam = null; save(); renderPracticeHome();
+  },
+};
+</script>
+<script>
+'use strict';
+
+/* ================= helpers ================= */
+const $  = (sel, el = document) => el.querySelector(sel);
+const $$ = (sel, el = document) => [...el.querySelectorAll(sel)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function shuffle(arr) {                       // Fisher–Yates (unbiased)
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+const TAG = {
+  DDL:['#7f77dd','#1a1840'], DML:['#1d9e75','#00231a'], Clause:['#ef9f27','#2a1e00'],
+  Aggregate:['#ef9f27','#2a1e00'], Constraint:['#d4537e','#2a0f1c'], Keyword:['#378add','#001830'],
+  Function:['#378add','#001830'], Terms:['#5dcaa5','#00231a'], Python:['#afa9ec','#1a1840'],
+  Datatype:['#5dcaa5','#00231a'],
+};
+const tagStyle = t => { const [c, b] = TAG[t] || ['#a8a8a8', '#1f1f1f']; return `background:${b};color:${c}`; };
+
+
+/* ================= data ================= */
+const ALL_CARDS = TOPICS.flatMap(t => t.cards.map(c => ({
+  ...c, topicId: t.id, topicLabel: t.label, color: t.color, bg: t.bg, uid: `${t.id}:${c.k}`,
+})));
+const CARD_BY_UID = new Map(ALL_CARDS.map(c => [c.uid, c]));
+const BANK = {mcq: MCQ, type: TYPE_Q};
+
+/* ================= state + persistence ================= */
+const KEY = 'sqlrev.v3', OLD_KEY = 'sqlrev.v1';
+function load() {
+  for (const k of [KEY, OLD_KEY]) {
+    try {
+      const raw = localStorage.getItem(k);
+      if (raw) { const p = JSON.parse(raw); if (p && typeof p === 'object') return p; }
+    } catch (e) { /* storage blocked or corrupt: ignore */ }
+  }
+  return {};
+}
+const saved = load();
+
+let currentMode  = ['practice', 'lab'].includes(saved.mode) ? saved.mode : 'learn';
+const clampN = (v, max, d) => { v = parseInt(v, 10); return Number.isFinite(v) ? Math.min(Math.max(v, 1), max) : d; };
+let cfg = {mcqN: clampN(saved.cfg?.mcqN, MCQ.length, 12), typeN: clampN(saved.cfg?.typeN, TYPE_Q.length, 10), timer: !!saved.cfg?.timer};
+const dayStr = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+let prefs = {theme: saved.prefs?.theme === 'light' ? 'light' : 'dark', big: !!saved.prefs?.big};
+let streak = {count: Math.max(0, parseInt(saved.streak?.count, 10) || 0), best: Math.max(0, parseInt(saved.streak?.best, 10) || 0), last: /^\d{4}-\d\d-\d\d$/.test(saved.streak?.last) ? saved.streak.last : ''};
+function liveStreak() { const y = new Date(); y.setDate(y.getDate() - 1); return streak.last === dayStr() || streak.last === dayStr(y) ? streak.count : 0; }
+function touchStreak() {                              // call after any real practice (quiz finished, quest solved, deck finished)
+  const t = dayStr(); if (streak.last === t) return;
+  streak.count = liveStreak() ? streak.count + 1 : 1; streak.last = t; streak.best = Math.max(streak.best, streak.count); save();
+}
+function applyPrefs() { document.documentElement.dataset.theme = prefs.theme; document.documentElement.dataset.big = prefs.big ? '1' : ''; }
+const dayNum = () => Math.floor(new Date().setHours(12, 0, 0, 0) / 864e5);
+const SRS_DAYS = [0, 1, 2, 4, 8, 16];                 // Leitner boxes: days until a card is due again
+let srs = {};                                         // uid -> {box 1..5, due: day number}
+for (const [u, v] of Object.entries(saved.srs || {})) if (CARD_BY_UID.has(u) && v && [1, 2, 3, 4, 5].includes(v.box) && Number.isInteger(v.due)) srs[u] = {box: v.box, due: v.due};
+const srsCounts = () => { const t = dayNum(); return {due: ALL_CARDS.filter(c => srs[c.uid] && srs[c.uid].due <= t).length, fresh: ALL_CARDS.filter(c => !srs[c.uid]).length}; };
+const SEC_PER = {mcq: 45, type: 120};                 // timer: seconds allowed per question
+let quizTimer = null, tickId = null, lastTick = 0;
+const fmtTime = t => `${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}`;
+let lab = (() => {                                    // SQL Lab progress (validated: saved data may be old or edited)
+  const d = labDefaults(), L = saved.lab || {};
+  if (Number.isFinite(L.xp) && L.xp >= 0) d.xp = L.xp;
+  if (SEEDS[L.db]) d.db = L.db;
+  if (L.tab === 'play') d.tab = 'play';
+  if (/^\d{4}-\d\d-\d\d$/.test(L.dailyDone)) d.dailyDone = L.dailyDone;
+  if (QUESTS.some(q => q.id === L.open)) d.open = L.open;
+  for (const q of QUESTS) {
+    if ([1, 2, 3].includes(L.solved?.[q.id])) d.solved[q.id] = L.solved[q.id];
+    if ([1, 2, 3].includes(L.used?.[q.id])) d.used[q.id] = L.used[q.id];
+  }
+  for (const [k, v] of Object.entries(L.drafts || {}).slice(0, 40)) if (typeof v === 'string') d.drafts[k] = v.slice(0, 5000);
+  return d;
+})();
+let currentTopic = TOPICS.some(t => t.id === saved.topic) ? saved.topic : TOPICS[0].id;
+let easy = new Set((saved.easy || []).filter(u => CARD_BY_UID.has(u)));
+let hard = new Set((saved.hard || []).filter(u => CARD_BY_UID.has(u)));
+let stats = {mcqTotal:0, mcqScore:0, typeTotal:0, typeScore:0, ...(saved.stats || {})};
+for (const k in stats) if (!Number.isFinite(stats[k])) stats[k] = 0;
+let strictNames = saved.strictNames !== false;        // table/column names case-sensitive (default ON)
+const history = {                                     // questions already asked this round (no repeats until the bank is used up)
+  mcq:  (saved.history?.mcq  || []).filter(t => MCQ.some(q => q.q === t)),
+  type: (saved.history?.type || []).filter(t => TYPE_Q.some(q => q.q === t)),
+};
+
+let searchQuery = '';
+let quizMode = null, quizQ = [], quizIdx = 0, answers = [], quizDone = false;
+let fc = {cards: [], i: 0, flipped: false, lock: false, hardOnly: false, finished: false};
+
+const root = $('#content-area');
+
+function getSession() {
+  if (quizMode === 'mcq' || quizMode === 'type')
+    return {kind: quizMode, qs: quizQ.map(q => ({q: q.q, order: q.order || null})), idx: quizIdx, answers, done: quizDone, timer: quizTimer};
+  if (quizMode === 'flashcard')
+    return {kind: 'fc', cards: fc.cards.map(c => c.uid), i: fc.i, hardOnly: fc.hardOnly, finished: fc.finished};
+  return null;
+}
+let noSave = false;                                   // set while importing, so the page-close save cannot overwrite imported data
+function save() {
+  if (noSave) return;
+  try {
+    localStorage.setItem(KEY, JSON.stringify({
+      v: 3, mode: currentMode, topic: currentTopic, easy: [...easy], hard: [...hard],
+      stats, strictNames, history, cfg, lab, prefs, streak, srs, exam, session: getSession(),
+    }));
+  } catch (e) { /* private mode / storage full: the app still works, progress just isn't kept */ }
+}
+
+/* ---- MCQ option shuffling ---- */
+function buildMcq(base, order) {
+  return {...base, opts: order.map(i => base.opts[i]), correct: order.indexOf(base.correct), order};
+}
+const isPerm = (o, n) => Array.isArray(o) && o.length === n && new Set(o).size === n && o.every(i => Number.isInteger(i) && i >= 0 && i < n);
+
+function restoreSession(s) {
+  if (!s || typeof s !== 'object') return false;
+  if (s.kind === 'fc') {
+    const cards = (Array.isArray(s.cards) ? s.cards : []).map(u => CARD_BY_UID.get(u)).filter(Boolean);
+    if (!cards.length) return false;
+    quizMode = 'flashcard';
+    fc = {cards, i: Math.min(Math.max(+s.i || 0, 0), cards.length - 1), flipped: false, lock: false, hardOnly: !!s.hardOnly, finished: !!s.finished};
+    return true;
+  }
+  if (s.kind !== 'mcq' && s.kind !== 'type') return false;
+  const byText = new Map(BANK[s.kind].map(q => [q.q, q]));
+  const list = Array.isArray(s.qs) ? s.qs : [];
+  const qs = list.map(x => {
+    const base = x && byText.get(x.q);
+    if (!base) return null;
+    if (s.kind === 'type') return base;
+    return isPerm(x.order, base.opts.length) ? buildMcq(base, x.order) : null;
+  });
+  if (!qs.length || qs.some(q => !q) || !Array.isArray(s.answers) || s.answers.length !== qs.length) return false;
+  quizMode = s.kind; quizQ = qs;
+  answers = s.answers.map(a => (a && typeof a === 'object') ? a : null);
+  quizIdx = Math.min(Math.max(+s.idx || 0, 0), qs.length);
+  quizDone = !!s.done;
+  quizTimer = s.timer && s.timer.limit > 0 && s.timer.used >= 0 ? {limit: +s.timer.limit, used: +s.timer.used} : null;
+  return true;
+}
+
+/* ---- pick questions: unseen first, so a new quiz brings new questions ---- */
+function pick(kind, n) {
+  const bank = BANK[kind];
+  const seen = new Set(history[kind]);
+  const unseen = bank.filter(q => !seen.has(q.q));
+  let chosen = shuffle(unseen).slice(0, n);
+  if (chosen.length >= n) {
+    history[kind] = history[kind].concat(chosen.map(q => q.q));
+  } else {                                            // whole bank used: start a new round
+    const extra = shuffle(bank.filter(q => !chosen.includes(q))).slice(0, n - chosen.length);
+    chosen = chosen.concat(extra);
+    history[kind] = extra.map(q => q.q);
+  }
+  return shuffle(chosen);
+}
+
+/* ================= modes ================= */
+function setMode(m) {
+  currentMode = m;
+  document.body.dataset.mode = m;
+  $$('.mode-tab').forEach(b => {
+    const on = b.dataset.mode === m;
+    b.classList.toggle('active', on);
+    b.setAttribute('aria-pressed', String(on));
+  });
+  save();
+  stopTicking(); stopExamTick();
+  if (m === 'learn') renderLearn();
+  else if (m === 'lab') renderLab();
+  else if (exam) renderExam();
+  else if (quizMode === 'flashcard') renderFlash();                 // resume the quiz in progress
+  else if (quizMode === 'mcq' || quizMode === 'type') (quizDone || quizIdx >= quizQ.length) ? showResult() : renderQuiz();
+  else renderPracticeHome();
+  root.scrollTop = 0;
+}
+
+/* ================= LEARN ================= */
+function renderTopicList() {
+  $('#topic-list').innerHTML = TOPICS.map(t => {
+    const on = t.id === currentTopic && !searchQuery.trim();
+    return `<button class="topic-item${on ? ' active' : ''}" data-action="topic" data-id="${esc(t.id)}"${on ? ' aria-current="true"' : ''}>
+      <span class="topic-dot" style="background:${t.color}"></span>
+      <span class="topic-label">${esc(t.label)}</span>
+      <span class="topic-count">${t.cards.length}</span></button>`;
+  }).join('');
+}
+
+function cardHTML(c, showTopic) {
+  return `<article class="flash-card">
+    <div class="card-header">
+      <span class="keyword-badge" style="background:${c.bg};color:${c.color}">${esc(c.k)}</span>
+      ${showTopic ? `<span class="card-topic">${esc(c.topicLabel)}</span>` : ''}
+    </div>
+    ${c.s ? `<div class="syntax-wrap"><pre class="syntax-box">${esc(c.s)}</pre>
+      <button class="copy-btn" data-action="copy" data-uid="${esc(c.uid)}" aria-label="Copy syntax of ${esc(c.k)}">Copy</button></div>` : ''}
+    <p class="card-desc">${esc(c.d)}</p>
+  </article>`;
+}
+
+function renderLearn() {
+  renderTopicList();
+  root.innerHTML = `<div class="search-row">
+    <input id="search" class="search" type="search" autocomplete="off"
+      placeholder="Search all concepts (e.g. LIKE, JOIN, TRUNCATE)" aria-label="Search concepts" value="${esc(searchQuery)}">
+  </div><div id="learn-list"></div>`;
+  renderLearnList();
+}
+
+function renderLearnList() {
+  const box = $('#learn-list'); if (!box) return;
+  const q = searchQuery.trim().toLowerCase();
+  if (q) {
+    const hits = ALL_CARDS.filter(c => `${c.k} ${c.s} ${c.d} ${c.topicLabel}`.toLowerCase().includes(q));
+    box.innerHTML = `<div class="topic-header"><div><div class="topic-title">Search results</div>
+      <div class="topic-subtitle">${hits.length} match${hits.length === 1 ? '' : 'es'} for “${esc(searchQuery.trim())}”</div></div></div>` +
+      (hits.length ? hits.map(c => cardHTML(c, true)).join('') : '<p class="empty">No concepts found. Try a shorter keyword.</p>');
+    return;
+  }
+  const t = TOPICS.find(x => x.id === currentTopic);
+  const cards = ALL_CARDS.filter(c => c.topicId === t.id);
+  box.innerHTML = `<div class="topic-header">
+      <div style="width:36px;height:36px;border-radius:8px;background:${t.bg};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0" aria-hidden="true">📖</div>
+      <div><div class="topic-title">${esc(t.label)}</div><div class="topic-subtitle">${cards.length} concepts</div></div>
+    </div>` + cards.map(c => cardHTML(c, false)).join('');
+}
+
+function selectTopic(id) {
+  currentTopic = id; searchQuery = ''; save();
+  renderLearn(); root.scrollTop = 0;
+}
+
+/* ================= PRACTICE HOME ================= */
+function streakHtml() {
+  const n = liveStreak(), done = streak.last === dayStr();
+  return `<div class="streak">🔥 ${n} day streak${streak.best ? ` · best ${streak.best}` : ''}${n && !done ? ' · practise today to keep it!' : ''}${!n ? ' · finish a quiz, deck or quest to start one' : ''}</div>`;
+}
+function cfgChips(key, presets, max) {
+  const chip = (n, label) => `<button class="chip ${cfg[key] === n ? 'on' : ''}" data-action="setn" data-k="${key}" data-n="${n}">${label || n}</button>`;
+  return `<span class="chips">${presets.filter(n => n < max).map(n => chip(n)).join('')}${chip(max, 'All ' + max)}
+    <input class="num" type="number" inputmode="numeric" min="1" max="${max}" value="${cfg[key]}" data-cfg="${key}" data-max="${max}" aria-label="Custom number (1 to ${max})"></span>`;
+}
+function renderPracticeHome() {
+  const total = stats.mcqScore + stats.typeScore;
+  const rate = (a, b) => b > 0 ? Math.round(a / b * 100) + '%' : '—';
+  const hardCards = [...hard].map(u => CARD_BY_UID.get(u)).filter(Boolean);
+  root.innerHTML = `
+    <div class="practice-hero"><h2>Practice Mode</h2><p>Test yourself — choose how you want to be quizzed</p>${streakHtml()}</div>
+    <div class="stats-row">
+      <div class="stat-box"><div class="stat-num">${total}</div><div class="stat-lbl">Total correct</div></div>
+      <div class="stat-box"><div class="stat-num">${rate(stats.mcqScore, stats.mcqTotal)}</div><div class="stat-lbl">MCQ accuracy</div></div>
+      <div class="stat-box"><div class="stat-num">${rate(stats.typeScore, stats.typeTotal)}</div><div class="stat-lbl">Type accuracy</div></div>
+      <div class="stat-box"><div class="stat-num">${easy.size}</div><div class="stat-lbl">Cards easy</div></div>
+    </div>
+    <div class="cfg">
+      <div class="cfg-row"><span class="cfg-lbl">🧠 MCQs per quiz</span>${cfgChips('mcqN', [10, 20, 30, 50], MCQ.length)}</div>
+      <div class="cfg-row"><span class="cfg-lbl">⌨️ Typed questions per quiz</span>${cfgChips('typeN', [5, 10, 20], TYPE_Q.length)}</div>
+      <label class="setting" style="margin:6px 0 0"><input type="checkbox" data-action="timer" ${cfg.timer ? 'checked' : ''}>
+        ⏱ Timer on (${SEC_PER.mcq} s per MCQ · ${SEC_PER.type / 60} min per typed question). Off = no time pressure.</label>
+    </div>
+    <div class="quiz-modes">
+      <button class="quiz-mode-card" data-action="start" data-mode="mcq"><div class="icon">🧠</div><h3>MCQ Quiz</h3><p>${cfg.mcqN} questions from a bank of ${MCQ.length} · seen ${history.mcq.length}/${MCQ.length} this round</p></button>
+      <button class="quiz-mode-card" data-action="start" data-mode="type"><div class="icon">⌨️</div><h3>Type the Answer</h3><p>${cfg.typeN} questions from a bank of ${TYPE_Q.length} · seen ${history.type.length}/${TYPE_Q.length} this round</p></button>
+      <button class="quiz-mode-card" data-action="start" data-mode="smart"><div class="icon">🔁</div><h3>Smart Review</h3><p>${srsCounts().due} due today · ${Math.min(15, srsCounts().fresh)} new · cards return when you are about to forget</p></button>
+      <button class="quiz-mode-card" data-action="examstart"><div class="icon">📝</div><h3>Mock Exam</h3><p>${EXAM.mcq} MCQ + ${EXAM.type} written + ${EXAM.sql} SQL practical · ${EXAM.total} marks · ${EXAM.secs / 60} min</p></button>
+      <button class="quiz-mode-card" data-action="start" data-mode="flashcard"><div class="icon">🃏</div><h3>Flashcard Drill</h3><p>Flip ${ALL_CARDS.length} cards, mark what you know</p></button>
+    </div>
+    <label class="setting"><input type="checkbox" data-action="strict" ${strictNames ? 'checked' : ''}>
+      Table and column names are case-sensitive in typed answers (keywords can be any case)</label>
+    ${hardCards.length ? `<div>
+      <div class="hard-head"><span>${hardCards.length} card${hardCards.length === 1 ? '' : 's'} marked hard</span>
+        <button class="btn primary" data-action="start" data-mode="hard">Drill hard cards</button></div>
+      ${hardCards.map(c => `<div class="hard-row">
+        <span class="keyword-badge" style="background:${c.bg};color:${c.color}">${esc(c.k)}</span>
+        <code>${esc((c.s || c.d).split('\n')[0])}</code>
+        <button class="btn" data-action="unhard" data-uid="${esc(c.uid)}" aria-label="Unmark ${esc(c.k)}">✕</button></div>`).join('')}
+    </div>` : ''}
+    <div class="cfg" style="margin-top:22px"><div class="cfg-row"><span class="cfg-lbl">🎨 Look</span><span class="chips">
+        <button class="chip ${prefs.theme === 'dark' ? 'on' : ''}" data-action="theme" data-t="dark">Dark</button>
+        <button class="chip ${prefs.theme === 'light' ? 'on' : ''}" data-action="theme" data-t="light">Light</button>
+        <button class="chip ${prefs.big ? 'on' : ''}" data-action="big">Bigger text</button></span></div>
+      <div class="cfg-row"><span class="cfg-lbl">💾 Backup (move to a new phone, or keep safe)</span><span class="chips">
+        <button class="btn" data-action="export">Save progress file</button>
+        <label class="btn" for="imp" role="button" tabindex="0">Load progress file</label>
+        <input id="imp" type="file" accept="application/json,.json" hidden></span></div></div>
+    <div class="reset-row"><button class="btn danger" data-action="reset">Reset all progress</button></div>`;
+}
+
+/* ================= QUIZ (MCQ + TYPE) ================= */
+function startQuiz(mode) {
+  if (mode === 'flashcard' || mode === 'hard' || mode === 'smart') return startFlash(mode);
+  quizMode = mode; quizIdx = 0; quizDone = false; stopTicking();
+  if (mode === 'mcq') quizQ = pick('mcq', cfg.mcqN).map(b => buildMcq(b, shuffle(b.opts.map((_, i) => i))));
+  else quizQ = pick('type', cfg.typeN);
+  answers = new Array(quizQ.length).fill(null);
+  quizTimer = cfg.timer ? {limit: quizQ.length * SEC_PER[mode], used: 0} : null;
+  save(); renderQuiz(); root.scrollTop = 0;
+}
+
+function renderQuiz() { quizMode === 'mcq' ? renderMcq() : renderType(); startTicking(); }
+function startTicking() { if (tickId || !quizTimer || quizDone || !(quizMode === 'mcq' || quizMode === 'type')) return; lastTick = Date.now(); tickId = setInterval(tick, 1000); }
+function stopTicking() { clearInterval(tickId); tickId = null; }
+function tick() {
+  if (!quizTimer || quizDone || currentMode !== 'practice' || !(quizMode === 'mcq' || quizMode === 'type')) return stopTicking();
+  const now = Date.now(); quizTimer.used += (now - lastTick) / 1000; lastTick = now;
+  const left = Math.ceil(quizTimer.limit - quizTimer.used);
+  if (left <= 0) { quizTimer.used = quizTimer.limit; stopTicking(); return showResult(); }   // time is up
+  const el = $('#qtimer'); if (el) { el.textContent = '⏱ ' + fmtTime(left); el.classList.toggle('warn', left <= 30); }
+  if (left % 10 === 0) save();
+}
+
+function quizTop() {
+  const n = quizQ.length;
+  const score = answers.filter(a => a && a.correct).length;
+  return `<div class="quiz-topbar">
+    <button class="btn" data-action="home">← Back</button>
+    <div class="quiz-progress-wrap">
+      <div class="quiz-progress-meta"><span>${quizIdx + 1} / ${n}</span>${quizTimer ? `<span id="qtimer" class="qtimer${quizTimer.limit - quizTimer.used <= 30 ? ' warn' : ''}">⏱ ${fmtTime(Math.max(0, Math.ceil(quizTimer.limit - quizTimer.used)))}</span>` : ''}<span>Score: ${score}</span></div>
+      <div class="quiz-progress-bg" role="progressbar" aria-valuemin="0" aria-valuemax="${n}" aria-valuenow="${quizIdx + 1}">
+        <div class="quiz-progress-fill" style="width:${Math.round((quizIdx + 1) / n * 100)}%"></div></div>
+    </div>
+    <button class="btn" data-action="prev" ${quizIdx === 0 ? 'disabled' : ''}>← Prev</button>
+  </div>`;
+}
+
+const nextLabel = () => quizIdx === quizQ.length - 1 ? 'See result' : 'Next question';
+
+function renderMcq() {
+  if (quizIdx >= quizQ.length) return showResult();
+  const q = quizQ[quizIdx], a = answers[quizIdx];
+  root.innerHTML = `<div class="quiz-wrap">${quizTop()}
+    <div class="quiz-card">
+      <span class="quiz-tag" style="${tagStyle(q.topic)}">${esc(q.topic)}</span>
+      <div class="quiz-q" id="qtext">${esc(q.q)}</div>
+      <div role="group" aria-labelledby="qtext">${q.opts.map((o, i) => {
+        let cls = '';
+        if (a) cls = i === q.correct ? ' correct' : (i === a.chosen ? ' wrong' : '');
+        return `<button class="opt-btn${cls}" data-action="pick" data-i="${i}" ${a ? 'disabled' : ''}>${'ABCD'[i]}. ${esc(o)}</button>`;
+      }).join('')}</div>
+      <div class="explanation" ${a ? '' : 'hidden'}>${esc(q.exp)}</div>
+    </div>
+    <div class="btn-row" ${a ? '' : 'hidden'}><button class="btn primary" data-action="next">${nextLabel()} →</button></div>
+  </div>`;
+  if (a) $('.btn.primary', root)?.focus();
+}
+
+function pickMcq(i) {
+  if (quizMode !== 'mcq' || quizDone || answers[quizIdx]) return;
+  const ok = i === quizQ[quizIdx].correct;
+  answers[quizIdx] = {chosen: i, correct: ok};
+  stats.mcqTotal++; if (ok) stats.mcqScore++;
+  save(); renderMcq();
+}
+
+/* ---- typed answers ---- */
+function feedbackHTML(q, a) {
+  let head;
+  if (a.skipped) head = 'Answer revealed.';
+  else if (a.correct) head = '✓ Correct!';
+  else if (a.nameIssue) head = `✗ Right query, but table/column names are case-sensitive.<br>You wrote <code>${esc(a.nameIssue.typed)}</code> — it should be <code>${esc(a.nameIssue.expected)}</code>. (Keywords can be any case.)`;
+  else head = '✗ Not quite.<br>Check the spelling, the table/column names and the clause order.';
+  return `${head}<br>Model answer: <code>${esc(q.answer)}</code>`;
+}
+
+function renderType() {
+  if (quizIdx >= quizQ.length) return showResult();
+  const q = quizQ[quizIdx], a = answers[quizIdx];
+  root.innerHTML = `<div class="quiz-wrap">${quizTop()}
+    <div class="quiz-card">
+      <span class="quiz-tag" style="${tagStyle(q.topic)}">${esc(q.topic)}</span>
+      <div class="quiz-q" id="qtext">${esc(q.q)}</div>
+      <div class="given"><strong>Given:</strong> <code>${esc(q.given)}</code>
+        ${strictNames ? '<span class="note">Table and column names must be typed exactly as shown. Keywords can be upper or lower case.</span>' : ''}</div>
+      <textarea class="type-input" id="type-in" rows="4" spellcheck="false" autocapitalize="off" autocomplete="off"
+        aria-labelledby="qtext" placeholder="Write your SQL here… (Ctrl+Enter to check)" ${a ? 'disabled' : ''}>${esc(a ? a.text : '')}</textarea>
+      ${a ? '' : `<div class="btn-row"><button class="btn primary" data-action="check">Check answer</button><button class="btn" data-action="reveal">Show answer</button></div>`}
+      <div class="type-feedback ${a ? (a.correct ? 'correct' : 'wrong') : ''}" role="status" ${a ? '' : 'hidden'}>${a ? feedbackHTML(q, a) : ''}</div>
+    </div>
+    ${a ? `<div class="btn-row"><button class="btn primary" data-action="next">${nextLabel()} →</button></div>` : ''}
+  </div>`;
+  if (a) $('.btn.primary', root)?.focus(); else $('#type-in').focus();
+}
+
+function checkType() {
+  const box = $('#type-in');
+  if (quizMode !== 'type' || quizDone || !box || box.disabled || answers[quizIdx]) return;
+  const g = SQLGrader.grade(quizQ[quizIdx], box.value, strictNames);
+  if (g.empty) { box.focus(); return; }
+  answers[quizIdx] = {text: box.value, correct: g.correct, skipped: false, nameIssue: g.nameIssue || null};
+  stats.typeTotal++; if (g.correct) stats.typeScore++;
+  save(); renderType();
+}
+function revealType() {
+  const box = $('#type-in');
+  if (quizMode !== 'type' || quizDone || !box || answers[quizIdx]) return;
+  answers[quizIdx] = {text: box.value, correct: false, skipped: true};
+  stats.typeTotal++;
+  save(); renderType();
+}
+
+/* ---- navigation + result ---- */
+function step(d) {
+  if (quizDone || (quizMode !== 'mcq' && quizMode !== 'type')) return;
+  if (d > 0 && !answers[quizIdx]) return;               // can only move forward after answering
+  quizIdx = Math.max(0, quizIdx + d);
+  save(); renderQuiz(); root.scrollTop = 0;
+}
+
+function leaveQuiz() {
+  const wasQuiz = quizMode === 'mcq' || quizMode === 'type';
+  const inProgress = (quizMode === 'mcq' || quizMode === 'type') && !quizDone && answers.some(Boolean);
+  if (inProgress && !confirm('Leave this quiz? Your answers for it will be lost.')) return;
+  if (wasQuiz) { stopTicking(); quizTimer = null; }
+  quizMode = null; save();
+  renderPracticeHome();
+}
+
+function showResult() {
+  quizDone = true; stopTicking(); touchStreak(); save();
+  const timeUp = quizTimer && quizTimer.used >= quizTimer.limit;
+  const n = quizQ.length;
+  const score = answers.filter(a => a && a.correct).length;
+  const pct = n ? Math.round(score / n * 100) : 0;
+  const msg = pct >= 80 ? '🎉 Excellent! You really know your SQL.' : pct >= 60 ? 'Good work! Review the ones you missed.' : 'Keep practising — try Learn mode to revise.';
+  const missed = quizQ.map((q, i) => ({q, a: answers[i]})).filter(x => !x.a || !x.a.correct);
+  root.innerHTML = `<div class="quiz-wrap"><div class="quiz-result">
+    <div class="result-pct">${pct}%</div>
+    <div class="result-label">You got ${score} out of ${n} right</div>
+    <div class="result-msg">${timeUp ? '⏰ Time is up! Unanswered questions count as missed.<br>' : ''}${msg}</div>
+    ${quizTimer ? `<div class="res-meta" style="text-align:center">⏱ Time used: ${fmtTime(Math.round(quizTimer.used))} of ${fmtTime(quizTimer.limit)}</div>` : ''}
+    <div class="btn-row" style="justify-content:center">
+      <button class="btn primary" data-action="start" data-mode="${quizMode}">New quiz</button>
+      <button class="btn" data-action="review">Review answers</button>
+      <button class="btn" data-action="home">Back to practice</button>
+    </div>
+    ${missed.length ? `<div class="review-list"><h3>To revise (${missed.length})</h3>${missed.map(({q, a}) => `
+      <div class="review-item"><strong>${esc(q.q)}</strong>
+        ${quizMode === 'mcq'
+          ? `Correct: ${esc(q.opts[q.correct])}`
+          : `${a && a.text ? `You wrote: <code class="mine">${esc(a.text)}</code><br>` : ''}Model answer: <code>${esc(q.answer)}</code>`}</div>`).join('')}</div>` : ''}
+  </div></div>`;
+  root.scrollTop = 0;
+}
+
+/* ================= FLASHCARDS ================= */
+function startFlash(mode) {
+  const hardOnly = mode === true || mode === 'hard', t = dayNum();
+  const src = mode === 'smart' ? ALL_CARDS.filter(c => srs[c.uid] && srs[c.uid].due <= t).concat(shuffle(ALL_CARDS.filter(c => !srs[c.uid])).slice(0, 15))
+    : hardOnly ? ALL_CARDS.filter(c => hard.has(c.uid)) : ALL_CARDS;
+  if (!src.length) { quizMode = null; save(); if (mode === 'smart') alert('🎉 All caught up! No cards are due today. Come back tomorrow.'); return renderPracticeHome(); }
+  quizMode = 'flashcard';
+  fc = {cards: shuffle(src), i: 0, flipped: false, lock: false, hardOnly: !!hardOnly, finished: false};
+  save(); renderFlash();
+}
+
+const fcStatus = c => easy.has(c.uid) ? '✓ Marked easy' : hard.has(c.uid) ? '⚑ Marked hard' : '';
+
+function renderFlashDone() {
+  const n = fc.cards.length;
+  const nEasy = fc.cards.filter(c => easy.has(c.uid)).length;
+  const nHard = fc.cards.filter(c => hard.has(c.uid)).length;
+  root.innerHTML = `<div class="fc-wrap"><div class="quiz-result">
+    <div class="result-pct">✓</div>
+    <div class="result-label">You went through all ${n} card${n === 1 ? '' : 's'}</div>
+    <div class="result-msg">${nEasy} marked easy · ${nHard} marked hard</div>
+    <div class="btn-row" style="justify-content:center">
+      <button class="btn primary" data-action="start" data-mode="flashcard">Restart (shuffled)</button>
+      ${hard.size ? '<button class="btn" data-action="start" data-mode="hard">Drill hard cards</button>' : ''}
+      <button class="btn" data-action="home">Back to practice</button>
+    </div></div></div>`;
+  root.scrollTop = 0;
+}
+
+function renderFlash() {
+  if (fc.finished) return renderFlashDone();
+  const c = fc.cards[fc.i], n = fc.cards.length, remaining = n - fc.i - 1;
+  root.innerHTML = `<div class="fc-wrap">
+    <div class="fc-topbar"><button class="btn" data-action="home">← Back</button><span>${fc.i + 1} / ${n}</span><button class="btn" data-action="shuffle" ${remaining < 2 ? 'disabled' : ''} title="Shuffles only the cards you have not seen yet">Shuffle unseen</button></div>
+    <div class="fc-progress"><div style="width:${Math.round((fc.i + 1) / n * 100)}%"></div></div>
+    <div class="big-card${fc.flipped ? ' flipped' : ''}" id="big-card" role="button" tabindex="0" aria-pressed="${fc.flipped}"
+         aria-label="Flashcard: ${esc(c.k)}. Press space to flip." data-action="flip">
+      <div class="big-card-inner">
+        <div class="fc-face fc-front">
+          <div class="fc-hint">click or press space to reveal</div>
+          <div class="fc-word">${esc(c.k)}</div>
+          <div class="fc-tag" style="background:${c.bg};color:${c.color}">${esc(c.topicLabel)}</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-word" style="color:var(--purple-light);font-size:16px;margin-bottom:8px">${esc(c.k)}</div>
+          ${c.s ? `<pre class="fc-back-syntax">${esc(c.s)}</pre>` : ''}
+          <div class="fc-back-desc">${esc(c.d)}</div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-actions">
+      <button class="btn" data-action="fcnav" data-d="-1" ${fc.i === 0 ? 'disabled' : ''}>← Prev</button>
+      <button class="btn danger" data-action="mark" data-kind="hard">Hard ⚑</button>
+      <button class="btn" style="color:var(--green-light);border-color:var(--green)" data-action="mark" data-kind="easy">Got it ✓</button>
+      <button class="btn" data-action="fcnav" data-d="1">${remaining === 0 ? 'Finish ✓' : 'Next →'}</button>
+    </div>
+    <p class="fc-status" id="fc-status" aria-live="polite">${fcStatus(c)}</p>
+    <p class="fc-keys">← → navigate · Space flip · H hard · E easy</p>
+  </div>`;
+}
+
+function flipCard() {
+  const el = $('#big-card'); if (!el) return;
+  fc.flipped = !fc.flipped;
+  el.classList.toggle('flipped', fc.flipped);      // class toggle, so the CSS animation actually plays
+  el.setAttribute('aria-pressed', String(fc.flipped));
+}
+function fcNav(d) {
+  if (quizMode !== 'flashcard' || fc.finished) return;
+  const j = fc.i + d;
+  if (j < 0) return;                                  // no wrap-around: the deck has a real start and end
+  if (j >= fc.cards.length) { fc.finished = true; touchStreak(); }       // end of deck -> summary screen
+  else { fc.i = j; fc.flipped = false; }
+  save(); renderFlash();
+}
+function shuffleUnseen() {                            // cards up to and including the current one are 'seen': they stay put
+  if (quizMode !== 'flashcard' || fc.finished) return;
+  const rest = fc.cards.slice(fc.i + 1);
+  if (rest.length < 2) return;
+  fc.cards = fc.cards.slice(0, fc.i + 1).concat(shuffle(rest));
+  save(); renderFlash();
+}
+function markCard(kind) {
+  if (quizMode !== 'flashcard' || fc.finished || fc.lock) return;
+  const c = fc.cards[fc.i], idx = fc.i;
+  if (kind === 'easy') { easy.add(c.uid); hard.delete(c.uid); } else { hard.add(c.uid); easy.delete(c.uid); }
+  const box = kind === 'easy' ? Math.min(5, (srs[c.uid]?.box || 0) + 1) : 1;   // easy: move up a box, hard: back to box 1
+  srs[c.uid] = {box, due: dayNum() + (kind === 'easy' ? SRS_DAYS[box] : 0)};
+  save();
+  fc.lock = true;
+  $('#fc-status').textContent = fcStatus(c);
+  setTimeout(() => {                                // lock stops double-taps skipping cards
+    fc.lock = false;
+    if (quizMode === 'flashcard' && fc.i === idx) fcNav(1);
+  }, 350);
+}
+
+/* ================= events ================= */
+function flash(el, txt) { const old = el.textContent; el.textContent = txt; setTimeout(() => { el.textContent = old; }, 1200); }
+
+function exportProgress() {
+  save();
+  const data = {format: 'sql-revision-backup', version: 1, saved: new Date().toISOString(), data: {}};
+  for (const k of [KEY, PLAY_KEY]) { try { const v = localStorage.getItem(k); if (v) data.data[k] = JSON.parse(v); } catch (e) { /* skip unreadable key */ } }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(data)], {type: 'application/json'}));
+  a.download = `sql-revision-progress-${dayStr()}.json`; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+}
+function importProgress(file) {
+  if (!file) return;
+  if (file.size > 2e6) return alert('That file is too big to be a progress file.');
+  file.text().then(t => {
+    let d; try { d = JSON.parse(t); } catch (e) { return alert('This is not a valid progress file.'); }
+    const main = d && d.format === 'sql-revision-backup' && d.data && d.data[KEY];
+    if (!main || typeof main !== 'object' || main.v !== 3) return alert('This file is not a SQL Revision progress file (or is from an incompatible version).');
+    if (!confirm('Replace the progress on this device with the one from the file?')) return;
+    try {
+      noSave = true;
+      localStorage.setItem(KEY, JSON.stringify(main));
+      if (d.data[PLAY_KEY] && typeof d.data[PLAY_KEY] === 'object') localStorage.setItem(PLAY_KEY, JSON.stringify(d.data[PLAY_KEY]));
+      location.reload();
+    } catch (e) { noSave = false; alert('Could not save: browser storage is full or blocked.'); }
+  }).catch(() => alert('Could not read that file.'));
+}
+const actions = {
+  ...LAB_ACTIONS, ...EXAM_ACTIONS,
+  mode:   d => setMode(d.mode),
+  topic:  d => selectTopic(d.id),
+  start:  d => startQuiz(d.mode),
+  home:   () => leaveQuiz(),
+  pick:   d => pickMcq(+d.i),
+  check:  () => checkType(),
+  reveal: () => revealType(),
+  next:   () => step(1),
+  prev:   () => step(-1),
+  review: () => { quizIdx = 0; quizDone = false; quizTimer = null; save(); renderQuiz(); },
+  flip:   () => flipCard(),
+  fcnav:  d => fcNav(+d.d),
+  mark:   d => markCard(d.kind),
+  shuffle:() => shuffleUnseen(),
+  theme:  d => { prefs.theme = d.t; applyPrefs(); save(); renderPracticeHome(); },
+  big:    () => { prefs.big = !prefs.big; applyPrefs(); save(); renderPracticeHome(); },
+  export: () => exportProgress(),
+  timer:  (d, el) => { cfg.timer = el.checked; save(); },
+  setn:   d => { cfg[d.k] = +d.n; save(); renderPracticeHome(); },
+  strict: (d, el) => { strictNames = el.checked; save(); },
+  unhard: d => { hard.delete(d.uid); save(); renderPracticeHome(); },
+  copy:   (d, el) => {
+    const c = CARD_BY_UID.get(d.uid); if (!c) return;
+    (navigator.clipboard ? navigator.clipboard.writeText(c.s) : Promise.reject())
+      .then(() => flash(el, 'Copied')).catch(() => flash(el, 'Copy failed'));
+  },
+  reset:  () => {
+    if (!confirm('Reset all progress (stats, easy/hard cards and seen questions)? This cannot be undone.')) return;
+    easy = new Set(); hard = new Set(); srs = {}; quizMode = null;
+    history.mcq = []; history.type = [];
+    stats = {mcqTotal:0, mcqScore:0, typeTotal:0, typeScore:0};
+    save(); renderPracticeHome();
+  },
+};
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-action]');
+  if (!el || el.disabled) return;
+  const fn = actions[el.dataset.action];
+  if (fn) fn(el.dataset, el);
+});
+
+document.addEventListener('change', e => {
+  if (e.target.id === 'imp') { importProgress(e.target.files[0]); e.target.value = ''; return; }
+  const k = e.target.dataset && e.target.dataset.cfg;
+  if (k && cfg[k] !== undefined) { cfg[k] = clampN(e.target.value, +e.target.dataset.max, cfg[k]); save(); renderPracticeHome(); }
+});
+let labSaveT = 0;
+document.addEventListener('input', e => {
+  if (e.target.dataset && e.target.dataset.ex) examInput(e.target);
+  if (e.target.id === 'lab-sql') { lab.drafts[labKey()] = e.target.value; clearTimeout(labSaveT); labSaveT = setTimeout(save, 500); }
+  if (e.target.id === 'search') { searchQuery = e.target.value; renderTopicList(); renderLearnList(); }
+});
+
+document.addEventListener('keydown', e => {
+  if (currentMode === 'lab' && e.target.id === 'lab-sql') {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); labRun(); }
+    else if (e.key === 'Tab' && !e.shiftKey) { e.preventDefault(); e.target.setRangeText('  ', e.target.selectionStart, e.target.selectionEnd, 'end'); e.target.dispatchEvent(new Event('input', {bubbles: true})); }
+    return;
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && quizMode === 'type' && currentMode === 'practice') { e.preventDefault(); checkType(); return; }
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (currentMode !== 'practice') return;
+  const tag = e.target.tagName;
+  if (tag === 'TEXTAREA' || tag === 'INPUT') return;
+
+  if (quizMode === 'flashcard' && !fc.finished) {
+    if (e.key === 'ArrowRight') fcNav(1);
+    else if (e.key === 'ArrowLeft') fcNav(-1);
+    else if (e.key === ' ' && tag !== 'BUTTON') { e.preventDefault(); flipCard(); }
+    else if (e.key === 'Enter' && e.target.id === 'big-card') { e.preventDefault(); flipCard(); }
+    else if (e.key === 'h' || e.key === 'H') markCard('hard');
+    else if (e.key === 'e' || e.key === 'E') markCard('easy');
+  } else if (quizMode === 'mcq' && !quizDone) {
+    if (/^[1-4]$/.test(e.key) && +e.key - 1 < quizQ[quizIdx]?.opts.length) pickMcq(+e.key - 1);
+    else if (answers[quizIdx] && (e.key === 'ArrowRight' || (e.key === 'Enter' && tag !== 'BUTTON'))) step(1);
+  } else if (quizMode === 'type' && !quizDone) {
+    if (answers[quizIdx] && (e.key === 'ArrowRight' || (e.key === 'Enter' && tag !== 'BUTTON'))) step(1);
+  }
+});
+
+/* ================= boot ================= */
+function checkStyles() {
+  if (getComputedStyle(document.body).display === 'flex') return;
+  const bar = document.createElement('div');
+  bar.setAttribute('role', 'alert');
+  bar.style.cssText = 'position:sticky;top:0;z-index:99;background:#b00020;color:#fff;padding:10px 14px;font:14px/1.4 sans-serif';
+  bar.textContent = 'styles.css did not load. Use the single-file index.html, or keep styles.css in the same folder (exact name) and hard-refresh (Ctrl+Shift+R).';
+  document.body.prepend(bar);
+}
+
+/* ---- keep progress safe + work offline ---- */
+addEventListener('pagehide', save);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') save(); });
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
+function fileNotice() {
+  if (location.protocol !== 'file:' && location.protocol !== 'content:') return;
+  const bar = document.createElement('div');
+  bar.setAttribute('role', 'note');
+  bar.style.cssText = 'background:#3a2a00;color:#ffd27a;padding:8px 14px;font:13px/1.4 sans-serif;display:flex;gap:12px;align-items:center;justify-content:space-between';
+  bar.innerHTML = '<span>You opened this as a local file. Refreshing may fail and progress can be lost. Open it from its web link instead.</span><button style="background:none;border:1px solid currentColor;color:inherit;border-radius:6px;padding:2px 8px;cursor:pointer" aria-label="Dismiss">✕</button>';
+  bar.querySelector('button').onclick = () => bar.remove();
+  document.body.prepend(bar);
+}
+
+exam = examRestore(saved.exam);
+applyPrefs();
+restoreSession(saved.session);      // resume an in-progress quiz / flashcard drill: same questions, same answers
+setMode(currentMode);
+checkStyles();
+fileNotice();
+</script>
+</body>
+</html>
