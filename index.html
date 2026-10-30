@@ -7,8 +7,10 @@
 <meta name="theme-color" content="#0d0d0d">
 <meta name="color-scheme" content="dark">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon-192.png" type="image/png">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <title>SQL Revision — Class 12</title>
@@ -36,7 +38,7 @@ button{font-family:inherit;}
 /* HEADER */
 header{padding:16px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);flex-shrink:0;}
 .logo{display:flex;align-items:center;gap:10px;background:none;border:none;color:inherit;cursor:pointer;text-align:left;padding:0;}
-.logo-icon{width:32px;height:32px;background:var(--purple-bg);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.logo-icon{width:32px;height:32px;border-radius:8px;display:block;object-fit:cover;}
 .logo-text{font-size:15px;font-weight:600;}
 .logo-sub{font-size:12px;color:var(--text3);margin-top:1px;}
 .mode-tabs{display:flex;background:var(--surface2);border-radius:10px;padding:4px;gap:2px;}
@@ -289,7 +291,7 @@ body[data-view="home"] .home-btn{display:none;}
 
 <header>
   <button class="logo" data-action="gohome" aria-label="SQL Revision home">
-    <div class="logo-icon" aria-hidden="true">🗄️</div>
+    <img class="logo-icon" src="icon-192.png" alt="" width="32" height="32">
     <div>
       <div class="logo-text">SQL Revision</div>
       <div class="logo-sub">Class 12 · All topics</div>

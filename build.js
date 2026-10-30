@@ -18,7 +18,11 @@ fs.rmSync(dist, {recursive: true, force: true}); fs.mkdirSync(dist);
 const version = crypto.createHash('sha1').update(html).digest('hex').slice(0, 10);
 fs.writeFileSync(path.join(dist, 'index.html'), html);
 fs.writeFileSync(path.join(dist, 'sw.js'), src('sw.js').replace('__VERSION__', version));
-for (const f of ['manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png'])
-  fs.copyFileSync(path.join(__dirname, 'src', f), path.join(dist, f));
+const ASSETS = ['manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'favicon.ico', 'favicon-32.png', 'apple-touch-icon.png'];
+const swOut = src('sw.js').replace('__VERSION__', version);
+for (const f of ASSETS) fs.copyFileSync(path.join(__dirname, 'src', f), path.join(dist, f));
+// also next to the root index.html, so deploying the repo root (e.g. GitHub Pages) gets icons, manifest and offline support
+for (const f of ASSETS) fs.copyFileSync(path.join(__dirname, 'src', f), path.join(__dirname, f));
+fs.writeFileSync(path.join(__dirname, 'sw.js'), swOut);
 fs.writeFileSync(path.join(dist, '_headers'), '/sw.js\n  Cache-Control: no-cache\n/index.html\n  Cache-Control: no-cache\n');
 console.log('Built index.html (' + Math.round(html.length / 1024) + ' KB), dist/ ready, cache version ' + version);

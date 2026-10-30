@@ -1,7 +1,7 @@
-// Service worker: makes the app load offline. b811108bc9 is replaced at build time,
+// Service worker: makes the app load offline. 3156b95021 is replaced at build time,
 // so every new build invalidates the old cache and users get the update.
 const CACHE = 'sqlrev-__VERSION__';
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
+const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './favicon.ico', './favicon-32.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
