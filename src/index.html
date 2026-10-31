@@ -28,6 +28,7 @@
     </div>
   </button>
   <div class="header-right">
+  <button class="top-cta" data-action="enter" data-mode="learn">Start revising</button>
   <button class="home-btn" data-action="gohome" aria-label="Back to homepage">🏠 <span>Home</span></button>
   <div class="mode-tabs" role="group" aria-label="Mode">
     <button class="mode-tab active" data-action="mode" data-mode="learn" aria-pressed="true">📚 Learn</button>
@@ -37,28 +38,106 @@
   </div>
 </header>
 
-<section class="home" id="home" aria-labelledby="home-title">
-  <div class="home-inner">
-    <p class="home-eyebrow">Free · No sign-up · Works offline</p>
-    <h1 id="home-title">Revise Class&nbsp;12 SQL <span class="grad">the smart way</span></h1>
-    <p class="home-lead">Concepts, MCQs, typed-answer practice, flashcards and a live SQL lab with real queries, all in one place. Built for exam day.</p>
-    <div class="home-cta">
-      <button class="btn home-primary" id="home-start" data-action="enter" data-mode="learn">Start learning →</button>
-      <button class="btn home-secondary" data-action="enter" data-mode="practice">Take a quiz</button>
+<section class="home" id="home" aria-label="SQL Revision">
+  <div class="lp-progress" id="lp-progress" aria-hidden="true"></div>
+
+  <!-- HERO -->
+  <div class="lp-hero">
+    <div class="lp-orb lp-orb1" aria-hidden="true"></div><div class="lp-orb lp-orb2" aria-hidden="true"></div>
+    <p class="lp-eyebrow" data-reveal>Class 12 SQL · Free · No sign-up · Works offline</p>
+    <h1 class="lp-h1" data-split>SQL, finally *clicks.</h1>
+    <p class="lp-lead" data-reveal style="--d:.35s">Every topic, instant-feedback quizzes and a live query lab, in one fast app that works on any device, even offline.</p>
+    <div class="lp-cta" data-reveal style="--d:.5s">
+      <button class="lp-btn lp-btn-primary" id="home-start" data-action="enter" data-mode="learn">Start revising <span aria-hidden="true">→</span></button>
+      <button class="lp-btn lp-btn-ghost" data-action="enter" data-mode="practice">Try a quick quiz</button>
     </div>
-    <button class="home-continue" id="home-continue" data-action="enter" data-mode="practice" hidden></button>
-    <ul class="home-stats" id="home-stats" aria-label="What is inside"></ul>
-    <div class="home-grid">
-      <button class="home-card" data-action="enter" data-mode="learn"><span class="hc-icon" aria-hidden="true">📚</span><h2>Learn</h2><p>Topic-by-topic cards with syntax, examples and a search to find any keyword fast.</p><span class="hc-go">Open Learn →</span></button>
-      <button class="home-card" data-action="enter" data-mode="practice"><span class="hc-icon" aria-hidden="true">🎯</span><h2>Practice</h2><p>MCQs, typed SQL answers, flashcards and smart review that brings cards back before you forget.</p><span class="hc-go">Open Practice →</span></button>
-      <button class="home-card" data-action="enter" data-mode="lab"><span class="hc-icon" aria-hidden="true">🧪</span><h2>Lab</h2><p>Write and run real SQL on sample tables. Solve quests, earn XP and keep your streak alive.</p><span class="hc-go">Open Lab →</span></button>
-    </div>
-    <div class="home-final">
-      <h2>Ready to ace your SQL paper?</h2>
-      <button class="btn home-primary" data-action="enter" data-mode="learn">Start revising now →</button>
-    </div>
-    <p class="home-foot">Your progress is saved in this browser only. Nothing is uploaded.</p>
+    <button class="lp-continue" id="home-continue" data-action="enter" data-mode="practice" hidden></button>
   </div>
+
+  <!-- FILM (scales up as you scroll) -->
+  <div class="lp-vtrack" id="lp-vtrack">
+    <div class="lp-vstick">
+      <div class="lp-vframe" id="lp-vframe">
+        <video id="lp-video" src="launch.mp4" poster="launch-poster.jpg" muted loop playsinline preload="metadata" aria-label="SQL Revision launch film"></video>
+        <div class="lp-vctl">
+          <button id="lp-play" aria-label="Pause film" data-mode="pause"></button>
+          <button id="lp-mute" aria-label="Unmute film" aria-pressed="true"><span class="lp-mute-ico"></span><span class="lp-mute-label">Tap for sound</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPIC MARQUEE -->
+  <div class="lp-marquee" aria-hidden="true"><div class="lp-mtrack"></div></div>
+
+  <!-- STATS -->
+  <ul class="lp-stats" aria-label="What is inside">
+    <li data-reveal><b data-stat="topics">10</b><span>topics covered</span></li>
+    <li data-reveal style="--d:.1s"><b data-stat="cards">98</b><span>revision cards</span></li>
+    <li data-reveal style="--d:.2s"><b data-stat="questions">107</b><span>practice questions</span></li>
+    <li data-reveal style="--d:.3s"><b data-stat="quests">40</b><span>hands-on lab quests</span></li>
+  </ul>
+
+  <!-- CHAPTERS -->
+  <section class="lp-chap">
+    <div class="lp-copy" data-reveal>
+      <p class="lp-kicker">01 · Learn</p>
+      <h2 class="lp-h2" data-split>Every topic. *Zero fluff.</h2>
+      <p>Bite-sized cards with the exact syntax, a one-line explanation and one-tap copy. Find any keyword in a second, from DDL and joins to Python + MySQL.</p>
+      <ul class="lp-ticks"><li>Search across every concept instantly</li><li>Copy any command with one tap</li><li>Topics ordered the way your syllabus flows</li></ul>
+      <button class="lp-link" data-action="enter" data-mode="learn">Open Learn →</button>
+    </div>
+    <figure class="lp-shot" data-tilt><div class="lp-bar"><i></i><i></i><i></i><span>SQL Revision · Learn</span></div><img src="shot-learn.webp" alt="Learn mode showing the Keywords topic with SQL commands and explanations" width="2160" height="1350" loading="lazy"></figure>
+  </section>
+
+  <section class="lp-chap lp-flip">
+    <div class="lp-copy" data-reveal>
+      <p class="lp-kicker">02 · Practice</p>
+      <h2 class="lp-h2" data-split>Quiz yourself. *Know instantly.</h2>
+      <p>Multiple-choice and type-the-answer drills respond the moment you answer, with the reason and not just the verdict. Smart Review brings cards back right before you would forget them.</p>
+      <ul class="lp-ticks"><li>Instant explanations on every question</li><li>Smart Review that schedules revision for you</li><li>Flashcards, timers and progress tracking</li></ul>
+      <button class="lp-link" data-action="enter" data-mode="practice">Open Practice →</button>
+    </div>
+    <figure class="lp-shot" data-tilt><div class="lp-bar"><i></i><i></i><i></i><span>SQL Revision · Practice</span></div><img src="shot-practice.webp" alt="Practice mode showing a multiple-choice question with the correct answer highlighted and an explanation" width="2160" height="1000" loading="lazy"></figure>
+  </section>
+
+  <section class="lp-chap">
+    <div class="lp-copy" data-reveal>
+      <p class="lp-kicker">03 · Lab</p>
+      <h2 class="lp-h2" data-split>Write real SQL. *See real results.</h2>
+      <p>A built-in SQL engine runs your queries on sample databases right in the browser. Solve quests, earn XP and keep your streak alive. No install, no setup.</p>
+      <ul class="lp-ticks"><li>Quests across five practice databases</li><li>Hints when you are stuck, did-you-mean for typos</li><li>A playground that remembers your tables</li></ul>
+      <button class="lp-link" data-action="enter" data-mode="lab">Open Lab →</button>
+    </div>
+    <figure class="lp-shot" data-tilt><div class="lp-bar"><i></i><i></i><i></i><span>SQL Revision · Lab</span></div><img src="shot-lab.webp" alt="Lab mode with a SQL query returning four student names and a success banner" width="2160" height="1350" loading="lazy"></figure>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="lp-why">
+    <p class="lp-kicker" data-reveal>Built for exam season</p>
+    <h2 class="lp-h2" data-split>Everything you need. *Nothing you don't.</h2>
+    <div class="lp-grid">
+      <article data-reveal><span aria-hidden="true">⚡</span><h3>Fast</h3><p>Loads in a blink. One page, no accounts, no waiting.</p></article>
+      <article data-reveal style="--d:.08s"><span aria-hidden="true">📴</span><h3>Offline-ready</h3><p>Add it to your home screen and revise anywhere, even without signal.</p></article>
+      <article data-reveal style="--d:.16s"><span aria-hidden="true">🔒</span><h3>Private</h3><p>Your progress stays in your browser. Nothing is uploaded.</p></article>
+      <article data-reveal style="--d:.24s"><span aria-hidden="true">🌗</span><h3>Dark and light</h3><p>Easy on the eyes day or night, with a big-text mode.</p></article>
+      <article data-reveal style="--d:.32s"><span aria-hidden="true">💾</span><h3>Portable</h3><p>Export your progress and pick up on any device.</p></article>
+      <article data-reveal style="--d:.40s"><span aria-hidden="true">🆓</span><h3>Free</h3><p>No sign-up, no ads, no paywall. Just open it and start.</p></article>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="lp-final">
+    <div class="lp-orb lp-orb3" aria-hidden="true"></div>
+    <h2 class="lp-h2 lp-big" data-split>Your SQL paper won't wait. *Start now.</h2>
+    <p data-reveal>Open it, pick a topic, and be revising in seconds.</p>
+    <button class="lp-btn lp-btn-primary" data-action="enter" data-mode="learn" data-reveal style="--d:.2s">Start revising <span aria-hidden="true">→</span></button>
+  </section>
+
+  <footer class="lp-foot">
+    <p>Progress is saved in this browser only. Nothing is uploaded.</p>
+    <p>Film music: Sascha Ende, <a href="https://ende.app/en" target="_blank" rel="noopener">ende.app</a> (CC BY 4.0) · Sound effects: Kenney.nl (CC0)</p>
+  </footer>
 </section>
 
 <main>
@@ -76,5 +155,6 @@
 <script src="lab.js"></script>
 <script src="exam.js"></script>
 <script src="app.js"></script>
+<script src="landing.js"></script>
 </body>
 </html>

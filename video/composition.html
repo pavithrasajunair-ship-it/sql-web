@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SQL Revision — launch film</title>
+<style>
+/* Colours and type come straight from the site (src/styles.css) */
+:root{--bg:#0d0d0d;--surface:#161616;--surface2:#1f1f1f;--border:#2e2e2e;--border2:#3a3a3a;
+  --text:#f0f0f0;--text2:#a8a8a8;--purple:#7f77dd;--purple-light:#afa9ec;--purple-bg:#1a1840;
+  --green:#1d9e75;--green-light:#5dcaa5;}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;background:#000;overflow:hidden}
+html.v,html.v body{width:1080px;height:1920px}
+body{font-family:'Inter','Inter Display',-apple-system,'Segoe UI',Roboto,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;inset:0;width:1920px;height:1080px;background:var(--bg);overflow:hidden}
+.glow{position:absolute;border-radius:50%;filter:blur(120px);will-change:transform,opacity}
+#g1{width:900px;height:900px;background:var(--purple);left:-200px;top:-300px}
+#g2{width:800px;height:800px;background:var(--green);right:-250px;bottom:-350px}
+#grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:80px 80px;
+  -webkit-mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%);mask-image:radial-gradient(ellipse at center,#000 30%,transparent 75%)}
+.scene{position:absolute;inset:0;display:none}
+.grad{background:linear-gradient(90deg,var(--purple-light),var(--green-light));-webkit-background-clip:text;background-clip:text;color:transparent}
+.w{display:inline-block;will-change:transform,opacity,filter;white-space:pre}
+/* scene 1 */
+.big{position:absolute;left:0;right:0;text-align:center;font-weight:700;letter-spacing:-.03em;font-size:136px;line-height:1.05}
+#s1a{top:330px}#s1b{top:330px}
+/* headlines */
+.h2{position:absolute;left:0;right:0;top:78px;text-align:center;font-size:80px;font-weight:700;letter-spacing:-.03em;line-height:1.1}
+/* app window */
+.win{position:absolute;left:180px;top:228px;width:1560px;height:740px;border-radius:26px;overflow:hidden;background:var(--bg);
+  border:1px solid var(--border2);box-shadow:0 60px 140px rgba(0,0,0,.65),0 0 0 1px rgba(255,255,255,.04),0 0 160px rgba(127,119,221,.18);transform-origin:50% 100%}
+.cam{position:absolute;left:0;top:0;width:1440px;height:900px;transform-origin:0 0}
+.cam img,.cam .ov{position:absolute;left:0;top:0;width:1440px;height:900px;display:block}
+.chips{position:absolute;left:0;right:0;top:990px;display:flex;justify-content:center;gap:22px}
+.chip{display:flex;align-items:center;gap:12px;padding:16px 28px;border-radius:99px;background:rgba(22,22,22,.92);border:1px solid var(--border2);font-size:30px;font-weight:600;
+  box-shadow:0 18px 50px rgba(0,0,0,.55);backdrop-filter:blur(6px);will-change:transform,opacity}
+.chip i{width:14px;height:14px;border-radius:50%;background:var(--green-light);box-shadow:0 0 18px var(--green-light)}
+.chip.p i{background:var(--purple-light);box-shadow:0 0 18px var(--purple)}
+#cursor{position:absolute;width:44px;height:44px;left:0;top:0;z-index:5;filter:drop-shadow(0 6px 10px rgba(0,0,0,.6));will-change:transform}
+.ripple{position:absolute;width:70px;height:70px;border-radius:50%;border:4px solid var(--purple-light);z-index:4;opacity:0}
+.caret{position:absolute;width:2px;height:20px;background:var(--purple-light)}
+/* stats */
+#tiles{position:absolute;left:0;right:0;top:330px;display:flex;justify-content:center;gap:28px}
+.tile{width:400px;height:300px;border-radius:28px;background:var(--surface);border:1px solid var(--border2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;will-change:transform,opacity}
+.tile b{font-size:132px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.tile span{font-size:30px;color:var(--text2);font-weight:500}
+/* outro */
+#logo{position:absolute;left:50%;top:210px;width:240px;height:240px;margin-left:-120px;border-radius:56px;box-shadow:0 30px 100px rgba(127,119,221,.5);will-change:transform,opacity}
+#brand{position:absolute;left:0;right:0;top:490px;text-align:center;font-size:120px;font-weight:700;letter-spacing:-.035em}
+#tag{position:absolute;left:0;right:0;top:640px;text-align:center;font-size:44px;color:var(--text2);font-weight:500;letter-spacing:-.01em}
+#cta{position:absolute;left:50%;top:760px;transform:translateX(-50%);padding:30px 74px;border-radius:24px;background:var(--purple);color:#fff;font-size:46px;font-weight:700;letter-spacing:-.01em;white-space:nowrap;box-shadow:0 24px 90px rgba(127,119,221,.55);will-change:transform,opacity}
+/* ---- vertical 9:16 layout (?fmt=vertical) ---- */
+.v #stage{width:1080px;height:1920px}
+.v #g1{width:1000px;height:1000px;left:-350px;top:-250px}.v #g2{width:900px;height:900px;right:-380px;bottom:-250px}
+.v .big{font-size:92px;padding:0 50px}.v #s1a,.v #s1b{top:780px}
+.v .h2{top:150px;font-size:76px;padding:0 60px;line-height:1.08}
+.v .win{left:60px;top:370px;width:960px;height:1180px;border-radius:38px}
+.v .chips{top:1590px;flex-wrap:wrap;padding:0 40px;gap:16px}.v .chip{font-size:30px;padding:16px 28px}
+.v #tiles{left:60px;right:60px;top:560px;flex-wrap:wrap;gap:24px}.v .tile{width:456px;height:340px}.v .tile b{font-size:128px}.v .tile span{font-size:32px}
+.v #logo{top:470px;width:270px;height:270px;margin-left:-135px;border-radius:62px}
+.v #brand{top:800px;font-size:112px}.v #tag{top:960px;font-size:40px;padding:0 60px}
+.v #cta{top:1120px;font-size:50px;padding:30px 70px}
+/* transitions */
+#wipe{position:absolute;top:-10%;bottom:-10%;left:-30%;width:160%;background:linear-gradient(115deg,var(--purple) 0%,#5a52c4 45%,var(--green) 100%);transform:translateX(-120%) skewX(-12deg);z-index:50;display:none}
+#fade{position:absolute;inset:0;background:#000;opacity:0;z-index:60;pointer-events:none}
+#vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,.55) 100%);z-index:40;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="glow" id="g1"></div><div class="glow" id="g2"></div><div id="grid"></div>
+
+  <!-- 1 · hook -->
+  <section class="scene" id="s1">
+    <div class="big" id="s1a"></div>
+    <div class="big" id="s1b"></div>
+  </section>
+
+  <!-- 2 · learn -->
+  <section class="scene" id="s2">
+    <div class="h2" id="h2a"></div>
+    <div class="win" id="w2"><div class="cam" id="c2"><img src="screens/learn.png"></div></div>
+    <div class="chips" id="ch2"><div class="chip p"><i></i>10 topics</div><div class="chip"><i></i>98 revision cards</div></div>
+  </section>
+
+  <!-- 3 · practice -->
+  <section class="scene" id="s3">
+    <div class="h2" id="h2b"></div>
+    <div class="win" id="w3"><div class="cam" id="c3"><img src="screens/practice-q.png"><img id="p-a" src="screens/practice.png" style="opacity:0"></div>
+      <div class="ripple" id="rip3"></div></div>
+    <div class="chips" id="ch3"><div class="chip p"><i></i>107 practice questions</div><div class="chip"><i></i>Instant explanations</div></div>
+  </section>
+
+  <!-- 4 · lab -->
+  <section class="scene" id="s4">
+    <div class="h2" id="h2c"></div>
+    <div class="win" id="w4"><div class="cam" id="c4">
+      <img src="screens/lab-empty.png">
+      <div id="tmask" style="position:absolute;opacity:0;background:#0a0a0a"></div>
+      <div class="ov" id="typed"><img src="screens/lab.png"></div>
+      <div class="ov" id="res"><img src="screens/lab.png"></div>
+      <div class="ov" id="full" style="opacity:0"><img src="screens/lab.png"></div>
+      <div class="caret" id="caret"></div>
+      <div class="ripple" id="rip4"></div>
+    </div></div>
+    <div class="chips" id="ch4"><div class="chip p"><i></i>40 hands-on quests</div><div class="chip"><i></i>Earn XP. Keep your streak.</div></div>
+  </section>
+
+  <!-- 5 · outro -->
+  <section class="scene" id="s5">
+    <div id="tiles">
+      <div class="tile"><b class="grad" data-n="10">0</b><span>topics</span></div>
+      <div class="tile"><b class="grad" data-n="98">0</b><span>revision cards</span></div>
+      <div class="tile"><b class="grad" data-n="107">0</b><span>practice questions</span></div>
+      <div class="tile"><b class="grad" data-n="40">0</b><span>lab quests</span></div>
+    </div>
+    <img id="logo" src="../src/icon-512.png">
+    <div id="brand">SQL <span class="grad">Revision</span></div>
+    <div id="tag">Free. Offline. Built for Class 12.</div>
+    <div id="cta">Start revising →</div>
+  </section>
+
+  <svg id="cursor" viewBox="0 0 24 24" style="display:none"><path d="M3 2l7.2 18.2 2.6-7.4 7.4-2.6z" fill="#fff" stroke="#0d0d0d" stroke-width="1.6" stroke-linejoin="round"/></svg>
+  <div id="wipe"></div><div id="vig"></div><div id="fade"></div>
+</div>
+<script src="screens/bboxes.js"></script>
+<script>
+const FPS = 30, DUR = 21.83;
+const BEAT0 = 0.27, BEAT = 0.5455;                        // ~110 BPM bed (vol-10)
+const CUTS = [3.01, 7.35, 11.47, 15.82];                    // all land on beats
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, s, d) => clamp((t - s) / d);
+const lerp = (a, b, k) => a + (b - a) * k;
+const E = {
+  out: t => 1 - Math.pow(1 - t, 3),
+  expo: t => t >= 1 ? 1 : 1 - Math.pow(2, -10 * t),
+  inOut: t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+  back: t => { const c1 = 1.5, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+};
+const $ = s => document.querySelector(s);
+
+/* split headline text into animatable words; **x** marks gradient words */
+function build(el, text) {
+  el.innerHTML = text.split(' ').map(w => {
+    const g = w.startsWith('*'); const clean = w.replace(/\*/g, '');
+    return `<span class="w${g ? ' grad' : ''}">${clean}</span>`;
+  }).join('<span class="w"> </span>');
+  el._w = [...el.querySelectorAll('.w')].filter(s => s.textContent.trim());
+}
+function words(el, t, start, gap = 0.09, dur = 0.6, rise = 46) {
+  el._w.forEach((s, i) => {
+    const k = E.expo(prog(t, start + i * gap, dur));
+    s.style.opacity = k; s.style.transform = `translateY(${(1 - k) * rise}px)`; s.style.filter = `blur(${(1 - k) * 14}px)`;
+  });
+}
+build($('#s1a'), 'Stop memorising SQL.');
+build($('#s1b'), 'Start *understanding it.');
+build($('#h2a'), 'Every topic. *One tab.');
+build($('#h2b'), 'Quiz yourself. *Know instantly.');
+build($('#h2c'), 'Write real SQL. *See real results.');
+
+/* camera: image-space centre (cx,cy) + zoom s inside a W×H window */
+const V = new URLSearchParams(location.search).get('fmt') === 'vertical'; if (V) document.documentElement.classList.add('v');
+const WW = V ? 960 : 1560, WH = V ? 1180 : 740, WL = V ? 60 : 180, WT = V ? 370 : 228;
+function cam(el, cx, cy, s) { el.style.transform = `translate(${WW / 2 - cx * s}px,${WH / 2 - cy * s}px) scale(${s})`; }
+function toScreen(cx, cy, s, x, y) { return [WL + WW / 2 + (x - cx) * s, WT + WH / 2 + (y - cy) * s]; }
+function winIn(el, t, start) {                              // window entrance: rise, un-tilt, settle
+  const k = E.expo(prog(t, start, 0.9));
+  el.style.opacity = clamp(k * 1.6);
+  el.style.transform = `perspective(2200px) translateY(${(1 - k) * 110}px) rotateX(${(1 - k) * 9}deg) scale(${lerp(.93, 1, k)})`;
+}
+function chip(el, t, start) {
+  const k = E.back(prog(t, start, 0.5));
+  el.style.opacity = clamp(k * 2); el.style.transform = `translateY(${(1 - k) * 50}px) scale(${lerp(.8, 1, k)})`;
+}
+const cursor = $('#cursor');
+function place(x, y, press) { cursor.style.display = 'block'; cursor.style.transform = `translate(${x}px,${y}px) scale(${press})`; }
+function ripple(el, x, y, t, start) {                       // x,y in window space
+  const k = prog(t, start, 0.55);
+  el.style.left = (x - 35) + 'px'; el.style.top = (y - 35) + 'px';
+  el.style.opacity = k > 0 && k < 1 ? (1 - k) : 0; el.style.transform = `scale(${lerp(.3, 1.6, E.out(k))})`;
+}
+
+/* ---------- scenes (t = local seconds) ---------- */
+function scene1(t) {
+  words($('#s1a'), t, 0.27, 0.27, 0.7, 60);
+  const k = E.inOut(prog(t, 1.90, 0.55));
+  const a = $('#s1a'); a.style.transform = `translateY(${-k * 130}px) scale(${lerp(1, .6, k)})`; a.style.opacity = lerp(1, .32, k);
+  const b = $('#s1b'); b.style.transform = `translateY(${60}px)`;
+  words(b, t, 1.95, 0.1, 0.7, 60);
+}
+function scene2(t) {
+  words($('#h2a'), t, 0.2, 0.1);
+  winIn($('#w2'), t, 0.25);
+  const k = E.inOut(prog(t, 0.2, 4.1));
+  V ? cam($('#c2'), lerp(540, 580, k), lerp(480, 495, k), 1.4) : cam($('#c2'), 720, lerp(320, 500, k), lerp(1.1, 1.16, k));
+  chip($('#ch2').children[0], t, 4.10 - 3.01); chip($('#ch2').children[1], t, 5.19 - 3.01);
+}
+function scene3(t) {
+  words($('#h2b'), t, 0.2, 0.1);
+  winIn($('#w3'), t, 0.25);
+  const k = E.inOut(prog(t, 0.2, 4.0));
+  const cx = 720, cy = V ? lerp(500, 512, k) : lerp(345, 370, k), s = V ? lerp(1.36, 1.4, k) : lerp(1.7, 1.9, k);
+  cam($('#c3'), cx, cy, s);
+  const o = BB.opt, tx = o.x + o.width * 0.55, ty = o.y + o.height / 2;      // image space
+  const tc = 9.29 - 7.35;                                                    // click on a beat
+  const m = E.inOut(prog(t, tc - 1.05, 0.95));
+  const [sx, sy] = toScreen(cx, cy, s, lerp(tx + 520, tx, m), lerp(ty + 260, ty, m));
+  const press = t > tc && t < tc + 0.18 ? .8 : 1;
+  place(sx - WL, sy - WT + WT, press);   // cursor lives on stage; sx/sy already stage coords
+  cursor.style.transform = `translate(${sx}px,${sy}px) scale(${press})`;
+  $('#p-a').style.opacity = t >= tc ? 1 : 0;
+  const [rx, ry] = toScreen(cx, cy, s, tx, ty); ripple($('#rip3'), rx - WL, ry - WT, t, tc);
+  chip($('#ch3').children[0], t, 8.22 - 7.35); chip($('#ch3').children[1], t, 9.83 - 7.35);
+}
+function scene4(t) {
+  words($('#h2c'), t, 0.2, 0.1);
+  winIn($('#w4'), t, 0.25);
+  const e = BB.editor, r = BB.run, textY = e.y - 1, textX0 = e.x + 12, textX1 = textX0 + 380;
+  const tStart = 12.02 - 11.47, tEnd = 13.55 - 11.47, tRun = 14.20 - 11.47;
+  const n = Math.floor(prog(t, tStart, tEnd - tStart) * 45) / 45;
+  $('#typed').style.clipPath = `inset(${textY}px ${1440 - (textX0 + (textX1 - textX0) * n)}px ${900 - (textY + 38)}px ${e.x}px)`;
+  const tm = $('#tmask'); tm.style.left = (e.x + 3) + 'px'; tm.style.width = (e.width - 6) + 'px'; tm.style.top = (textY) + 'px'; tm.style.height = '38px'; tm.style.opacity = t >= tStart ? 1 : 0;
+  const caret = $('#caret'); caret.style.left = (textX0 + (textX1 - textX0) * n + 2) + 'px'; caret.style.top = (textY + 12) + 'px';
+  caret.style.opacity = t > tStart - 0.2 && t < tRun ? ((Math.floor(t * 2.2) % 2 === 0 || (t > tStart && t < tEnd)) ? 1 : 0) : 0;
+  // camera: editor → results
+  const k1 = E.inOut(prog(t, 0.2, 2.2)), k2 = E.inOut(prog(t, tRun - 0.1, 1.0));
+  const cy = V ? 579 : lerp(lerp(440, 480, k1), 600, k2), s = V ? lerp(1.14, 1.16, k1) : lerp(lerp(1.5, 1.6, k1), 1.38, k2), cx = 720;
+  cam($('#c4'), cx, cy, s);
+  // run click
+  const tx = r.x + r.width / 2, ty = r.y + r.height / 2;
+  const m = E.inOut(prog(t, tEnd - 0.1, tRun - tEnd - 0.05));
+  const [sx, sy] = toScreen(cx, cy, s, lerp(tx + 360, tx, m), lerp(ty + 210, ty, m));
+  const hide = t < tEnd - 0.1;
+  if (hide) cursor.style.display = 'none'; else place(sx, sy, t > tRun && t < tRun + 0.16 ? .8 : 1);
+  ripple($('#rip4'), tx * 1, ty * 1, t, tRun);
+  $('#rip4').style.zIndex = 4;
+  // results wipe in below the run row
+  const top = 636, h = 264 * E.out(prog(t, tRun + 0.05, 0.6));
+  $('#res').style.clipPath = `inset(${top}px 0 ${900 - top - h}px 0)`;
+  $('#full').style.opacity = prog(t, tRun + 0.7, 0.4);
+  chip($('#ch4').children[0], t, 13.11 - 11.47); chip($('#ch4').children[1], t, 14.20 - 11.47);
+}
+function scene5(t) {
+  const tiles = [...$('#tiles').children];
+  tiles.forEach((el, i) => {
+    const st = [0, .56, 1.11, 1.65][i], k = E.back(prog(t, st, 0.55));
+    const out = E.inOut(prog(t, 2.55, 0.45));
+    el.style.opacity = clamp(k * 2) * (1 - out);
+    el.style.transform = `translateY(${(1 - k) * 70 + out * -40}px) scale(${lerp(.85, 1, k) * lerp(1, .8, out)})`;
+    const b = el.querySelector('b'); b.textContent = Math.round(+b.dataset.n * E.out(prog(t, st + 0.1, 1.0)));
+  });
+  const tl = 18.55 - 15.82;
+  const lk = E.back(prog(t, tl, 0.7)), logo = $('#logo');
+  logo.style.opacity = clamp(lk * 2); logo.style.transform = `scale(${lerp(.4, 1, lk)}) rotate(${(1 - lk) * -12}deg)`;
+  const br = $('#brand'); br.style.opacity = E.out(prog(t, tl + 0.25, 0.6)); br.style.transform = `translateY(${(1 - E.out(prog(t, tl + 0.25, 0.6))) * 40}px)`;
+  const tg = $('#tag'); tg.style.opacity = E.out(prog(t, tl + 0.55, 0.6)); tg.style.transform = `translateY(${(1 - E.out(prog(t, tl + 0.55, 0.6))) * 30}px)`;
+  const ck = E.back(prog(t, 20.19 - 15.82, 0.6)), pulse = 1 + (t > 20.8 - 15.82 ? 0.025 * Math.sin((t - 4.4) * 5) : 0);
+  const cta = $('#cta'); cta.style.opacity = clamp(ck * 2); cta.style.transform = `translateX(-50%) translateY(${(1 - ck) * 60}px) scale(${lerp(.8, 1, ck) * pulse})`;
+}
+const SCENES = [[0, CUTS[0], scene1, 's1'], [CUTS[0], CUTS[1], scene2, 's2'], [CUTS[1], CUTS[2], scene3, 's3'], [CUTS[2], CUTS[3], scene4, 's4'], [CUTS[3], 99, scene5, 's5']];
+
+/* ---------- master ---------- */
+function seek(T) {
+  cursor.style.display = 'none';
+  for (const [a, b, fn, id] of SCENES) {
+    const on = T >= a && T < b; $('#' + id).style.display = on ? 'block' : 'none';
+    if (on) fn(T - a);
+  }
+  // beat-breathing ambient light
+  const ph = ((T - BEAT0) / BEAT % 1 + 1) % 1, pulse = Math.exp(-ph * 5);
+  $('#g1').style.opacity = .30 + .10 * pulse; $('#g2').style.opacity = .22 + .08 * pulse;
+  $('#g1').style.transform = `translate(${Math.sin(T * .4) * 60}px,${Math.cos(T * .3) * 40}px)`;
+  $('#g2').style.transform = `translate(${Math.cos(T * .35) * -60}px,${Math.sin(T * .3) * 40}px)`;
+  // wipe transitions on every cut
+  const wipe = $('#wipe'); let wx = null;
+  for (const c of CUTS) {
+    if (T >= c - 0.24 && T < c) wx = lerp(-120, 0, E.inOut(prog(T, c - 0.24, 0.24)));
+    else if (T >= c && T < c + 0.26) wx = lerp(0, 120, E.inOut(prog(T, c, 0.26)));
+  }
+  wipe.style.display = wx === null ? 'none' : 'block'; if (wx !== null) wipe.style.transform = `translateX(${wx}%) skewX(-12deg)`;
+  // open from black, close to black
+  $('#fade').style.opacity = Math.max(1 - prog(T, 0, 0.35), prog(T, DUR - 0.45, 0.45));
+}
+window.seek = seek; window.DUR = DUR; window.FPS = FPS;
+window.ready = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => {}))]);
+seek(0);
+</script>
+</body>
+</html>

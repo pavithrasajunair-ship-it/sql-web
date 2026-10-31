@@ -687,13 +687,13 @@ function fileNotice() {
 function showHome() {
   document.body.dataset.view = 'home';
   try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
-  const n = ALL_CARDS.length, q = (typeof MCQ !== 'undefined' ? MCQ.length : 0) + (typeof TYPE_Q !== 'undefined' ? TYPE_Q.length : 0);
-  $('#home-stats').innerHTML = [[TOPICS.length, 'topics'], [n, 'revision cards'], [q, 'practice questions'], [QUESTS.length, 'lab quests']]
-    .map(([v, l]) => `<li><b>${v}</b><span>${l}</span></li>`).join('');
+  const stat = {topics: TOPICS.length, cards: ALL_CARDS.length, questions: (typeof MCQ !== 'undefined' ? MCQ.length : 0) + (typeof TYPE_Q !== 'undefined' ? TYPE_Q.length : 0), quests: QUESTS.length};
+  $$('[data-stat]').forEach(b => { b.dataset.final = stat[b.dataset.stat]; b.textContent = stat[b.dataset.stat]; });
   const resume = !!(exam || quizMode), c = $('#home-continue');
   c.hidden = !resume;
   if (resume) { c.textContent = 'Continue where you left off →'; c.dataset.mode = currentMode; }
   $('#home').scrollTop = 0;
+  if (window.landingEnter) window.landingEnter();
 }
 
 exam = examRestore(saved.exam);
