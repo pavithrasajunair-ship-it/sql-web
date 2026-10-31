@@ -20,7 +20,7 @@
 - Search any keyword across every concept.
 
 ### 🎯 Practice
-- **107 practice questions**: multiple-choice and type-the-answer.
+- **178 practice questions** (132 multiple-choice + 46 type-the-answer). New quizzes draw unseen questions first, so a student gets a fresh set each time until the whole bank has been used.
 - Instant feedback with an explanation for every question.
 - Typed answers are graded the way a teacher would: keywords can be upper or lower case, but table and column names are case-sensitive.
 - **Smart Review** (spaced repetition) brings cards back just before you would forget them.

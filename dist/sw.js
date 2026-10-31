@@ -1,4 +1,4 @@
-// Service worker: makes the app load offline. dd3e3924cb is replaced at build time,
+// Service worker: makes the app load offline. 8894bed441 is replaced at build time,
 // so every new build invalidates the old cache and users get the update.
 const CACHE = 'sqlrev-__VERSION__';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './favicon.ico', './favicon-32.png', './apple-touch-icon.png', './launch-poster.jpg', './launch-vertical-poster.jpg', './shot-learn.webp', './shot-practice.webp', './shot-lab.webp'];

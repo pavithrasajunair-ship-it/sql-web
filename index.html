@@ -426,7 +426,7 @@ body[data-view="home"] .top-cta{display:block;}
   <ul class="lp-stats" aria-label="What is inside">
     <li data-reveal><b data-stat="topics">10</b><span>topics covered</span></li>
     <li data-reveal style="--d:.1s"><b data-stat="cards">98</b><span>revision cards</span></li>
-    <li data-reveal style="--d:.2s"><b data-stat="questions">107</b><span>practice questions</span></li>
+    <li data-reveal style="--d:.2s"><b data-stat="questions">100+</b><span>practice questions</span></li>
     <li data-reveal style="--d:.3s"><b data-stat="quests">40</b><span>hands-on lab quests</span></li>
   </ul>
 
@@ -802,6 +802,82 @@ const TYPE_Q = [
   {topic:'Clause', q:'Display the name column with the heading student_name (use an alias).', given:STUDENTS,
     answer:'SELECT name AS student_name FROM students;', accept:['select name as student_name from students'], names:['students','name','student_name']},
 ];
+
+/* ======================= MCQ BANK · SET 2 (71 more questions) =======================
+   Same format as above. Together with the first set this gives students a fresh quiz for much longer. */
+MCQ.push(
+  {topic:"DDL", q:"Which statement changes the datatype of an existing column but keeps its name?", opts:["ALTER TABLE t UPDATE col datatype;", "ALTER TABLE t SET col datatype;", "ALTER TABLE t RENAME col datatype;", "ALTER TABLE t MODIFY col datatype;"], correct:3, exp:"MODIFY changes only the definition (datatype/size). CHANGE needs the old and the new column name."},
+  {topic:"DDL", q:"Which statement removes a column from a table?", opts:["ALTER TABLE t DROP c;", "DROP c FROM t;", "ALTER TABLE t REMOVE c;", "ALTER TABLE t DELETE c;"], correct:0, exp:"ALTER TABLE t DROP COLUMN c; (or DROP c) removes the column and its data."},
+  {topic:"DDL", q:"Which statement renames the table students to pupils?", opts:["ALTER TABLE students RENAME TO pupils;", "UPDATE TABLE students RENAME pupils;", "CHANGE TABLE students TO pupils;", "MODIFY TABLE students pupils;"], correct:0, exp:"ALTER TABLE old_name RENAME TO new_name; renames a table."},
+  {topic:"DDL", q:"Which command creates a new database named school?", opts:["ADD DATABASE school;", "NEW DATABASE school;", "CREATE DATABASE school;", "MAKE DATABASE school;"], correct:2, exp:"CREATE DATABASE is the DDL command that creates a database. Use USE school; to open it."},
+  {topic:"DDL", q:"Compare DELETE FROM t; and TRUNCATE TABLE t; on a table with AUTO_INCREMENT. Which is true in MySQL?", opts:["Both reset the counter", "Neither affects the counter", "DELETE resets the counter; TRUNCATE does not", "TRUNCATE resets the counter; DELETE does not"], correct:3, exp:"TRUNCATE recreates the table, so AUTO_INCREMENT starts again. DELETE removes rows but the counter keeps counting."},
+  {topic:"DDL", q:"Which statement adds a primary key to an existing table?", opts:["CREATE PRIMARY KEY ON t (id);", "UPDATE t SET PRIMARY KEY id;", "ALTER TABLE t ADD PRIMARY KEY (id);", "MODIFY t PRIMARY KEY (id);"], correct:2, exp:"ALTER TABLE ... ADD PRIMARY KEY (column) adds the constraint (the column must be unique and NOT NULL)."},
+  {topic:"DML", q:"INSERT INTO t VALUES (...) without a column list requires:", opts:["Only the NOT NULL columns", "Only the PRIMARY KEY value", "A value for every column, in the table's column order", "Values in alphabetical order of column names"], correct:2, exp:"Without a column list, MySQL expects one value per column in the order the columns were defined."},
+  {topic:"DML", q:"Which statement inserts a row giving values only for name and marks?", opts:["INSERT INTO students (name, marks) VALUES ('Ravi', 80);", "INSERT name, marks INTO students VALUES ('Ravi', 80);", "INSERT students (name, marks) = ('Ravi', 80);", "ADD INTO students (name, marks) VALUES ('Ravi', 80);"], correct:0, exp:"List the columns after the table name, then give matching VALUES. Other columns get DEFAULT or NULL."},
+  {topic:"DML", q:"What does UPDATE students SET marks = 0; do (no WHERE clause)?", opts:["Gives an error", "Sets marks to 0 in every row", "Updates only the first row", "Changes nothing"], correct:1, exp:"Without WHERE, UPDATE applies to all rows. Always add a WHERE clause unless you mean every row."},
+  {topic:"DML", q:"Which statement gives 5 grace marks to students with marks below 33?", opts:["SET students marks = marks + 5 WHERE marks < 33;", "UPDATE students SET marks + 5 WHERE marks < 33;", "UPDATE students SET marks = marks + 5 WHERE marks < 33;", "UPDATE students marks = marks + 5 IF marks < 33;"], correct:2, exp:"UPDATE table SET column = expression WHERE condition; the expression can use the column's current value."},
+  {topic:"DML", q:"Which statement stores a real NULL (not the text 'NULL') in phone for rollno 3?", opts:["UPDATE students SET phone = '' WHERE rollno = 3;", "UPDATE students SET phone = NULL WHERE rollno = 3;", "UPDATE students SET phone = 'NULL' WHERE rollno = 3;", "UPDATE students SET phone = 0 WHERE rollno = 3;"], correct:1, exp:"NULL without quotes means 'no value'. 'NULL' in quotes is just a 4-letter string, and 0 or '' are real values."},
+  {topic:"Clause", q:"Which clause lists rows from the highest marks to the lowest?", opts:["GROUP BY marks DESC", "SORT BY marks DESC", "ORDER BY marks DESC", "ORDER marks DOWN"], correct:2, exp:"ORDER BY column DESC sorts in descending order. The default is ASC."},
+  {topic:"Clause", q:"What does ORDER BY city, marks DESC do?", opts:["Sorts by city A-Z, then by marks high-to-low within each city", "Groups the rows by city", "Sorts by marks first, then city", "Sorts both columns high-to-low"], correct:0, exp:"The first column is the main sort key. The second only breaks ties among rows with the same city."},
+  {topic:"Clause", q:"Which query counts the students in each city?", opts:["SELECT city FROM students COUNT BY city;", "SELECT COUNT(*) GROUP city FROM students;", "SELECT city, COUNT(*) FROM students;", "SELECT city, COUNT(*) FROM students GROUP BY city;"], correct:3, exp:"GROUP BY makes COUNT(*) run once per city. Selecting city beside an aggregate without GROUP BY is not valid."},
+  {topic:"Clause", q:"Which query shows cities that have more than 3 students?", opts:["SELECT city FROM students HAVING city > 3 GROUP BY city;", "SELECT city FROM students GROUP BY HAVING COUNT(*) > 3;", "SELECT city FROM students WHERE COUNT(*) > 3 GROUP BY city;", "SELECT city FROM students GROUP BY city HAVING COUNT(*) > 3;"], correct:3, exp:"Conditions on aggregates (COUNT, SUM...) go in HAVING, after GROUP BY. WHERE cannot use aggregate functions."},
+  {topic:"Clause", q:"WHERE marks > 60 AND city = 'Delhi' returns rows where:", opts:["Both conditions are true", "Either condition is true", "Only the city is Delhi", "Only marks are above 60"], correct:0, exp:"AND needs every condition to be true. OR needs at least one."},
+  {topic:"Clause", q:"A row has marks 50 and city 'Delhi'. Is it returned by WHERE marks > 60 OR city = 'Delhi'?", opts:["Yes, because at least one condition is true", "No, because marks is not above 60", "No, because OR needs both conditions", "It causes an error"], correct:0, exp:"OR returns a row when any one condition is true. Here city = 'Delhi' is true."},
+  {topic:"Clause", q:"Which value matches LIKE '%an'?", opts:["Anil", "Anand", "Sana", "Rohan"], correct:3, exp:"% stands for any characters before 'an', so the string must END with 'an'. Rohan ends with 'an'."},
+  {topic:"Clause", q:"Which pattern matches names of exactly 4 letters?", opts:["LIKE '_4_'", "LIKE '%%%%'", "LIKE '____'", "LIKE '4%'"], correct:2, exp:"Each underscore matches exactly one character, so four underscores match exactly four characters."},
+  {topic:"Clause", q:"What does name NOT LIKE '%a%' return?", opts:["Names that start with a", "Names that do not contain the letter a", "Names that contain the letter a", "Names that end with a"], correct:1, exp:"NOT LIKE reverses the match, so it returns rows where the pattern is absent."},
+  {topic:"Clause", q:"Which keyword tests whether a value equals any value in a list?", opts:["BETWEEN", "LIKE", "IN", "IS"], correct:2, exp:"city IN ('Delhi','Pune') is shorthand for city = 'Delhi' OR city = 'Pune'."},
+  {topic:"Clause", q:"Does marks BETWEEN 10 AND 20 include the values 10 and 20?", opts:["Yes, both ends are included", "No, neither end", "Only 10", "Only 20"], correct:0, exp:"BETWEEN is inclusive: it means marks >= 10 AND marks <= 20."},
+  {topic:"Clause", q:"Which query returns the 5 students with the highest marks?", opts:["SELECT * FROM students ORDER BY marks DESC LIMIT 5;", "SELECT * FROM students ORDER BY marks LIMIT 5;", "SELECT TOP 5 * FROM students;", "SELECT * FROM students LIMIT 5 ORDER BY marks DESC;"], correct:0, exp:"Sort high-to-low first, then LIMIT 5 keeps the first five. LIMIT must come after ORDER BY."},
+  {topic:"Clause", q:"What does SELECT DISTINCT city, class FROM students return?", opts:["Each unique combination of city and class once", "Each unique city only", "All rows unchanged", "Each unique class only"], correct:0, exp:"DISTINCT applies to the whole row of selected columns, not to one column."},
+  {topic:"Clause", q:"Why does WHERE phone = NULL return no rows?", opts:["= works only with numbers", "NULL cannot be compared with =; use IS NULL", "The column is empty", "phone is a reserved word"], correct:1, exp:"Comparing anything with NULL using = gives unknown. Use IS NULL or IS NOT NULL."},
+  {topic:"Clause", q:"Which of these is NOT a valid comparison operator in MySQL?", opts:[">=", "=>", "<>", "!="], correct:1, exp:"Valid operators include =, <>, !=, <, >, <= and >=. The symbol => is not valid."},
+  {topic:"Aggregate", q:"Which function adds up all the values of a numeric column?", opts:["ADD()", "TOTAL()", "COUNT()", "SUM()"], correct:3, exp:"SUM(column) returns the total of the non-NULL values."},
+  {topic:"Aggregate", q:"What does SELECT MIN(marks), MAX(marks) FROM students; return?", opts:["The two most common marks", "The lowest and the highest marks", "The first and last rows", "The sum and the average"], correct:1, exp:"MIN returns the smallest value and MAX the largest in the column."},
+  {topic:"Aggregate", q:"Which statement is true about aggregate functions (other than COUNT(*))?", opts:["They ignore NULL values", "They treat NULL as 0", "They give an error when NULL is present", "They return NULL if any row is NULL"], correct:0, exp:"SUM, AVG, MIN, MAX and COUNT(column) skip NULLs. Only COUNT(*) counts every row."},
+  {topic:"Aggregate", q:"What does SELECT COUNT(DISTINCT city) FROM students; return?", opts:["The number of different cities", "The total number of rows", "The number of rows with a NULL city", "The first city alphabetically"], correct:0, exp:"DISTINCT inside COUNT counts each different non-NULL value once."},
+  {topic:"Aggregate", q:"The marks column holds 40, 50 and 90. What does SELECT AVG(marks) return?", opts:["50", "60", "70", "180"], correct:1, exp:"AVG = sum / count = (40 + 50 + 90) / 3 = 60."},
+  {topic:"Aggregate", q:"Where should a condition on SUM(marks) be written?", opts:["In HAVING, after GROUP BY", "In LIMIT", "In WHERE", "In ORDER BY"], correct:0, exp:"WHERE filters rows before grouping and cannot use aggregates. HAVING filters the groups."},
+  {topic:"Constraint", q:"Which constraint makes every value in a column different but still allows NULL?", opts:["CHECK", "NOT NULL", "PRIMARY KEY", "UNIQUE"], correct:3, exp:"UNIQUE blocks duplicates and allows NULL. PRIMARY KEY blocks both duplicates and NULL."},
+  {topic:"Constraint", q:"What does CHECK (marks BETWEEN 0 AND 100) do?", opts:["Sets the default marks to 0", "Sorts marks from 0 to 100", "Rejects rows where marks are outside 0 to 100", "Links marks to another table"], correct:2, exp:"CHECK tests a condition on every inserted or updated row and rejects the row if it fails."},
+  {topic:"Constraint", q:"A column is NOT NULL DEFAULT 0. You INSERT a row without giving that column. What is stored?", opts:["An error is raised", "NULL", "0", "An empty string"], correct:2, exp:"When a column is left out of the INSERT, MySQL stores its DEFAULT value."},
+  {topic:"Constraint", q:"What happens if you INSERT a foreign key value that does not exist in the parent table?", opts:["The row is inserted anyway", "The row is rejected with an error", "The row is inserted with NULL", "A new parent row is created"], correct:1, exp:"A FOREIGN KEY keeps data consistent: every value must match a parent key (or be NULL)."},
+  {topic:"Constraint", q:"A PRIMARY KEY column can contain:", opts:["Unique, non-NULL values only", "Only text values", "NULL values", "Duplicate values"], correct:0, exp:"A primary key identifies each row, so it must be unique and cannot be NULL."},
+  {topic:"Keyword", q:"Which command lists all tables of the current database?", opts:["DISPLAY TABLES;", "SHOW TABLES;", "SELECT TABLES;", "LIST TABLES;"], correct:1, exp:"SHOW TABLES; works after you have selected a database with USE."},
+  {topic:"Keyword", q:"Which command displays the CREATE statement of a table?", opts:["EXPLAIN CREATE students;", "SHOW STRUCTURE students;", "DESC CREATE students;", "SHOW CREATE TABLE students;"], correct:3, exp:"SHOW CREATE TABLE prints the full statement that would recreate the table."},
+  {topic:"Keyword", q:"Which symbol ends an SQL statement in the MySQL command line?", opts:[": (colon)", ", (comma)", ". (full stop)", "; (semicolon)"], correct:3, exp:"MySQL runs a statement when it reaches the semicolon."},
+  {topic:"Keyword", q:"Which statement displays every column of the table emp?", opts:["GET * FROM emp;", "SELECT ALL emp;", "SELECT * FROM emp;", "SHOW * FROM emp;"], correct:2, exp:"SELECT * means all columns. FROM names the table."},
+  {topic:"Terms", q:"In a relation, a row is also called a:", opts:["Tuple", "Attribute", "Degree", "Domain"], correct:0, exp:"Row = tuple = record. Column = attribute = field."},
+  {topic:"Terms", q:"A column of a relation is called an:", opts:["Cardinality", "Key", "Attribute", "Tuple"], correct:2, exp:"An attribute is a named column that holds one kind of data."},
+  {topic:"Terms", q:"The set of all permitted values of an attribute is called its:", opts:["Degree", "Domain", "Tuple", "Schema"], correct:1, exp:"For example, the domain of marks might be whole numbers from 0 to 100."},
+  {topic:"Terms", q:"A primary key made of two or more columns together is called a:", opts:["Alternate key", "Composite key", "Candidate key", "Foreign key"], correct:1, exp:"A composite key uses a combination of columns to identify a row uniquely."},
+  {topic:"Terms", q:"Which key can contain duplicate values and NULLs?", opts:["Alternate key", "Primary key", "Foreign key", "Candidate key"], correct:2, exp:"A foreign key only has to match a parent key (or be NULL). Many child rows can share one parent."},
+  {topic:"Terms", q:"The number of rows in a table is its ____ and the number of columns is its ____.", opts:["domain; degree", "tuple; attribute", "cardinality; degree", "degree; cardinality"], correct:2, exp:"Cardinality = rows (tuples). Degree = columns (attributes)."},
+  {topic:"Terms", q:"A table has 3 candidate keys and one is chosen as the primary key. How many alternate keys does it have?", opts:["1", "2", "0", "3"], correct:1, exp:"Alternate keys are the candidate keys that were not chosen: 3 - 1 = 2."},
+  {topic:"Join", q:"SELECT * FROM a, b WHERE a.id = b.id; is an example of:", opts:["A UNION", "An equi-join", "A subquery", "A plain Cartesian product"], correct:1, exp:"A join that compares columns with = is an equi-join. Without the WHERE it would be a Cartesian product."},
+  {topic:"Join", q:"How many rows does the Cartesian product of tables with 4 rows and 6 rows give?", opts:["46", "2", "10", "24"], correct:3, exp:"Every row of one table pairs with every row of the other: 4 x 6 = 24."},
+  {topic:"Join", q:"Why add WHERE a.id = b.id to a Cartesian product?", opts:["To rename the columns", "To add more rows", "To sort the rows", "To keep only the rows that match across the tables"], correct:3, exp:"The Cartesian product pairs everything. The join condition filters it to the meaningful matches."},
+  {topic:"Join", q:"A NATURAL JOIN joins two tables using:", opts:["Every column of both tables", "Only the primary keys", "Only the foreign keys", "All columns with the same name in both tables"], correct:3, exp:"NATURAL JOIN automatically matches columns that share a name and shows each common column once."},
+  {topic:"Function", q:"What does SELECT LEFT('Database', 4); return?", opts:["Data", "base", "Datab", "Dat"], correct:0, exp:"LEFT(text, n) returns the first n characters."},
+  {topic:"Function", q:"What does SELECT RIGHT('Database', 4); return?", opts:["abas", "base", "Data", "tabase"], correct:1, exp:"RIGHT(text, n) returns the last n characters."},
+  {topic:"Function", q:"What does SELECT TRIM('  hi  '); return?", opts:["hi  ", "hi", "  hi", "  hi  "], correct:1, exp:"TRIM removes spaces from both ends of a string."},
+  {topic:"Function", q:"What does SELECT SUBSTRING('Computer', 4); return?", opts:["mputer", "puter", "uter", "Comp"], correct:1, exp:"SUBSTRING(text, 4) starts at the 4th character and goes to the end: puter."},
+  {topic:"Function", q:"What does SELECT ROUND(48.67); return?", opts:["49", "48", "50", "48.7"], correct:0, exp:"With no second argument, ROUND rounds to the nearest whole number."},
+  {topic:"Function", q:"What does SELECT ROUND(1234.567, -2); return?", opts:["1234.57", "1200", "1230", "1300"], correct:1, exp:"A negative second argument rounds to the left of the decimal point: -2 means the nearest hundred."},
+  {topic:"Function", q:"What does SELECT MONTH('2026-10-28'); return?", opts:["October", "28", "2026", "10"], correct:3, exp:"MONTH returns the month number (1 to 12). MONTHNAME would return the name."},
+  {topic:"Function", q:"Which function returns today's date without the time?", opts:["NOW()", "TIME()", "DAY()", "CURDATE()"], correct:3, exp:"CURDATE() gives only the date. NOW() gives date and time."},
+  {topic:"Python", q:"Which statement imports the library used to connect Python to MySQL?", opts:["import sqlite3.mysql", "import sql.python", "import pymysqlconnect", "import mysql.connector"], correct:3, exp:"mysql.connector provides connect(), cursor() and the other methods used in Class 12 connectivity."},
+  {topic:"Python", q:"Which call creates a cursor from a connection named mycon?", opts:["mycon.execute()", "mycon.cursor()", "mycon.fetchall()", "mycon.commit()"], correct:1, exp:"The connection object creates the cursor, and the cursor then runs queries with execute()."},
+  {topic:"Python", q:"Which call closes a connection named mycon?", opts:["mycon.exit()", "mycon.close()", "mycon.stop()", "mycon.end()"], correct:1, exp:"Close the connection when you are done, after commit() if you changed data."},
+  {topic:"Python", q:"What does cur.fetchall() return?", opts:["The number of rows", "A list of tuples, one per row", "A dictionary", "A single row"], correct:1, exp:"Each row comes back as a tuple. fetchall() collects all remaining rows in a list."},
+  {topic:"Python", q:"What does cur.fetchmany(3) return?", opts:["The number 3", "Exactly 3 tables", "The next 3 rows", "The first 3 columns"], correct:2, exp:"fetchmany(n) returns up to the next n rows as a list of tuples."},
+  {topic:"Python", q:"Which cursor method runs an SQL statement?", opts:["cur.execute()", "cur.query()", "cur.run()", "cur.send()"], correct:0, exp:"execute(sql) sends the statement to MySQL. For SELECT, follow it with a fetch method."},
+  {topic:"Python", q:"Why is a parameterised query (with %s) safer than joining strings with +?", opts:["It needs no cursor", "It runs faster", "It prevents SQL injection", "It skips commit()"], correct:2, exp:"Parameters are passed separately from the SQL text, so user input cannot change the query's meaning."},
+  {topic:"Datatype", q:"Which datatype stores text of varying length up to a limit?", opts:["DATE", "CHAR(n)", "VARCHAR(n)", "INT"], correct:2, exp:"VARCHAR(n) stores only as many characters as needed, up to n. CHAR(n) always uses n."},
+  {topic:"Datatype", q:"Which datatype is best for a date of birth?", opts:["DATE", "INT", "FLOAT", "VARCHAR(5)"], correct:0, exp:"DATE stores a calendar date and allows date functions such as YEAR() and MONTH()."},
+  {topic:"Datatype", q:"What does VARCHAR(20) mean?", opts:["Up to 20 characters", "At least 20 characters", "Exactly 20 characters", "20 digits only"], correct:0, exp:"20 is the maximum length. Shorter values are stored without padding."},
+  {topic:"Datatype", q:"In which format does MySQL show and accept DATE values?", opts:["MM/DD/YYYY", "DD-MM-YYYY", "YYYY-MM-DD", "YYYY/DD/MM"], correct:2, exp:"MySQL's standard date format is year-month-day, for example 2026-10-28."}
+);
 
 if (typeof module !== 'undefined' && module.exports) module.exports = {TOPICS, MCQ, TYPE_Q};
 </script>
@@ -1850,7 +1926,7 @@ const TAG = {
   DDL:['#7f77dd','#1a1840'], DML:['#1d9e75','#00231a'], Clause:['#ef9f27','#2a1e00'],
   Aggregate:['#ef9f27','#2a1e00'], Constraint:['#d4537e','#2a0f1c'], Keyword:['#378add','#001830'],
   Function:['#378add','#001830'], Terms:['#5dcaa5','#00231a'], Python:['#afa9ec','#1a1840'],
-  Datatype:['#5dcaa5','#00231a'],
+  Datatype:['#5dcaa5','#00231a'], Join:['#ef9f27','#2a1e00'],
 };
 const tagStyle = t => { const [c, b] = TAG[t] || ['#a8a8a8', '#1f1f1f']; return `background:${b};color:${c}`; };
 
@@ -2409,7 +2485,7 @@ const actions = {
   ...LAB_ACTIONS, ...EXAM_ACTIONS,
   mode:   d => setMode(d.mode),
   gohome: () => showHome(),
-  enter:  d => { document.body.dataset.view = 'app'; try { history.replaceState(null, '', '#app'); } catch (e) {} setMode(d.mode); $('#content-area').focus({preventScroll: true}); },
+  enter:  d => { document.body.dataset.view = 'app'; try { window.history.replaceState(null, '', '#app'); } catch (e) {} setMode(d.mode); $('#content-area').focus({preventScroll: true}); },
   topic:  d => selectTopic(d.id),
   start:  d => startQuiz(d.mode),
   home:   () => leaveQuiz(),
@@ -2520,9 +2596,10 @@ function fileNotice() {
 
 function showHome() {
   document.body.dataset.view = 'home';
-  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  try { window.history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
   const stat = {topics: TOPICS.length, cards: ALL_CARDS.length, questions: (typeof MCQ !== 'undefined' ? MCQ.length : 0) + (typeof TYPE_Q !== 'undefined' ? TYPE_Q.length : 0), quests: QUESTS.length};
-  $$('[data-stat]').forEach(b => { b.dataset.final = stat[b.dataset.stat]; b.textContent = stat[b.dataset.stat]; });
+  stat.questions = Math.floor(stat.questions / 100) * 100;   // shown as "100+", so adding questions never makes the launch film wrong
+  $$('[data-stat]').forEach(b => { const suf = b.dataset.stat === 'questions' ? '+' : ''; b.dataset.final = stat[b.dataset.stat]; b.dataset.suffix = suf; b.textContent = stat[b.dataset.stat] + suf; });
   const resume = !!(exam || quizMode), c = $('#home-continue');
   c.hidden = !resume;
   if (resume) { c.textContent = 'Continue where you left off →'; c.dataset.mode = currentMode; }
@@ -2568,14 +2645,14 @@ fileNotice();
   function counters(el) {
     $$('[data-stat]', el).forEach(b => {
       if (b._done) return; b._done = true; const n = +b.dataset.final || +b.textContent || 0, t0 = performance.now();
-      if (reduced.matches) { b.textContent = n; return; }
-      (function tick(now) { const k = clamp((now - t0) / 1300); b.textContent = Math.round(n * easeOut(k)); if (k < 1) requestAnimationFrame(tick); })(t0);
+      if (reduced.matches) { b.textContent = n + (b.dataset.suffix || ''); return; }
+      (function tick(now) { const k = clamp((now - t0) / 1300); b.textContent = Math.round(n * easeOut(k)) + (b.dataset.suffix || ''); if (k < 1) requestAnimationFrame(tick); })(t0);
     });
   }
   function setup() {
     document.documentElement.classList.add('lp-js');
     if (io) io.disconnect();
-    if (reduced.matches || !('IntersectionObserver' in window)) { targets.forEach(t => t.classList.add('in')); $$('[data-stat]').forEach(b => b.textContent = b.dataset.final || b.textContent); return; }
+    if (reduced.matches || !('IntersectionObserver' in window)) { targets.forEach(t => t.classList.add('in')); $$('[data-stat]').forEach(b => b.textContent = (b.dataset.final || b.textContent) + (b.dataset.suffix || '')); return; }
     targets.forEach(t => t.classList.remove('in')); $$('[data-stat]').forEach(b => { b._done = false; });
     io = new IntersectionObserver(es => es.forEach(e => {
       if (!e.isIntersecting) return; e.target.classList.add('in'); io.unobserve(e.target);

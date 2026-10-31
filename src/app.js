@@ -16,7 +16,7 @@ const TAG = {
   DDL:['#7f77dd','#1a1840'], DML:['#1d9e75','#00231a'], Clause:['#ef9f27','#2a1e00'],
   Aggregate:['#ef9f27','#2a1e00'], Constraint:['#d4537e','#2a0f1c'], Keyword:['#378add','#001830'],
   Function:['#378add','#001830'], Terms:['#5dcaa5','#00231a'], Python:['#afa9ec','#1a1840'],
-  Datatype:['#5dcaa5','#00231a'],
+  Datatype:['#5dcaa5','#00231a'], Join:['#ef9f27','#2a1e00'],
 };
 const tagStyle = t => { const [c, b] = TAG[t] || ['#a8a8a8', '#1f1f1f']; return `background:${b};color:${c}`; };
 
@@ -575,7 +575,7 @@ const actions = {
   ...LAB_ACTIONS, ...EXAM_ACTIONS,
   mode:   d => setMode(d.mode),
   gohome: () => showHome(),
-  enter:  d => { document.body.dataset.view = 'app'; try { history.replaceState(null, '', '#app'); } catch (e) {} setMode(d.mode); $('#content-area').focus({preventScroll: true}); },
+  enter:  d => { document.body.dataset.view = 'app'; try { window.history.replaceState(null, '', '#app'); } catch (e) {} setMode(d.mode); $('#content-area').focus({preventScroll: true}); },
   topic:  d => selectTopic(d.id),
   start:  d => startQuiz(d.mode),
   home:   () => leaveQuiz(),
@@ -686,9 +686,10 @@ function fileNotice() {
 
 function showHome() {
   document.body.dataset.view = 'home';
-  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  try { window.history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
   const stat = {topics: TOPICS.length, cards: ALL_CARDS.length, questions: (typeof MCQ !== 'undefined' ? MCQ.length : 0) + (typeof TYPE_Q !== 'undefined' ? TYPE_Q.length : 0), quests: QUESTS.length};
-  $$('[data-stat]').forEach(b => { b.dataset.final = stat[b.dataset.stat]; b.textContent = stat[b.dataset.stat]; });
+  stat.questions = Math.floor(stat.questions / 100) * 100;   // shown as "100+", so adding questions never makes the launch film wrong
+  $$('[data-stat]').forEach(b => { const suf = b.dataset.stat === 'questions' ? '+' : ''; b.dataset.final = stat[b.dataset.stat]; b.dataset.suffix = suf; b.textContent = stat[b.dataset.stat] + suf; });
   const resume = !!(exam || quizMode), c = $('#home-continue');
   c.hidden = !resume;
   if (resume) { c.textContent = 'Continue where you left off →'; c.dataset.mode = currentMode; }

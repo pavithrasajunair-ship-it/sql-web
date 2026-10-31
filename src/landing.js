@@ -27,14 +27,14 @@
   function counters(el) {
     $$('[data-stat]', el).forEach(b => {
       if (b._done) return; b._done = true; const n = +b.dataset.final || +b.textContent || 0, t0 = performance.now();
-      if (reduced.matches) { b.textContent = n; return; }
-      (function tick(now) { const k = clamp((now - t0) / 1300); b.textContent = Math.round(n * easeOut(k)); if (k < 1) requestAnimationFrame(tick); })(t0);
+      if (reduced.matches) { b.textContent = n + (b.dataset.suffix || ''); return; }
+      (function tick(now) { const k = clamp((now - t0) / 1300); b.textContent = Math.round(n * easeOut(k)) + (b.dataset.suffix || ''); if (k < 1) requestAnimationFrame(tick); })(t0);
     });
   }
   function setup() {
     document.documentElement.classList.add('lp-js');
     if (io) io.disconnect();
-    if (reduced.matches || !('IntersectionObserver' in window)) { targets.forEach(t => t.classList.add('in')); $$('[data-stat]').forEach(b => b.textContent = b.dataset.final || b.textContent); return; }
+    if (reduced.matches || !('IntersectionObserver' in window)) { targets.forEach(t => t.classList.add('in')); $$('[data-stat]').forEach(b => b.textContent = (b.dataset.final || b.textContent) + (b.dataset.suffix || '')); return; }
     targets.forEach(t => t.classList.remove('in')); $$('[data-stat]').forEach(b => { b._done = false; });
     io = new IntersectionObserver(es => es.forEach(e => {
       if (!e.isIntersecting) return; e.target.classList.add('in'); io.unobserve(e.target);
