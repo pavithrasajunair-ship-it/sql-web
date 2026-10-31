@@ -349,3 +349,11 @@ body[data-view="home"] .top-cta{display:block;}
   body[data-view="home"] header{flex-wrap:nowrap;}
   body[data-view="home"] .header-right{width:auto;margin-left:auto;}
 }
+
+.lp-share{margin-top:16px;display:inline-block;}
+.lp-foot .lp-link{font-size:14px;}
+
+.lp-extras{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-top:22px;}
+.lp-extras a{text-decoration:none;}
+.lp-final .lp-extras{margin-top:26px;}
+.lp-extras .lp-share{margin-top:0;}

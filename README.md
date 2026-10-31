@@ -39,6 +39,13 @@
 - Dark and light themes, a big-text mode, keyboard shortcuts, and a responsive layout for phones.
 - A marketing homepage with a launch film (16:9 for desktop, 9:16 for phones).
 
+### Sharing and growth
+- **Link previews.** Pasting the link in WhatsApp, Telegram, X or LinkedIn shows a branded card (Open Graph and Twitter tags, `og.png`).
+- **Share buttons** on the homepage, using the phone's share sheet where available, or copying the link.
+- **Result cards.** After a quiz, "Share result" creates a ready-to-post image with the score, streak and link.
+- **Question of the day.** Deep links like `/#q=2` open a single question in the app with the answer revealed after a tap.
+- **Free cheat sheet** (PDF) on the homepage, and a [marketing pack](marketing/README.md) with 30 daily question images, captions and teacher messages.
+
 ---
 
 ## Quick start
@@ -74,6 +81,7 @@ sql-web/
 ├── launch.mp4, launch-vertical.mp4, *-poster.jpg   Launch film (desktop and phone cuts)
 ├── shot-*.webp           Real app screenshots used on the homepage
 ├── dist/                 Deploy-ready copy of the build
+├── marketing/            Daily question images, cheat sheet, captions (see marketing/README.md)
 ├── src/                  Source files
 │   ├── index.html        Markup (homepage + app shell)
 │   ├── styles.css        All styles (dark/light themes, landing page)

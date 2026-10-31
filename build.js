@@ -19,7 +19,7 @@ const version = crypto.createHash('sha1').update(html).digest('hex').slice(0, 10
 fs.writeFileSync(path.join(dist, 'index.html'), html);
 fs.writeFileSync(path.join(dist, 'sw.js'), src('sw.js').replace('__VERSION__', version));
 const ASSETS = ['manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'favicon.ico', 'favicon-32.png', 'apple-touch-icon.png',
-  'launch.mp4', 'launch-poster.jpg', 'launch-vertical.mp4', 'launch-vertical-poster.jpg', 'shot-learn.webp', 'shot-practice.webp', 'shot-lab.webp'];
+  'og.png', 'Class12-SQL-cheatsheet.pdf', 'launch.mp4', 'launch-poster.jpg', 'launch-vertical.mp4', 'launch-vertical-poster.jpg', 'shot-learn.webp', 'shot-practice.webp', 'shot-lab.webp'];
 const swOut = src('sw.js').replace('__VERSION__', version);
 for (const f of ASSETS) fs.copyFileSync(path.join(__dirname, 'src', f), path.join(dist, f));
 // also next to the root index.html, so deploying the repo root (e.g. GitHub Pages) gets icons, manifest and offline support

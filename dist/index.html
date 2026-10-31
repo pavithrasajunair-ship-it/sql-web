@@ -3,7 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Revise Class 12 SQL: concepts, MCQs, typed-answer practice and flashcards.">
+<meta name="description" content="Free Class 12 SQL revision: every topic, instant-feedback quizzes and a live SQL lab. No sign-up, works offline.">
+<link rel="canonical" href="https://pavithrasajunair-ship-it.github.io/sql-web/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SQL Revision">
+<meta property="og:title" content="SQL Revision · Class 12: SQL, finally clicks.">
+<meta property="og:description" content="Every topic, instant-feedback quizzes and a live SQL lab. Free, no sign-up, works offline.">
+<meta property="og:url" content="https://pavithrasajunair-ship-it.github.io/sql-web/">
+<meta property="og:image" content="https://pavithrasajunair-ship-it.github.io/sql-web/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SQL Revision: SQL, finally clicks. Learn, Practice and Lab for Class 12 SQL.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SQL Revision · Class 12: SQL, finally clicks.">
+<meta name="twitter:description" content="Every topic, instant-feedback quizzes and a live SQL lab. Free, no sign-up, works offline.">
+<meta name="twitter:image" content="https://pavithrasajunair-ship-it.github.io/sql-web/og.png">
 <meta name="theme-color" content="#0d0d0d">
 <meta name="color-scheme" content="dark">
 <link rel="manifest" href="manifest.webmanifest">
@@ -366,6 +380,14 @@ body[data-view="home"] .top-cta{display:block;}
   body[data-view="home"] header{flex-wrap:nowrap;}
   body[data-view="home"] .header-right{width:auto;margin-left:auto;}
 }
+
+.lp-share{margin-top:16px;display:inline-block;}
+.lp-foot .lp-link{font-size:14px;}
+
+.lp-extras{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-top:22px;}
+.lp-extras a{text-decoration:none;}
+.lp-final .lp-extras{margin-top:26px;}
+.lp-extras .lp-share{margin-top:0;}
 </style>
 </head>
 <body data-mode="learn">
@@ -403,6 +425,7 @@ body[data-view="home"] .top-cta{display:block;}
       <button class="lp-btn lp-btn-primary" id="home-start" data-action="enter" data-mode="learn">Start revising <span aria-hidden="true">→</span></button>
       <button class="lp-btn lp-btn-ghost" data-action="enter" data-mode="practice">Try a quick quiz</button>
     </div>
+    <p class="lp-extras" data-reveal style="--d:.65s"><a class="lp-link" href="Class12-SQL-cheatsheet.pdf" download>Free cheat sheet (PDF) ↓</a><button class="lp-link lp-share" data-action="share">Share with a friend ↗</button></p>
     <button class="lp-continue" id="home-continue" data-action="enter" data-mode="practice" hidden></button>
   </div>
 
@@ -487,6 +510,7 @@ body[data-view="home"] .top-cta{display:block;}
   </section>
 
   <footer class="lp-foot">
+    <p><button class="lp-link" data-action="share">Share SQL Revision with a friend ↗</button></p>
     <p>Progress is saved in this browser only. Nothing is uploaded.</p>
     <p>Film music: Sascha Ende, <a href="https://ende.app/en" target="_blank" rel="noopener">ende.app</a> (CC BY 4.0) · Sound effects: Kenney.nl (CC0)</p>
   </footer>
@@ -2344,6 +2368,7 @@ function showResult() {
     ${quizTimer ? `<div class="res-meta" style="text-align:center">⏱ Time used: ${fmtTime(Math.round(quizTimer.used))} of ${fmtTime(quizTimer.limit)}</div>` : ''}
     <div class="btn-row" style="justify-content:center">
       <button class="btn primary" data-action="start" data-mode="${quizMode}">New quiz</button>
+      <button class="btn" data-action="shareresult">Share result</button>
       <button class="btn" data-action="review">Review answers</button>
       <button class="btn" data-action="home">Back to practice</button>
     </div>
@@ -2354,6 +2379,97 @@ function showResult() {
           : `${a && a.text ? `You wrote: <code class="mine">${esc(a.text)}</code><br>` : ''}Model answer: <code>${esc(q.answer)}</code>`}</div>`).join('')}</div>` : ''}
   </div></div>`;
   root.scrollTop = 0;
+}
+
+
+/* ================= SHARING ================= */
+const SITE_URL = 'https://pavithrasajunair-ship-it.github.io/sql-web/';     // used when the page is opened from a file
+const liveUrl = () => /^https?:$/.test(location.protocol) ? location.origin + location.pathname : SITE_URL;
+function downloadBlob(blob, name) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+async function shareOut({title, text, url, file}) {            // -> 'shared' | 'copied' | 'saved' | 'cancelled' | 'failed'
+  try {
+    if (navigator.share) {
+      const data = {title, text, url};
+      if (file && navigator.canShare && navigator.canShare({files: [file]})) { data.files = [file]; data.text = `${text} ${url}`; delete data.url; }
+      await navigator.share(data); return 'shared';
+    }
+  } catch (e) { if (e && e.name === 'AbortError') return 'cancelled'; }
+  if (file) { downloadBlob(file, file.name); try { await navigator.clipboard.writeText(`${text} ${url}`); } catch (e) {} return 'saved'; }
+  try { await navigator.clipboard.writeText(`${text} ${url}`); return 'copied'; } catch (e) {}
+  const ta = document.createElement('textarea'); ta.value = `${text} ${url}`; ta.style.cssText = 'position:fixed;opacity:0';
+  document.body.appendChild(ta); ta.select(); let ok = false; try { ok = document.execCommand('copy'); } catch (e) {} ta.remove();
+  return ok ? 'copied' : 'failed';
+}
+const SHARE_MSG = {shared: 'Shared ✓', copied: 'Link copied ✓', saved: 'Image saved ✓', failed: 'Copy the link from the address bar'};
+async function shareAction(el, payload) {
+  const r = await shareOut(payload); if (r !== 'cancelled' && el) flash(el, SHARE_MSG[r] || 'Done');
+}
+
+/* shareable result image (1080×1350): score, streak, XP and the link */
+function resultCardBlob({score, n, pct, streak, xp, withIcon}) {
+  return new Promise((resolve, reject) => {
+    const W = 1080, H = 1350, c = document.createElement('canvas'); c.width = W; c.height = H;
+    const g = c.getContext('2d'), F = '"Inter","Inter Display",-apple-system,"Segoe UI",Roboto,Arial,sans-serif';
+    g.fillStyle = '#0d0d0d'; g.fillRect(0, 0, W, H);
+    let r = g.createRadialGradient(150, 100, 0, 150, 100, 760); r.addColorStop(0, 'rgba(127,119,221,.50)'); r.addColorStop(1, 'rgba(127,119,221,0)'); g.fillStyle = r; g.fillRect(0, 0, W, H);
+    r = g.createRadialGradient(960, 1250, 0, 960, 1250, 700); r.addColorStop(0, 'rgba(29,158,117,.38)'); r.addColorStop(1, 'rgba(29,158,117,0)'); g.fillStyle = r; g.fillRect(0, 0, W, H);
+    const rr = (x, y, w, h, rad) => { g.beginPath(); g.moveTo(x + rad, y); g.arcTo(x + w, y, x + w, y + h, rad); g.arcTo(x + w, y + h, x, y + h, rad); g.arcTo(x, y + h, x, y, rad); g.arcTo(x, y, x + w, y, rad); g.closePath(); };
+    const finish = () => { c.toBlob(b => b ? resolve(b) : reject(new Error('toBlob')), 'image/png'); };
+    const draw = icon => {
+      g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+      if (icon) { g.save(); rr(W / 2 - 60, 90, 120, 120, 28); g.clip(); g.drawImage(icon, W / 2 - 60, 90, 120, 120); g.restore(); }
+      g.fillStyle = '#f0f0f0'; g.font = `700 44px ${F}`; g.fillText('SQL Revision', W / 2, icon ? 280 : 200);
+      g.fillStyle = '#a8a8a8'; g.font = `500 30px ${F}`; g.fillText('Class 12 SQL', W / 2, icon ? 328 : 248);
+      const gr = g.createLinearGradient(240, 0, 840, 0); gr.addColorStop(0, '#afa9ec'); gr.addColorStop(1, '#5dcaa5');
+      g.fillStyle = gr; g.font = `800 ${String(score + '/' + n).length > 5 ? 230 : 280}px ${F}`; g.fillText(`${score}/${n}`, W / 2, 680);
+      g.fillStyle = '#f0f0f0'; g.font = `700 64px ${F}`; g.fillText(`${pct}% correct`, W / 2, 790);
+      const chips = []; if (streak > 0) chips.push(`${streak}-day streak`); if (xp > 0) chips.push(`${xp} XP`);
+      g.font = `600 34px ${F}`;
+      const ws = chips.map(t => g.measureText(t).width + 70), total = ws.reduce((a, b) => a + b, 0) + 24 * (chips.length - 1);
+      let x = (W - total) / 2;
+      chips.forEach((t, i) => { rr(x, 850, ws[i], 78, 39); g.fillStyle = '#1a1840'; g.fill(); g.strokeStyle = '#3c3489'; g.lineWidth = 2; g.stroke(); g.fillStyle = '#afa9ec'; g.textAlign = 'center'; g.fillText(t, x + ws[i] / 2, 902); x += ws[i] + 24; });
+      g.fillStyle = '#f0f0f0'; g.font = `700 56px ${F}`; g.fillText('Think you can beat it?', W / 2, 1090);
+      rr(W / 2 - 250, 1135, 500, 96, 28); g.fillStyle = '#7f77dd'; g.fill();
+      g.fillStyle = '#fff'; g.font = `700 40px ${F}`; g.fillText('Try it free  →', W / 2, 1198);
+      g.fillStyle = '#8a8a8a'; g.font = `500 28px ${F}`; g.fillText(liveUrl().replace(/^https?:\/\//, '').replace(/\/$/, ''), W / 2, 1290);
+      try { finish(); } catch (e) { reject(e); }
+    };
+    if (!withIcon) return draw(null);
+    const im = new Image(); im.onload = () => draw(im); im.onerror = () => draw(null); im.src = 'icon-192.png';
+  });
+}
+async function shareResult(el) {
+  const n = quizQ.length, score = answers.filter(a => a && a.correct).length, pct = n ? Math.round(score / n * 100) : 0;
+  const info = {score, n, pct, streak: liveStreak(), xp: (lab && lab.xp) || 0};
+  let blob; try { blob = await resultCardBlob({...info, withIcon: true}); } catch (e) { try { blob = await resultCardBlob({...info, withIcon: false}); } catch (e2) { blob = null; } }
+  const text = `I scored ${score}/${n} (${pct}%) on SQL Revision, Class 12 SQL.${info.streak > 1 ? ` ${info.streak}-day streak!` : ''} Think you can beat it?`;
+  const file = blob ? new File([blob], 'my-sql-score.png', {type: 'image/png'}) : null;
+  await shareAction(el, {title: 'My SQL Revision score', text, url: liveUrl(), file});
+}
+
+/* ================= QUESTION OF THE DAY (deep link #q=N) ================= */
+let daily = null;
+function renderDailyQ() {
+  const q = MCQ[daily.i], a = daily.chosen;
+  root.innerHTML = `<div class="quiz-wrap"><div class="quiz-card">
+      <div class="res-meta" style="margin-bottom:10px">📅 Question of the day</div>
+      <span class="quiz-tag" style="${tagStyle(q.topic)}">${esc(q.topic)}</span>
+      <div class="quiz-q" id="qtext">${esc(q.q)}</div>
+      <div role="group" aria-labelledby="qtext">${q.opts.map((o, i) => {
+        const cls = a == null ? '' : i === q.correct ? ' correct' : (i === a ? ' wrong' : '');
+        return `<button class="opt-btn${cls}" data-action="dpick" data-i="${i}" ${a == null ? '' : 'disabled'}>${'ABCD'[i]}. ${esc(o)}</button>`;
+      }).join('')}</div>
+      <div class="explanation" ${a == null ? 'hidden' : ''}>${a === q.correct ? '✓ Correct! ' : a == null ? '' : '✗ Not quite. '}${esc(q.exp)}</div>
+    </div>
+    <div class="btn-row" ${a == null ? 'hidden' : ''}>
+      <button class="btn primary" data-action="start" data-mode="mcq">Practise more questions →</button>
+      <button class="btn" data-action="dshare">Share this question</button>
+      <button class="btn" data-action="gohome">Home</button>
+    </div></div>`;
+  if (a != null) $('.btn.primary', root)?.focus();
 }
 
 /* ================= FLASHCARDS ================= */
@@ -2485,6 +2601,10 @@ const actions = {
   ...LAB_ACTIONS, ...EXAM_ACTIONS,
   mode:   d => setMode(d.mode),
   gohome: () => showHome(),
+  share:  (d, el) => shareAction(el, {title: 'SQL Revision · Class 12', text: 'Free Class 12 SQL revision: notes, quizzes and a live SQL lab. No sign-up, works offline.', url: liveUrl()}),
+  shareresult: (d, el) => shareResult(el),
+  dpick:  d => { if (!daily || daily.chosen != null) return; daily.chosen = +d.i; if (daily.chosen === MCQ[daily.i].correct) stats.mcqScore++; stats.mcqTotal++; touchStreak(); save(); renderDailyQ(); },
+  dshare: (d, el) => shareAction(el, {title: 'SQL question', text: 'Can you answer this Class 12 SQL question?', url: `${liveUrl()}#q=${daily.i}`}),
   enter:  d => { document.body.dataset.view = 'app'; try { window.history.replaceState(null, '', '#app'); } catch (e) {} setMode(d.mode); $('#content-area').focus({preventScroll: true}); },
   topic:  d => selectTopic(d.id),
   start:  d => startQuiz(d.mode),
@@ -2611,7 +2731,9 @@ exam = examRestore(saved.exam);
 applyPrefs();
 restoreSession(saved.session);      // resume an in-progress quiz / flashcard drill: same questions, same answers
 setMode(currentMode);
-if (location.hash === '#app') document.body.dataset.view = 'app'; else showHome();
+const dq = /^#q=(\d+)$/.exec(location.hash);
+if (dq && +dq[1] < MCQ.length) { document.body.dataset.view = 'app'; setMode('practice'); daily = {i: +dq[1], chosen: null}; renderDailyQ(); }
+else if (location.hash === '#app') document.body.dataset.view = 'app'; else showHome();
 checkStyles();
 fileNotice();
 </script>
