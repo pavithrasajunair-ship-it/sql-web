@@ -38,6 +38,9 @@ Everything here is ready to post. Replace `LINK` with your live link (for exampl
 > Can you get this one right? 👇 Tap the link to check your answer and try more.
 > #SQL #Class12 #ComputerScience
 
+**Challenge a friend (WhatsApp)**
+> I got 9/12 on this Class 12 SQL quiz. Think you can beat me? Same questions 👇 (the link opens the quiz)
+
 **Score share (for students to post themselves)**
 > I scored 10/12 on Class 12 SQL and I'm on a 5-day streak 🔥 Think you can beat it? LINK
 

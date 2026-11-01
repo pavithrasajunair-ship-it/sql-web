@@ -43,6 +43,7 @@
 - **Link previews.** Pasting the link in WhatsApp, Telegram, X or LinkedIn shows a branded card (Open Graph and Twitter tags, `og.png`).
 - **Share buttons** on the homepage, using the phone's share sheet where available, or copying the link.
 - **Result cards.** After a quiz, "Share result" creates a ready-to-post image with the score, streak and link.
+- **Challenge a friend.** After a quiz, "Challenge a friend" creates a link that carries the same questions and your score (plus an optional first name). The friend plays the identical quiz and sees "You 11/12 · Aarav 9/12", then can send a rematch. Nothing is stored on a server: the quiz is rebuilt from the link.
 - **Question of the day.** Deep links like `/#q=2` open a single question in the app with the answer revealed after a tap.
 - **Free cheat sheet** (PDF) on the homepage, and a [marketing pack](marketing/README.md) with 30 daily question images, captions and teacher messages.
 
