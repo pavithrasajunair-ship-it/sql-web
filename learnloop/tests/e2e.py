@@ -16,7 +16,7 @@ def real_python(code):  # test stand-in for the in-browser Pyodide sandbox
 try:
   with sync_playwright() as p:
     b = p.chromium.launch()
-    ctx = b.new_context(viewport={'width': 1280, 'height': 900})
+    ctx = b.new_context(viewport={'width': 1280, 'height': 900}, reduced_motion='reduce')  # animations tested separately below
     page = ctx.new_page(); errs = []
     page.on('pageerror', lambda e: errs.append(str(e)))
     page.on('console', lambda m: errs.append(m.text) if m.type == 'error' and 'favicon' not in m.text else None)
@@ -161,6 +161,14 @@ try:
     data = json.load(open(dl.value.path())); check('export has attempts', len(data['attempts']) > 8)
     page.once('dialog', lambda d: d.accept()); page.click('#del'); page.wait_for_selector('#ob')
     check('delete resets to onboarding', page.locator('#ob').count() == 1)
+    # --- animation: runs normally, respects reduced motion ---
+    an = b.new_context(viewport={'width': 1000, 'height': 800}).new_page(); an.goto(URL)
+    check('onboarding loop animation present', an.evaluate("getComputedStyle(document.querySelector('.lm-run')).animationName") == 'orbit')
+    an.fill('#nm', 'Ani'); an.click('#ob button[type=submit]'); an.click('#skip'); an.wait_for_selector('.hero')
+    check('dashboard cards stagger in', an.evaluate("getComputedStyle(document.querySelector('.stagger > :nth-child(2)')).animationDelay") != '0s')
+    an.wait_for_timeout(1200); check('count-up settles on the true value', an.evaluate("document.querySelector('.stat').firstChild.nodeValue") == '0')
+    rm = b.new_context(reduced_motion='reduce').new_page(); rm.goto(URL)
+    check('reduced motion stops the loop animation', rm.evaluate("getComputedStyle(document.querySelector('.lm-run')).animationName") == 'none')
     # --- daily free limit + pricing (fresh free user) ---
     lp = b.new_context(viewport={'width': 1000, 'height': 800}).new_page(); lp.goto(URL)
     lp.fill('#nm', 'Lim'); lp.click('#ob button[type=submit]'); lp.click('#skip'); lp.wait_for_selector('.hero')

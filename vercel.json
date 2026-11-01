@@ -1,7 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
-  "trailingSlash": false,
   "rewrites": [
     {
       "source": "/(src|tests|video|marketing|dist|node_modules|\\.git)(/.*)?",
@@ -92,6 +91,13 @@
           "value": "public, max-age=86400"
         }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/learnloop",
+      "destination": "/learnloop/",
+      "permanent": false
     }
   ]
 }

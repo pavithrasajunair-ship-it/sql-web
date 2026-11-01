@@ -94,3 +94,23 @@ label{font-weight:700;display:block;margin:.8rem 0 .25rem}
 .gate{text-align:center;padding:1.5rem 1rem}.gate h2{margin-bottom:.4rem}
 .plans .card.best{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc) inset}
 .plans ul{padding-left:1.2rem}.plans li{margin:.25rem 0}
+
+/* ---- loop animation (home / onboarding) ---- */
+.loopmark{display:block;overflow:visible}
+.loopmark.big{width:min(260px,70%);margin:0 auto .6rem}
+.loopmark.small{width:92px;flex:none}
+.lm-track{fill:none;stroke:var(--line);stroke-width:7;stroke-linecap:round}
+.lm-run,.lm-glow{fill:none;stroke:url(#lg);stroke-width:7;stroke-linecap:round;stroke-dasharray:30 70;animation:orbit 3.2s linear infinite}
+.lm-glow{stroke-width:11;opacity:.7}
+@keyframes orbit{to{stroke-dashoffset:-100}}
+.hero.intro{text-align:center;position:relative;overflow:hidden}
+.hero.intro:before{content:"";position:absolute;inset:-40% -20% auto;height:260px;background:radial-gradient(closest-side,rgba(143,91,255,.22),transparent);animation:drift 7s ease-in-out infinite alternate;pointer-events:none}
+.hero.intro>*{position:relative}.hero.intro form{text-align:left}
+@keyframes drift{to{transform:translateX(18%) scale(1.15)}}
+.stagger>*{animation:rise .5s cubic-bezier(.2,.7,.2,1) both}
+.stagger>*:nth-child(1){animation-delay:.05s}.stagger>*:nth-child(2){animation-delay:.12s}.stagger>*:nth-child(3){animation-delay:.19s}.stagger>*:nth-child(4){animation-delay:.26s}.stagger>*:nth-child(5){animation-delay:.33s}.stagger>*:nth-child(6){animation-delay:.4s}
+.card{transition:transform .2s,box-shadow .2s}
+a.card:hover,.stagger>.card:hover{transform:translateY(-3px)}
+.bar>i{transform-origin:left;animation:grow .9s cubic-bezier(.2,.7,.2,1) both .2s}
+@keyframes grow{from{transform:scaleX(0)}}
+@media(prefers-reduced-motion:reduce){.lm-run,.lm-glow{animation:none;stroke-dasharray:none}.hero.intro:before{animation:none}.card:hover{transform:none!important}}

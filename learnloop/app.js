@@ -97,9 +97,18 @@ function route() {
 const go = id => { if (location.hash === '#/' + id) route(); else location.hash = '#/' + id; };
 const conceptList = subject => CONCEPTS.filter(c => !subject || subject === 'all' || c.subject === subject);
 
+const LOOP = (cls) => `<svg class="loopmark ${cls || ''}" viewBox="0 0 160 80" aria-hidden="true" focusable="false"><defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#ff5fd2"/><stop offset=".5" stop-color="#8f5bff"/><stop offset="1" stop-color="#3fc8ff"/></linearGradient><filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3.2"/></filter></defs><path class="lm-track" d="M20 40C20 10 60 10 80 40C100 70 140 70 140 40C140 10 100 10 80 40C60 70 20 70 20 40Z"/><path class="lm-glow" pathLength="100" d="M20 40C20 10 60 10 80 40C100 70 140 70 140 40C140 10 100 10 80 40C60 70 20 70 20 40Z" filter="url(#glow)"/><path class="lm-run" pathLength="100" d="M20 40C20 10 60 10 80 40C100 70 140 70 140 40C140 10 100 10 80 40C60 70 20 70 20 40Z"/></svg>`;
+function countUp(root) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  $$('.stat', root).forEach(el => {
+    const n = el.firstChild && el.firstChild.nodeType === 3 ? parseInt(el.firstChild.nodeValue, 10) : NaN;
+    if (!(n > 0)) return; const t0 = performance.now(), node = el.firstChild; node.nodeValue = '0';
+    (function tick(t) { const p = Math.min(1, (t - t0) / 800); node.nodeValue = String(Math.round(n * (1 - Math.pow(1 - p, 3)))); if (p < 1) requestAnimationFrame(tick); else node.nodeValue = String(n); })(t0);
+  });
+}
 /* ---------- onboarding + diagnostic ---------- */
 VIEWS.onboard = () => {
-  main().innerHTML = `<section class="card hero" style="max-width:620px;margin:2rem auto"><h1>Welcome to LearnLoop</h1>
+  main().innerHTML = `<section class="card hero intro" style="max-width:620px;margin:2rem auto">${LOOP("big")}<h1>Welcome to LearnLoop</h1>
   <p class="mute">Don't just learn. Understand. Practice. Master. LearnLoop shows you <b>why</b> an answer is wrong, remembers your misunderstandings and brings them back until they are fixed.</p>
   <form id="ob" novalidate><label for="nm">What should we call you?</label><input type="text" id="nm" maxlength="30" autocomplete="given-name" aria-describedby="nmerr">
   <div class="err" id="nmerr" role="alert"></div>
@@ -146,14 +155,14 @@ VIEWS.dashboard = () => {
   const due = stats.filter(x => x.s.n && (Date.now() - x.s.last) / 864e5 >= (x.s.level === 'solid' ? 3 : 1));
   const q = S.quick;
   const first = !assessed && !S.views.length;
-  main().innerHTML = `<section class="hero"><h1>Welcome back, ${esc(p.name)}</h1><p class="mute">${first ? 'Start with a lesson or a quick session. Nothing below is filled in until you actually practise.' : 'Here is where you stand, based only on questions you have answered.'}</p></section>
+  main().innerHTML = `<section class="hero row" style="gap:1rem;flex-wrap:nowrap">${LOOP("small")}<div style="min-width:0"><h1>Welcome back, ${esc(p.name)}</h1><p class="mute">${first ? 'Start with a lesson or a quick session. Nothing below is filled in until you actually practise.' : 'Here is where you stand, based only on questions you have answered.'}</p></div></section>
   ${!S.diagnosticDone && !assessed ? `<div class="card" style="margin:1rem 0"><h2>Take the starting check</h2><p class="mute">Eight short questions, one per topic, so LearnLoop knows where to begin.</p><button class="btn pri" id="diag">Start the check</button></div>` : ''}
-  <div class="grid g3" style="margin:1rem 0">
+  <div class="grid g3 stagger" style="margin:1rem 0">
    <div class="card"><h3>Daily goal</h3><p class="stat">${Math.min(today, goal)}<span class="mute" style="font-size:1rem"> / ${goal} questions</span></p><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="${goal}" aria-valuenow="${Math.min(today, goal)}"><i style="width:${Math.min(100, today / goal * 100)}%"></i></div><p class="small mute">${today >= goal ? 'Goal reached. Anything more is a bonus.' : `${goal - today} more to reach today's goal.`}</p>${LL.state.plan === 'premium' ? '' : `<p class="meter">Free plan: <b>${LL.remaining()}</b> of ${LL.FREE_DAILY} questions left today · <a href="#/pricing">Plans</a></p>`}</div>
    <div class="card"><h3>Learning streak</h3><p class="stat">${st}<span class="mute" style="font-size:1rem"> day${st === 1 ? '' : 's'}</span></p><p class="small mute">${st ? 'Days in a row with at least one answered question.' : 'Answer one question today to start a streak.'}</p></div>
    <div class="card"><h3>Overall progress</h3><p class="stat">${assessed}<span class="mute" style="font-size:1rem"> / ${CONCEPTS.length} topics assessed</span></p><div class="bar"><i style="width:${assessed / CONCEPTS.length * 100}%"></i></div><p class="small mute">${solid} solid so far. Reading lessons does not count; answers do.</p></div>
   </div>
-  <div class="grid g2">
+  <div class="grid g2 stagger">
    <div class="card"><h2>Continue learning</h2>${q ? `<p>Unfinished <b>${q.minutes}-minute</b> session (${q.idx} of ${q.steps.length} steps done).</p><button class="btn pri" id="resume">Resume session</button>`
       : recent.length ? `<p>You last worked on <b>${esc(byId(recent[0].concept).title)}</b> ${ago(recent[0].t)}.</p><div class="row"><a class="btn pri" href="#/tutor/${recent[0].concept}">Open lesson</a><a class="btn" href="#/detective">Practise it</a></div>`
       : `<div class="empty">No lessons yet.<br><a class="btn pri" style="margin-top:.6rem" href="#/tutor/${CONCEPTS[0].id}">Start with ${esc(CONCEPTS[0].title)}</a></div>`}</div>
@@ -162,6 +171,7 @@ VIEWS.dashboard = () => {
    <div class="card"><h2>Revision suggestions</h2>${due.length ? `<ul class="list">${due.map(x => `<li><span><b>${esc(x.c.title)}</b><br><span class="small mute">Last practised ${ago(x.s.last)}</span></span><a class="btn sm" href="#/quick">Revise</a></li>`).join('')}</ul>` : `<div class="empty">${assessed ? 'Nothing is due. Topics come back here a day or more after you practise them.' : 'Revision suggestions appear after your first practice.'}</div>`}</div>
    <div class="card" style="grid-column:1/-1"><h2>Recently studied</h2>${recent.length ? `<ul class="list">${recent.map(r => `<li><span><b>${esc(byId(r.concept).title)}</b> <span class="small mute">· ${ago(r.t)}</span></span>${pill(r.concept)}</li>`).join('')}</ul>` : '<div class="empty">Topics you study will be listed here.</div>'}</div>
   </div>`;
+  countUp(main());
   const d = $('#diag'); if (d) d.addEventListener('click', VIEWS.diagnostic);
   const r = $('#resume'); if (r) r.addEventListener('click', () => go('quick'));
 };
