@@ -59,9 +59,12 @@ try:
     check('weak concepts listed', 'Needs work' in d or 'Weak concepts' in d)
     check('streak 1 day', '1 day' in d)
     check('assessed 8/8', '8 / 8 topics assessed' in d)
+    check('desktop layout: content sits beside the sidebar', page.evaluate("document.querySelector('#main').getBoundingClientRect().left >= 240 && document.querySelector('#main').getBoundingClientRect().top < 100"))
+    check('free meter on dashboard', 'questions left today' in d)
+    page.evaluate("LL.state.plan='premium'; LL.save()")  # test seam: lift the daily limit for the long flow below
     # --- nav ---
     links = page.eval_on_selector_all('#side .nav a', 'els => els.map(e => e.getAttribute("href"))')
-    check('9 nav links', len(links) == 9, links)
+    check('10 nav links', len(links) == 10, links)
     for h in links:
         page.goto(URL + h); page.wait_for_selector('#main h1')
         check('nav ' + h, page.inner_text('#main h1').strip() != '', h)
@@ -158,6 +161,21 @@ try:
     data = json.load(open(dl.value.path())); check('export has attempts', len(data['attempts']) > 8)
     page.once('dialog', lambda d: d.accept()); page.click('#del'); page.wait_for_selector('#ob')
     check('delete resets to onboarding', page.locator('#ob').count() == 1)
+    # --- daily free limit + pricing (fresh free user) ---
+    lp = b.new_context(viewport={'width': 1000, 'height': 800}).new_page(); lp.goto(URL)
+    lp.fill('#nm', 'Lim'); lp.click('#ob button[type=submit]'); lp.click('#skip'); lp.wait_for_selector('.hero')
+    lp.goto(URL + '#/detective'); lp.click('.tab[data-m=bug]'); lp.wait_for_selector('#stage .opt')
+    for i in range(15):
+        lp.wait_for_selector('#stage .opt'); lp.click('#stage .opt >> nth=0'); lp.wait_for_selector('.fb .btn.pri'); lp.click('.fb .btn.pri')
+    lp.wait_for_selector('.gate')
+    check('limit gate after 15', "used today's free questions" in lp.inner_text('#stage') and lp.evaluate('LL.todayCount()') == 15)
+    check('gate offers Premium + progress, lessons stay open', lp.locator('.gate a[href="#/pricing"]').count() == 1)
+    lp.goto(URL + '#/tutor/py-vars'); lp.wait_for_selector('.lesson'); check('lessons still readable at limit', 'variable' in lp.inner_text('.lesson').lower() and 'free questions' in lp.inner_text('#qh'))
+    lp.goto(URL + '#/quick'); lp.click('#qf button[type=submit]'); lp.click('#go'); lp.wait_for_selector('.gate'); check('quick blocked at limit', True)
+    lp.goto(URL + '#/pricing'); check('pricing shows 15/15', '15 of 15 used' in lp.inner_text('#main').replace('\n', ' '))
+    lp.click('#up'); check('upgrade does not pretend to charge', 'Payments are not switched on yet' in lp.inner_text('#upmsg') and lp.evaluate('LL.state.plan') == 'free')
+    # next day resets
+    lp.evaluate("LL._setNow(() => Date.now() + 864e5)"); lp.goto(URL + '#/detective'); lp.wait_for_selector('#stage .opt'); check('limit resets next day', True)
     # --- mobile ---
     m = b.new_context(viewport={'width': 375, 'height': 760}).new_page(); m.goto(URL)
     m.fill('#nm', 'Ravi'); m.click('#ob button[type=submit]'); m.click('#skip'); m.wait_for_selector('#main h1')

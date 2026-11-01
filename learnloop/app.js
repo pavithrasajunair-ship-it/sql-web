@@ -52,7 +52,13 @@ function itemFor(c, kind) {
   return {prompt: p.q, code: p.code, lang: c.subject, opts: shuffle(opts), kind: 'predict'};
 }
 /* Multiple choice with an explanation for EVERY wrong answer: the student learns why, not just what. */
+function limitGate(host) {
+  host.innerHTML = `<div class="gate"><h2>You have used today's free questions</h2><p>The free plan includes <b>${LL.FREE_DAILY} answered questions a day</b>. Your limit resets at midnight, your local time. Lessons, your progress and history stay available.</p><p class="row" style="justify-content:center"><a class="btn pri" href="#/pricing">See Premium</a><a class="btn" href="#/progress">View my progress</a></p></div>`;
+  return true;
+}
+const blocked = (host, meta) => meta.src !== 'diagnostic' && LL.atLimit() && limitGate(host);
 function renderMCQ(host, item, meta, done) {
+  if (blocked(host, meta)) return;
   host.innerHTML = `<div class="q"><p class="q-p"><b>${esc(item.prompt)}</b></p>${item.code ? codeBlock(item.code, item.lang) : ''}<div class="opts" role="group" aria-label="Answer options">${item.opts.map((o, i) => `<button class="opt" data-i="${i}">${esc(o.t)}</button>`).join('')}</div><div class="fb" aria-live="polite"></div></div>`;
   $$('.opt', host).forEach(b => b.addEventListener('click', () => {
     const o = item.opts[+b.dataset.i], good = item.opts.find(x => x.ok);
@@ -70,11 +76,11 @@ const nextBtn = (fb, label, fn) => { const b = document.createElement('button');
 
 /* ---------- navigation ---------- */
 const I = {
-  dash: '<path d="M3 12l9-8 9 8M5 10v10h5v-6h4v6h5V10"/>', tutor: '<path d="M4 5h16v11H9l-5 4z"/>', notes: '<path d="M6 3h9l4 4v14H6zM14 3v5h5"/>',
+  star: '<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>', dash: '<path d="M3 12l9-8 9 8M5 10v10h5v-6h4v6h5V10"/>', tutor: '<path d="M4 5h16v11H9l-5 4z"/>', notes: '<path d="M6 3h9l4 4v14H6zM14 3v5h5"/>',
   det: '<circle cx="11" cy="11" r="6"/><path d="M16 16l5 5"/>', exam: '<path d="M5 4h14v16H5zM9 9h6M9 13h6"/>', quick: '<path d="M13 2L5 14h6l-1 8 8-12h-6z"/>',
   map: '<circle cx="6" cy="6" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="10" cy="18" r="2"/><path d="M8 7l8 1M7 8l3 8M17 10l-6 7"/>', prog: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>', set: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
 };
-const NAV = [['dashboard', 'Dashboard', 'dash'], ['tutor', 'AI Tutor', 'tutor'], ['notes', 'Notes Studio', 'notes', 1], ['detective', 'Code Detective', 'det'], ['examiner', 'AI Examiner', 'exam', 1], ['quick', 'QuickLearn', 'quick'], ['skillmap', 'My SkillMap', 'map', 1], ['progress', 'My Progress', 'prog'], ['settings', 'Settings', 'set']];
+const NAV = [['dashboard', 'Dashboard', 'dash'], ['tutor', 'AI Tutor', 'tutor'], ['notes', 'Notes Studio', 'notes', 1], ['detective', 'Code Detective', 'det'], ['examiner', 'AI Examiner', 'exam', 1], ['quick', 'QuickLearn', 'quick'], ['skillmap', 'My SkillMap', 'map', 1], ['progress', 'My Progress', 'prog'], ['pricing', 'Plans', 'star'], ['settings', 'Settings', 'set']];
 function drawNav(cur) {
   $('#side').innerHTML = `<div class="brand"><i class="logo"></i>LearnLoop</div><div class="nav">${NAV.map(([id, label, ic, soon]) => `<a href="#/${id}" ${cur === id ? 'aria-current="page"' : ''}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${I[ic]}</svg>${label}${soon ? '<span class="soon">Soon</span>' : ''}</a>`).join('')}</div><p class="tag">Don't just learn. Understand. Practice. Master.</p>`;
 }
@@ -143,7 +149,7 @@ VIEWS.dashboard = () => {
   main().innerHTML = `<section class="hero"><h1>Welcome back, ${esc(p.name)}</h1><p class="mute">${first ? 'Start with a lesson or a quick session. Nothing below is filled in until you actually practise.' : 'Here is where you stand, based only on questions you have answered.'}</p></section>
   ${!S.diagnosticDone && !assessed ? `<div class="card" style="margin:1rem 0"><h2>Take the starting check</h2><p class="mute">Eight short questions, one per topic, so LearnLoop knows where to begin.</p><button class="btn pri" id="diag">Start the check</button></div>` : ''}
   <div class="grid g3" style="margin:1rem 0">
-   <div class="card"><h3>Daily goal</h3><p class="stat">${Math.min(today, goal)}<span class="mute" style="font-size:1rem"> / ${goal} questions</span></p><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="${goal}" aria-valuenow="${Math.min(today, goal)}"><i style="width:${Math.min(100, today / goal * 100)}%"></i></div><p class="small mute">${today >= goal ? 'Goal reached. Anything more is a bonus.' : `${goal - today} more to reach today's goal.`}</p></div>
+   <div class="card"><h3>Daily goal</h3><p class="stat">${Math.min(today, goal)}<span class="mute" style="font-size:1rem"> / ${goal} questions</span></p><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="${goal}" aria-valuenow="${Math.min(today, goal)}"><i style="width:${Math.min(100, today / goal * 100)}%"></i></div><p class="small mute">${today >= goal ? 'Goal reached. Anything more is a bonus.' : `${goal - today} more to reach today's goal.`}</p>${LL.state.plan === 'premium' ? '' : `<p class="meter">Free plan: <b>${LL.remaining()}</b> of ${LL.FREE_DAILY} questions left today · <a href="#/pricing">Plans</a></p>`}</div>
    <div class="card"><h3>Learning streak</h3><p class="stat">${st}<span class="mute" style="font-size:1rem"> day${st === 1 ? '' : 's'}</span></p><p class="small mute">${st ? 'Days in a row with at least one answered question.' : 'Answer one question today to start a streak.'}</p></div>
    <div class="card"><h3>Overall progress</h3><p class="stat">${assessed}<span class="mute" style="font-size:1rem"> / ${CONCEPTS.length} topics assessed</span></p><div class="bar"><i style="width:${assessed / CONCEPTS.length * 100}%"></i></div><p class="small mute">${solid} solid so far. Reading lessons does not count; answers do.</p></div>
   </div>
@@ -224,6 +230,7 @@ function editor(host, value, lang) {
 const tableHtml = (cols, rows) => `<table class="t"><thead><tr>${cols.map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows.slice(0, 12).map(r => `<tr>${r.map(v => `<td>${esc(v === null ? 'NULL' : v)}</td>`).join('')}</tr>`).join('')}</tbody></table>${rows.length > 12 ? `<p class="small mute">…and ${rows.length - 12} more rows</p>` : ''}`;
 let pyDown = false;
 function renderFix(host, c, done) {
+  if (blocked(host, {src: 'detective'})) return;
   const f = c.fix, sql = c.subject === 'sql'; let attempts = 0, hints = 0, revealed = false, solved = false;
   const wantRows = sql ? (SQLEngine.run(sqlDb(), f.solution).results.filter(x => x.kind === 'rows').pop() || {rows: []}).rows.length : 0;
   host.innerHTML = `<p><b>${esc(f.q)}</b></p>
@@ -394,7 +401,7 @@ VIEWS.settings = () => {
    <label for="st">Theme</label><select id="st"><option value="auto">Match my device</option><option value="light">Light</option><option value="dark">Dark</option></select>
    <p><button class="btn pri" type="submit">Save</button> <span id="saved" class="pass" role="status"></span></p></form>
   <section class="card" style="margin:1rem 0"><h2>AI features <span class="label-setup">Setup needed</span></h2><p>The AI tutor's free-form answers, Notes Studio and AI Examiner are <b>not connected</b>. They need a small backend that holds an AI provider key (never placed in browser code). Everything marked as working in this app works without AI.</p></section>
-  <section class="card" style="margin:1rem 0"><h2>Plans</h2><div class="grid g2"><div><h3>Free <span class="pill">Current</span></h3><ul><li>Lessons, check questions and QuickLearn</li><li>Code Detective for Python and SQL</li><li>Progress saved in this browser</li></ul></div><div><h3>Premium <span class="label-setup">Planned</span></h3><ul><li>Higher AI limits</li><li>PDF notes and AI viva</li><li>Detailed performance reports</li></ul></div></div><p class="small mute">Premium is not on sale yet and no payment is collected anywhere in this app.</p></section>
+  <section class="card" style="margin:1rem 0"><h2>Plans</h2><div class="grid g2"><div><h3>Free <span class="pill">Current</span></h3><ul><li>Lessons, check questions and QuickLearn</li><li>Code Detective for Python and SQL</li><li>Progress saved in this browser</li></ul></div><div><h3>Premium <span class="label-setup">Planned</span></h3><ul><li>Higher AI limits</li><li>PDF notes and AI viva</li><li>Detailed performance reports</li></ul></div></div><p class="small mute">Premium is not on sale yet and no payment is collected anywhere in this app. <a href="#/pricing">See plans</a>.</p></section>
   <section class="card"><h2>Your data</h2><p class="small mute">Stored only in this browser (no account, nothing sent to a server). Clearing site data deletes it.</p><div class="row"><button class="btn" id="exp">Download my data</button><button class="btn" id="del">Delete all my data</button></div></section>`;
   $('#st').value = S.prefs.theme;
   $('#sf').addEventListener('submit', e => {
@@ -405,6 +412,22 @@ VIEWS.settings = () => {
   });
   $('#exp').addEventListener('click', () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(LL.state, null, 2)], {type: 'application/json'})); a.download = 'learnloop-data.json'; a.click(); });
   $('#del').addEventListener('click', () => { if (confirm('Delete all LearnLoop progress from this browser? This cannot be undone.')) { LL.reset(); applyTheme(); location.hash = '#/dashboard'; route(); } });
+};
+
+/* ---------- plans (no payment is taken: see note) ---------- */
+VIEWS.pricing = () => {
+  const used = LL.todayCount(), prem = LL.state.plan === 'premium';
+  main().innerHTML = `<h1>Plans</h1><p class="mute">Learn free every day. Premium removes the daily limit and adds the AI features as they launch.</p>
+  <div class="grid g2 plans" style="margin:1rem 0">
+   <div class="card"><h2>Free ${prem ? '' : '<span class="pill">Your plan</span>'}</h2><p class="stat">${LL.FREE_DAILY}<span class="mute" style="font-size:1rem"> questions / day</span></p>
+    <ul><li>All 8 built-in lessons in 4 styles</li><li>Code Detective: Python and SQL</li><li>QuickLearn sessions</li><li>Progress, streak and history</li></ul>
+    <p class="meter">Today: <b>${Math.min(used, LL.FREE_DAILY)}</b> of ${LL.FREE_DAILY} used. Resets at midnight.</p></div>
+   <div class="card best"><h2>Premium <span class="label-setup">Not on sale yet</span></h2><p class="stat">Unlimited<span class="mute" style="font-size:1rem"> questions</span></p>
+    <ul><li>No daily question limit</li><li>AI tutor follow-ups and PDF Notes Studio (when launched)</li><li>AI viva and detailed performance reports (when launched)</li><li>Price: to be announced</li></ul>
+    <button class="btn pri" id="up">Upgrade to Premium</button><div id="upmsg" aria-live="polite"></div></div>
+  </div>
+  <p class="small mute">The daily limit is counted in this browser. Accounts, payments and limits that follow you across devices need a backend and a payment provider, which are not connected yet.</p>`;
+  $('#up').addEventListener('click', () => { $('#upmsg').innerHTML = '<div class="notice" style="margin-top:.8rem"><b>Payments are not switched on yet.</b> Nothing was charged and your plan has not changed. Premium will open once a payment provider and accounts are connected.</div>'; });
 };
 
 /* ---------- boot ---------- */

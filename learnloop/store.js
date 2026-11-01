@@ -4,7 +4,8 @@
 const LL = (() => {
   const KEY = 'learnloop.v1';
   const DAY = 86400000;
-  const fresh = () => ({v: 1, profile: null, diagnosticDone: false, attempts: [], views: [], sessions: [], quick: null, prefs: {goal: 5, theme: 'auto'}});
+  const FREE_DAILY = 15; // free plan: answered questions per day (soft limit: enforced in the browser only)
+  const fresh = () => ({v: 1, plan: 'free', profile: null, diagnosticDone: false, attempts: [], views: [], sessions: [], quick: null, prefs: {goal: 5, theme: 'auto'}});
   let state = fresh();
   let now = () => Date.now();
   let mem = null; // fallback when localStorage is unavailable
@@ -69,6 +70,9 @@ const LL = (() => {
     return next ? {style: next, changed: true} : {style: order[(order.indexOf(seen[seen.length - 1]) + 1) % order.length], changed: true};
   }
   function todayCount() { const k = dayKey(now()); return state.attempts.filter(a => dayKey(a.t) === k).length; }
+  const limit = () => state.plan === 'premium' ? Infinity : FREE_DAILY;
+  const remaining = () => Math.max(0, limit() - todayCount());
+  const atLimit = () => remaining() === 0;
   function streak() {
     const days = new Set(state.attempts.map(a => dayKey(a.t)));
     let t = now(), n = 0;
@@ -91,7 +95,7 @@ const LL = (() => {
   function addSession(s) { state.sessions.push(Object.assign({t: now()}, s)); save(); }
   return {
     get state() { return state; }, load, save, reset, setProfile, record, view, stats, openMisconceptions, viewedStyles,
-    recommendStyle, todayCount, streak, studiedRecently, history, addSession, dayKey,
+    recommendStyle, todayCount, limit, remaining, atLimit, FREE_DAILY, streak, studiedRecently, history, addSession, dayKey,
     _setNow(f) { now = f; }, _fresh: fresh, _set(s) { state = s; },
   };
 })();
