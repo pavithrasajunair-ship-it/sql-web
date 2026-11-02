@@ -62,15 +62,6 @@
       ]
     },
     {
-      "source": "/learnloop/(.*)",
-      "headers": [
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://cdn.jsdelivr.net blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
-        }
-      ]
-    },
-    {
       "source": "/sw.js",
       "headers": [
         {
@@ -91,13 +82,6 @@
           "value": "public, max-age=86400"
         }
       ]
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/learnloop",
-      "destination": "/learnloop/",
-      "permanent": false
     }
   ]
 }
