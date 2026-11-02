@@ -453,7 +453,7 @@ function showResult() {
 
 
 /* ================= SHARING ================= */
-const SITE_URL = 'https://pavithrasajunair-ship-it.github.io/sql-web/';     // used when the page is opened from a file
+const SITE_URL = 'https://sql-web-xi.vercel.app/';     // used when the page is opened from a file
 const liveUrl = () => /^https?:$/.test(location.protocol) ? location.origin + location.pathname : SITE_URL;
 function downloadBlob(blob, name) {
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;

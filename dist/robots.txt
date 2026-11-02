@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /__blocked__
+
+Sitemap: https://sql-web-xi.vercel.app/sitemap.xml
