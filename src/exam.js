@@ -114,6 +114,8 @@ function renderExamResult() {
 const EXAM_ACTIONS = {
   examstart: () => {
     if (exam && !exam.done && !confirm('Start a new paper? Your current paper will be lost.')) return;
+    if (paper && !paper.done && !confirm('Start the exam? Your current practice paper will be lost.')) return;
+    stopPaperTick(); paper = null;
     quizMode = null; quizTimer = null; stopTicking();
     exam = examNew(); save(); renderExam(); root.scrollTop = 0;
   },

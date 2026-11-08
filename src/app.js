@@ -13,7 +13,7 @@ function shuffle(arr) {                       // Fisher–Yates (unbiased)
   return a;
 }
 const TAG = {
-  DDL:['#7f77dd','#1a1840'], DML:['#1d9e75','#00231a'], Clause:['#ef9f27','#2a1e00'],
+  DDL:['#a39dee','#1a1840'], DML:['#1d9e75','#00231a'], Clause:['#ef9f27','#2a1e00'],
   Aggregate:['#ef9f27','#2a1e00'], Constraint:['#d4537e','#2a0f1c'], Keyword:['#378add','#001830'],
   Function:['#378add','#001830'], Terms:['#5dcaa5','#00231a'], Python:['#afa9ec','#1a1840'],
   Datatype:['#5dcaa5','#00231a'], Join:['#ef9f27','#2a1e00'],
@@ -45,14 +45,25 @@ let currentMode  = ['practice', 'lab'].includes(saved.mode) ? saved.mode : 'lear
 const clampN = (v, max, d) => { v = parseInt(v, 10); return Number.isFinite(v) ? Math.min(Math.max(v, 1), max) : d; };
 let cfg = {mcqN: clampN(saved.cfg?.mcqN, MCQ.length, 12), typeN: clampN(saved.cfg?.typeN, TYPE_Q.length, 10), timer: !!saved.cfg?.timer};
 const dayStr = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-let prefs = {theme: saved.prefs?.theme === 'light' ? 'light' : 'dark', big: !!saved.prefs?.big, name: typeof saved.prefs?.name === 'string' ? saved.prefs.name.slice(0, 20) : ''};
+const THEME_KEY = 'sqlrev.theme';                     // the student's own choice; absent = follow the system
+const storedTheme = () => { try { const v = localStorage.getItem(THEME_KEY); return v === 'light' || v === 'dark' ? v : null; } catch (e) { return null; } };
+const sysTheme = () => { try { return matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'; } catch (e) { return 'dark'; } };
+let prefs = {theme: storedTheme() || sysTheme(), big: !!saved.prefs?.big, name: typeof saved.prefs?.name === 'string' ? saved.prefs.name.slice(0, 20) : ''};
 let streak = {count: Math.max(0, parseInt(saved.streak?.count, 10) || 0), best: Math.max(0, parseInt(saved.streak?.best, 10) || 0), last: /^\d{4}-\d\d-\d\d$/.test(saved.streak?.last) ? saved.streak.last : ''};
 function liveStreak() { const y = new Date(); y.setDate(y.getDate() - 1); return streak.last === dayStr() || streak.last === dayStr(y) ? streak.count : 0; }
 function touchStreak() {                              // call after any real practice (quiz finished, quest solved, deck finished)
   const t = dayStr(); if (streak.last === t) return;
   streak.count = liveStreak() ? streak.count + 1 : 1; streak.last = t; streak.best = Math.max(streak.best, streak.count); save();
 }
-function applyPrefs() { document.documentElement.dataset.theme = prefs.theme; document.documentElement.dataset.big = prefs.big ? '1' : ''; }
+function applyPrefs() {
+  document.documentElement.dataset.theme = prefs.theme; document.documentElement.dataset.big = prefs.big ? '1' : '';
+  const light = prefs.theme === 'light', b = document.getElementById('theme-btn'), m = document.querySelector('meta[name="theme-color"]');
+  if (b) { b.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme'); b.title = light ? 'Switch to dark theme' : 'Switch to light theme'; }
+  if (m) m.setAttribute('content', light ? '#f6f6fa' : '#0d0d0d');
+  document.querySelectorAll('[data-action="theme"]').forEach(c => c.classList.toggle('on', c.dataset.t === prefs.theme));
+}
+function setTheme(t) { prefs.theme = t === 'light' ? 'light' : 'dark'; try { localStorage.setItem(THEME_KEY, prefs.theme); } catch (e) { /* storage blocked: theme still applies for this visit */ } applyPrefs(); save(); }
+try { matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => { if (!storedTheme()) { prefs.theme = sysTheme(); applyPrefs(); } }); } catch (e) { /* old browser */ }
 const dayNum = () => Math.floor(new Date().setHours(12, 0, 0, 0) / 864e5);
 const SRS_DAYS = [0, 1, 2, 4, 8, 16];                 // Leitner boxes: days until a card is due again
 let srs = {};                                         // uid -> {box 1..5, due: day number}
@@ -106,7 +117,7 @@ function save() {
   try {
     localStorage.setItem(KEY, JSON.stringify({
       v: 3, mode: currentMode, topic: currentTopic, easy: [...easy], hard: [...hard],
-      stats, strictNames, history, cfg, lab, prefs, streak, srs, exam, session: getSession(),
+      stats, strictNames, history, cfg, lab, prefs, streak, srs, exam, paper, pbest: paperBest, session: getSession(),
     }));
   } catch (e) { /* private mode / storage full: the app still works, progress just isn't kept */ }
 }
@@ -171,9 +182,10 @@ function setMode(m) {
     b.setAttribute('aria-pressed', String(on));
   });
   save();
-  stopTicking(); stopExamTick();
+  stopTicking(); stopExamTick(); stopPaperTick();
   if (m === 'learn') renderLearn();
   else if (m === 'lab') renderLab();
+  else if (paper) renderPaper();
   else if (exam) renderExam();
   else if (quizMode === 'flashcard') renderFlash();                 // resume the quiz in progress
   else if (quizMode === 'mcq' || quizMode === 'type') (quizDone || quizIdx >= quizQ.length) ? showResult() : renderQuiz();
@@ -269,6 +281,7 @@ function renderPracticeHome() {
       <button class="quiz-mode-card" data-action="start" data-mode="type"><div class="icon">⌨️</div><h3>Type the Answer</h3><p>${cfg.typeN} questions from a bank of ${TYPE_Q.length} · seen ${history.type.length}/${TYPE_Q.length} this round</p></button>
       <button class="quiz-mode-card" data-action="start" data-mode="smart"><div class="icon">🔁</div><h3>Smart Review</h3><p>${srsCounts().due} due today · ${Math.min(15, srsCounts().fresh)} new · cards return when you are about to forget</p></button>
       <button class="quiz-mode-card" data-action="examstart"><div class="icon">📝</div><h3>Mock Exam</h3><p>${EXAM.mcq} MCQ + ${EXAM.type} written + ${EXAM.sql} SQL practical · ${EXAM.total} marks · ${EXAM.secs / 60} min</p></button>
+      <button class="quiz-mode-card" data-action="papersopen"><div class="icon">📄</div><h3>Board-Style Papers</h3><p>${PAPERS.length} timed practice papers · 25 marks each · ${PAPER_SECS / 60} min · original questions, not real past papers</p></button>
       <button class="quiz-mode-card" data-action="start" data-mode="flashcard"><div class="icon">🃏</div><h3>Flashcard Drill</h3><p>Flip ${ALL_CARDS.length} cards, mark what you know</p></button>
     </div>
     <label class="setting"><input type="checkbox" data-action="strict" ${strictNames ? 'checked' : ''}>
@@ -730,7 +743,7 @@ function importProgress(file) {
   }).catch(() => alert('Could not read that file.'));
 }
 const actions = {
-  ...LAB_ACTIONS, ...EXAM_ACTIONS,
+  ...LAB_ACTIONS, ...EXAM_ACTIONS, ...PAPER_ACTIONS,
   mode:   d => setMode(d.mode),
   gohome: () => showHome(),
   share:  (d, el) => shareAction(el, {title: 'SQL Revision · Class 12', text: 'Free Class 12 SQL revision: notes, quizzes and a live SQL lab. No sign-up, works offline.', url: liveUrl()}),
@@ -754,7 +767,8 @@ const actions = {
   fcnav:  d => fcNav(+d.d),
   mark:   d => markCard(d.kind),
   shuffle:() => shuffleUnseen(),
-  theme:  d => { prefs.theme = d.t; applyPrefs(); save(); renderPracticeHome(); },
+  theme:  d => setTheme(d.t),
+  themetoggle: () => setTheme(prefs.theme === 'light' ? 'dark' : 'light'),
   big:    () => { prefs.big = !prefs.big; applyPrefs(); save(); renderPracticeHome(); },
   export: () => exportProgress(),
   timer:  (d, el) => { cfg.timer = el.checked; save(); },
@@ -790,6 +804,7 @@ document.addEventListener('change', e => {
 let labSaveT = 0;
 document.addEventListener('input', e => {
   if (e.target.dataset && e.target.dataset.ex) examInput(e.target);
+  if (e.target.dataset && e.target.dataset.pp) paperInput(e.target);
   if (e.target.id === 'lab-sql') { lab.drafts[labKey()] = e.target.value; clearTimeout(labSaveT); labSaveT = setTimeout(save, 500); }
   if (e.target.id === 'search') { searchQuery = e.target.value; renderTopicList(); renderLearnList(); }
 });
@@ -855,7 +870,7 @@ function showHome() {
   const stat = {topics: TOPICS.length, cards: ALL_CARDS.length, questions: (typeof MCQ !== 'undefined' ? MCQ.length : 0) + (typeof TYPE_Q !== 'undefined' ? TYPE_Q.length : 0), quests: QUESTS.length};
   stat.questions = Math.floor(stat.questions / 100) * 100;   // shown as "100+", so adding questions never makes the launch film wrong
   $$('[data-stat]').forEach(b => { const suf = b.dataset.stat === 'questions' ? '+' : ''; b.dataset.final = stat[b.dataset.stat]; b.dataset.suffix = suf; b.textContent = stat[b.dataset.stat] + suf; });
-  const resume = !!(exam || quizMode), c = $('#home-continue');
+  const resume = !!(exam || paper || quizMode), c = $('#home-continue');
   c.hidden = !resume;
   if (resume) { c.textContent = 'Continue where you left off →'; c.dataset.mode = currentMode; }
   $('#home').scrollTop = 0;
@@ -863,6 +878,8 @@ function showHome() {
 }
 
 exam = examRestore(saved.exam);
+paper = paperRestore(saved.paper); paperBest = paperBestRestore(saved.pbest);
+if (paper && exam) exam = null;
 applyPrefs();
 restoreSession(saved.session);      // resume an in-progress quiz / flashcard drill: same questions, same answers
 setMode(currentMode);
