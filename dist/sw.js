@@ -1,4 +1,4 @@
-// Service worker: makes the app load offline. 78abb6f778 is replaced at build time,
+// Service worker: makes the app load offline. abcae79a79 is replaced at build time,
 // so every new build invalidates the old cache and users get the update.
 const CACHE = 'sqlrev-__VERSION__';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './favicon.ico', './favicon-32.png', './apple-touch-icon.png', './launch-poster.jpg', './launch-vertical-poster.jpg', './shot-learn.webp', './shot-practice.webp', './shot-lab.webp'];
@@ -15,6 +15,8 @@ self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin || req.headers.has('range')) return;   // let the browser stream video ranges itself
   if (req.mode === 'navigate') {                       // page loads: network first (fresh), cache when offline
+    const path = new URL(req.url).pathname;
+    if (path !== '/' && !path.endsWith('/index.html')) return;   // other pages (store, 404) are plain pages: never cache them as the app shell
     e.respondWith(fetch(req).then(r => { const copy = r.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); return r; })
       .catch(() => caches.match('./index.html')));
     return;

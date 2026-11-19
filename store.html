@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SQL Study Packs · Interview Questions, Notes and Practice Sets</title>
+<meta name="description" content="SQL interview question bank (₹49), revision notes (₹29), premium practice sets with solutions (₹49) and the complete bundle (₹99). Instant PDFs for students.">
+<link rel="canonical" href="https://sql-web-xi.vercel.app/store.html">
+<meta property="og:title" content="SQL Study Packs">
+<meta property="og:description" content="Interview questions, revision notes and solved practice sets. From ₹29.">
+<meta property="og:image" content="https://sql-web-xi.vercel.app/og.png">
+<meta name="theme-color" content="#0d0d0d">
+<link rel="icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{--bg:#0d0d0d;--surface:#161616;--surface2:#1f1f1f;--border:#2e2e2e;--text:#f0f0f0;--text2:#a8a8a8;--purple:#7f77dd;--btn:#5b52c9;--purple-light:#afa9ec;--purple-bg:#1a1840;--green:#1d9e75;--green-light:#5dcaa5;--green-bg:#00231a;--amber:#ffb866}
+@media(prefers-color-scheme:light){:root{--bg:#f6f6fa;--surface:#ffffff;--surface2:#eeeef6;--border:#dcdcea;--text:#1a1a24;--text2:#5b5b6b;--purple:#5b52c9;--btn:#5b52c9;--purple-light:#4a41b0;--purple-bg:#ecebfb;--green:#0f7a58;--green-light:#0f7a58;--green-bg:#e0f5ee;--amber:#8a5200}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-font-smoothing:antialiased;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+a{color:var(--purple-light)}
+.wrap{max-width:1040px;margin:0 auto}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--text);text-decoration:none}
+.brand img{width:34px;height:34px;border-radius:9px}
+.back{font-size:14px;font-weight:650;text-decoration:none}
+.hero{text-align:center;padding:44px 0 30px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--green-light);font-weight:700}
+h1{font-size:clamp(32px,6vw,54px);line-height:1.08;letter-spacing:-.02em;margin:12px auto;max-width:16ch}
+h1 em{font-style:normal;background:linear-gradient(90deg,#8f82ff,#58d0ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{max-width:56ch;margin:0 auto;color:var(--text2);font-size:18px}
+.trust{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;margin-top:22px;color:var(--text2);font-size:14px}
+.trust span::before{content:'✓ ';color:var(--green-light);font-weight:800}
+.notice{margin:26px auto 0;max-width:680px;background:var(--purple-bg);border:1px solid var(--border);border-radius:14px;padding:12px 16px;font-size:14px;color:var(--text);text-align:left}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:18px;margin:34px 0}
+.card{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:22px;min-width:0}
+.card.best{border-color:var(--purple);box-shadow:0 0 0 1px var(--purple),0 18px 50px -24px rgba(127,119,221,.6)}
+.badge{position:absolute;top:-12px;left:20px;background:linear-gradient(90deg,#5b52c9,#2f7fe0);color:#fff;font-size:12px;font-weight:800;padding:4px 12px;border-radius:99px}
+.card h2{font-size:19px;line-height:1.25;margin-bottom:6px}
+.card .sub{color:var(--text2);font-size:14px;margin-bottom:12px}
+.price{font-size:36px;font-weight:800;letter-spacing:-.02em}
+.price small{font-size:14px;font-weight:600;color:var(--text2);margin-left:6px}
+.price s{font-size:16px;color:var(--text2);font-weight:500;margin-left:8px}
+.card ul{list-style:none;margin:14px 0 18px;font-size:14.5px;color:var(--text)}
+.card li{padding:3px 0 3px 22px;position:relative}
+.card li::before{content:'✓';position:absolute;left:0;color:var(--green-light);font-weight:800}
+.meta{font-size:12.5px;color:var(--text2);margin-bottom:14px}
+.actions{margin-top:auto;display:grid;gap:8px}
+.btn{display:block;text-align:center;border:none;border-radius:12px;padding:12px 16px;font:inherit;font-weight:750;cursor:pointer;text-decoration:none;min-height:44px}
+.btn-buy{background:var(--btn);color:#fff}
+.btn-buy[disabled]{background:var(--surface2);color:var(--text2);cursor:not-allowed;border:1px dashed var(--border)}
+.btn-ghost{background:transparent;color:var(--purple-light);border:1px solid var(--border)}
+.btn-ghost:hover,.btn-buy:not([disabled]):hover{filter:brightness(1.12)}
+section.block{margin:50px 0}
+section.block h2.t{font-size:clamp(24px,4vw,32px);letter-spacing:-.01em;margin-bottom:6px}
+section.block p.s{color:var(--text2);margin-bottom:18px;max-width:62ch}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;min-width:0}
+.box h3{font-size:16px;margin-bottom:8px}
+pre{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;font:13px/1.55 ui-monospace,'SF Mono',Menlo,Consolas,monospace;overflow-x:auto;color:var(--text)}
+details{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:700}
+details p{margin-top:8px;color:var(--text2);font-size:15px}
+footer{border-top:1px solid var(--border);margin-top:50px;padding:24px 0 40px;color:var(--text2);font-size:13.5px;text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,30px);background:var(--surface);color:var(--text);border:1px solid var(--purple);border-radius:12px;padding:12px 18px;font-size:14px;opacity:0;pointer-events:none;transition:.3s;max-width:90vw;z-index:9}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.toast{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="./" aria-label="SQL Revision home"><img src="icon-192.png" alt="">SQL Revision</a>
+    <a class="back" href="./#app">← Back to the free app</a>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">Study packs for SQL</p>
+    <h1>Crack SQL exams and <em>interviews.</em></h1>
+    <p class="lead">Questions, notes and solved practice sets, written once and checked by running every query. Download the PDF and study anywhere, even offline.</p>
+    <div class="trust"><span>Instant PDF</span><span>Every query tested</span><span>One-time price, no subscription</span><span>Works on phone</span></div>
+    <p class="notice" id="notice" role="status"><b>Payments are opening soon.</b> You can already read the free sample below. The Buy buttons switch on when checkout goes live.</p>
+  </section>
+
+  <div class="grid" id="products" aria-label="Products"></div>
+
+  <section class="block" aria-labelledby="look">
+    <h2 class="t" id="look">A look inside</h2>
+    <p class="s">Not a wall of text. Every answer comes with the query, the real output and the reason.</p>
+    <div class="two">
+      <div class="box"><h3>Interview Q&amp;A</h3>
+        <p style="font-size:14.5px;margin-bottom:8px"><b>Q: How do you find the second highest salary?</b></p>
+        <pre>SELECT MAX(salary) AS second_highest
+FROM employees
+WHERE salary &lt; (SELECT MAX(salary)
+                 FROM employees);
+
+second_highest
+--------------
+95000</pre>
+        <p style="font-size:14px;color:var(--text2);margin-top:8px">The maximum of everything below the maximum. It copes with ties at the top.</p></div>
+      <div class="box"><h3>Premium practice set</h3>
+        <p style="font-size:14.5px;margin-bottom:8px"><b>C14. Customers who never ordered</b> <span style="color:var(--green-light);font-size:12px">[Medium]</span></p>
+        <pre>SELECT c.name
+FROM customers c
+WHERE NOT EXISTS (
+  SELECT 1 FROM orders o
+  WHERE o.cust_id = c.cust_id);
+
+name
+----
+Lata</pre>
+        <p style="font-size:14px;color:var(--text2);margin-top:8px">NOT EXISTS stays correct even when the subquery column can be NULL, unlike NOT IN.</p></div>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="faq">
+    <h2 class="t" id="faq">Questions</h2>
+    <details><summary>What format are the files?</summary><p>PDF, A4, readable on phone, tablet and laptop. No account or app needed.</p></details>
+    <details><summary>Which SQL do they use?</summary><p>Standard SQL that runs on MySQL 8, PostgreSQL and SQLite. MySQL-only functions such as YEAR() are marked, and Class 12 board points are called out in the notes.</p></details>
+    <details><summary>How do I know the answers are right?</summary><p>Every query in the practice sets and the query answers in the interview bank were run on a real SQL engine against the sample database printed in the book, and the output you see is the output it produced.</p></details>
+    <details><summary>Is there a free sample?</summary><p>Yes: ten interview questions, the Joins chapter and three solved practice questions. Use the Free sample button on any product.</p></details>
+    <details><summary>Can I share the PDF with friends?</summary><p>The files are for your own study. Please do not share or resell them. Friends can grab the free sample and the free app.</p></details>
+    <details><summary>Something is wrong with my file.</summary><p>Tell us through the <a href="https://github.com/pavithrasajunair-ship-it/sql-web/issues" rel="noopener" target="_blank">issues page</a> and we will fix it or make it right.</p></details>
+  </section>
+
+  <footer>SQL Revision · Class 12 · <a href="./">Free app</a> · <a href="Class12-SQL-cheatsheet.pdf" download>Free cheat sheet</a><br>Prices in Indian rupees. Payment is not live yet.</footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+// ---- Flip this to true (and fill in startCheckout) when Razorpay is ready. ----
+var CHECKOUT_LIVE = false;
+
+var PRODUCTS = [
+  {id:'notes', name:'SQL Revision Notes', sub:'The night-before-the-exam book.', price:29, pages:8,
+   items:['15 compact chapters','Syntax, tables and examples','Class 12 board points + interview points','Python + MySQL chapter','20 mistakes that lose marks']},
+  {id:'bank', name:'SQL Interview Question Bank', sub:'What interviewers really ask.', price:49, pages:21,
+   items:['85 questions with model answers','36 query answers with real output','Joins, subqueries, windows, transactions','NULL and tie-breaking follow-ups']},
+  {id:'sets', name:'Premium Practice Sets and Solutions', sub:'Graded questions with verified solutions.', price:49, pages:23,
+   items:['45 questions in 3 graded sets','Every solution executed, output shown','Easy to hard: filters, GROUP BY, joins','Explanation of why, not only what']},
+  {id:'bundle', name:'Complete SQL Practice Bundle', sub:'Everything in one download.', price:99, was:127, pages:48, best:true,
+   items:['Revision Notes + Interview Bank + Practice Sets','Seven-day study plan','Interview-day checklist','Sample database and setup script','Save ₹28 against buying separately']}
+];
+
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+var root = document.getElementById('products');
+root.innerHTML = PRODUCTS.map(function(p){
+  return '<article class="card'+(p.best?' best':'')+'">'+(p.best?'<span class="badge">Best value</span>':'')+
+    '<h2>'+esc(p.name)+'</h2><p class="sub">'+esc(p.sub)+'</p>'+
+    '<div class="price">₹'+p.price+(p.was?'<s>₹'+p.was+'</s>':'')+'<small>one time</small></div>'+
+    '<ul>'+p.items.map(function(i){return '<li>'+esc(i)+'</li>'}).join('')+'</ul>'+
+    '<p class="meta">PDF · '+p.pages+' pages · instant download</p>'+
+    '<div class="actions"><button class="btn btn-buy" data-buy="'+p.id+'"'+(CHECKOUT_LIVE?'':' disabled')+'>'+(CHECKOUT_LIVE?'Buy for ₹'+p.price:'Opening soon')+'</button>'+
+    '<a class="btn btn-ghost" href="SQL-Free-Sample.pdf" download>Free sample (PDF)</a></div></article>';
+}).join('');
+
+function toast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(function(){t.classList.remove('on')},3500)}
+// Hook for the payment provider. Until CHECKOUT_LIVE is true no payment is taken anywhere.
+function startCheckout(productId){
+  toast('Payments are not live yet.');
+}
+root.addEventListener('click',function(e){
+  var b=e.target.closest('[data-buy]'); if(!b||b.disabled) return;
+  startCheckout(b.getAttribute('data-buy'));
+});
+if(CHECKOUT_LIVE){var n=document.getElementById('notice'); if(n) n.hidden=true}
+</script>
+</body>
+</html>
