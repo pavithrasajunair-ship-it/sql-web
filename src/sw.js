@@ -15,6 +15,8 @@ self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin || req.headers.has('range')) return;   // let the browser stream video ranges itself
   if (req.mode === 'navigate') {                       // page loads: network first (fresh), cache when offline
+    const path = new URL(req.url).pathname;
+    if (path !== '/' && !path.endsWith('/index.html')) return;   // other pages (store, 404) are plain pages: never cache them as the app shell
     e.respondWith(fetch(req).then(r => { const copy = r.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); return r; })
       .catch(() => caches.match('./index.html')));
     return;
